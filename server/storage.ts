@@ -1,4 +1,4 @@
-import { type User, type InsertUser, type Debt, type InsertDebt, type Transaction, type InsertTransaction, type Payment, type InsertPayment, type RoundUpSettings, type InsertRoundUpSettings } from "@shared/schema";
+import { type User, type InsertUser, type Debt, type InsertDebt, type Transaction, type InsertTransaction, type Payment, type InsertPayment, type RoundUpSettings, type InsertRoundUpSettings, type CryptoPurchase, type InsertCryptoPurchase } from "@shared/schema";
 import { randomUUID } from "crypto";
 
 export interface IStorage {
@@ -25,6 +25,11 @@ export interface IStorage {
   // Round-up settings methods
   getRoundUpSettings(userId: string): Promise<RoundUpSettings | undefined>;
   createOrUpdateRoundUpSettings(settings: InsertRoundUpSettings): Promise<RoundUpSettings>;
+
+  // Crypto purchase methods
+  getCryptoPurchasesByUserId(userId: string): Promise<CryptoPurchase[]>;
+  createCryptoPurchase(purchase: InsertCryptoPurchase): Promise<CryptoPurchase>;
+  updateCryptoPurchaseStatus(id: string, status: string, coinbaseOrderId?: string): Promise<CryptoPurchase | undefined>;
 }
 
 export class MemStorage implements IStorage {
@@ -33,6 +38,7 @@ export class MemStorage implements IStorage {
   private transactions: Map<string, Transaction>;
   private payments: Map<string, Payment>;
   private roundUpSettings: Map<string, RoundUpSettings>;
+  private cryptoPurchases: Map<string, CryptoPurchase>;
 
   constructor() {
     this.users = new Map();
@@ -40,6 +46,7 @@ export class MemStorage implements IStorage {
     this.transactions = new Map();
     this.payments = new Map();
     this.roundUpSettings = new Map();
+    this.cryptoPurchases = new Map();
     
     // Initialize with demo data
     this.initializeDemoData();
@@ -147,15 +154,59 @@ export class MemStorage implements IStorage {
     ];
     demoTransactions.forEach(trans => this.transactions.set(trans.id, trans));
 
-    // Create demo round-up settings
+    // Create demo round-up settings with crypto enabled
     const demoRoundUpSettings: RoundUpSettings = {
       id: "settings-1",
       userId: demoUser.id,
       isEnabled: true,
       multiplier: "1.00",
       autoApplyThreshold: "25.00",
+      cryptoEnabled: true,
+      cryptoPercentage: "25.00", // 25% of round-ups go to crypto
+      preferredCrypto: "BTC",
     };
     this.roundUpSettings.set(demoUser.id, demoRoundUpSettings);
+
+    // Create demo crypto purchases
+    const demoCryptoPurchases: CryptoPurchase[] = [
+      {
+        id: "crypto-1",
+        userId: demoUser.id,
+        transactionId: "trans-1",
+        cryptoSymbol: "BTC",
+        amountUsd: "0.08", // 25% of $0.33 round-up
+        cryptoAmount: "0.00000086",
+        purchasePrice: "93000.00",
+        coinbaseOrderId: "order-btc-001",
+        status: "completed",
+        createdAt: new Date(),
+      },
+      {
+        id: "crypto-2",
+        userId: demoUser.id,
+        transactionId: "trans-2",
+        cryptoSymbol: "BTC",
+        amountUsd: "0.15", // 25% of $0.58 round-up
+        cryptoAmount: "0.00000161",
+        purchasePrice: "93200.00",
+        coinbaseOrderId: "order-btc-002",
+        status: "completed",
+        createdAt: new Date(Date.now() - 86400000),
+      },
+      {
+        id: "crypto-3",
+        userId: demoUser.id,
+        transactionId: "trans-4",
+        cryptoSymbol: "BTC",
+        amountUsd: "0.17", // 25% of $0.69 round-up
+        cryptoAmount: "0.00000182",
+        purchasePrice: "93500.00",
+        coinbaseOrderId: "order-btc-003",
+        status: "completed",
+        createdAt: new Date(Date.now() - 172800000),
+      }
+    ];
+    demoCryptoPurchases.forEach(purchase => this.cryptoPurchases.set(purchase.id, purchase));
   }
 
   async getUser(id: string): Promise<User | undefined> {
@@ -265,6 +316,37 @@ export class MemStorage implements IStorage {
       this.roundUpSettings.set(settings.userId, newSettings);
       return newSettings;
     }
+  }
+
+  async getCryptoPurchasesByUserId(userId: string): Promise<CryptoPurchase[]> {
+    return Array.from(this.cryptoPurchases.values())
+      .filter(purchase => purchase.userId === userId)
+      .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+  }
+
+  async createCryptoPurchase(insertPurchase: InsertCryptoPurchase): Promise<CryptoPurchase> {
+    const id = randomUUID();
+    const purchase: CryptoPurchase = {
+      ...insertPurchase,
+      id,
+      status: 'pending',
+      createdAt: new Date(),
+    };
+    this.cryptoPurchases.set(id, purchase);
+    return purchase;
+  }
+
+  async updateCryptoPurchaseStatus(id: string, status: string, coinbaseOrderId?: string): Promise<CryptoPurchase | undefined> {
+    const purchase = this.cryptoPurchases.get(id);
+    if (!purchase) return undefined;
+    
+    const updated: CryptoPurchase = {
+      ...purchase,
+      status,
+      coinbaseOrderId: coinbaseOrderId || purchase.coinbaseOrderId,
+    };
+    this.cryptoPurchases.set(id, updated);
+    return updated;
   }
 }
 

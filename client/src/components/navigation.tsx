@@ -5,7 +5,8 @@ import {
   TrendingUp, 
   Receipt,
   Menu,
-  User
+  User,
+  Bitcoin
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -18,6 +19,7 @@ export function Navigation() {
     { href: "/", label: "Dashboard", icon: Home },
     { href: "/transactions", label: "Transactions", icon: Receipt },
     { href: "/debts", label: "Debts", icon: CreditCard },
+    { href: "/crypto", label: "Crypto", icon: Bitcoin },
     { href: "/insights", label: "Insights", icon: TrendingUp },
   ];
 

@@ -54,6 +54,22 @@ export const roundUpSettings = pgTable("round_up_settings", {
   isEnabled: boolean("is_enabled").default(true).notNull(),
   multiplier: decimal("multiplier", { precision: 3, scale: 2 }).default('1.00').notNull(), // 1.00 = normal, 2.00 = double round-ups
   autoApplyThreshold: decimal("auto_apply_threshold", { precision: 10, scale: 2 }).default('25.00').notNull(),
+  cryptoEnabled: boolean("crypto_enabled").default(false).notNull(),
+  cryptoPercentage: decimal("crypto_percentage", { precision: 5, scale: 2 }).default('0.00').notNull(), // 0-100%
+  preferredCrypto: text("preferred_crypto").default('BTC').notNull(),
+});
+
+export const cryptoPurchases = pgTable("crypto_purchases", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull().references(() => users.id),
+  transactionId: varchar("transaction_id").references(() => transactions.id),
+  cryptoSymbol: text("crypto_symbol").notNull(),
+  amountUsd: decimal("amount_usd", { precision: 10, scale: 2 }).notNull(),
+  cryptoAmount: decimal("crypto_amount", { precision: 18, scale: 8 }).notNull(),
+  purchasePrice: decimal("purchase_price", { precision: 10, scale: 2 }).notNull(),
+  coinbaseOrderId: text("coinbase_order_id"),
+  status: text("status").default('pending').notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
 // Insert schemas
@@ -82,6 +98,12 @@ export const insertRoundUpSettingsSchema = createInsertSchema(roundUpSettings).o
   id: true,
 });
 
+export const insertCryptoPurchaseSchema = createInsertSchema(cryptoPurchases).omit({
+  id: true,
+  createdAt: true,
+  status: true,
+});
+
 // Types
 export type User = typeof users.$inferSelect;
 export type InsertUser = z.infer<typeof insertUserSchema>;
@@ -97,3 +119,6 @@ export type InsertPayment = z.infer<typeof insertPaymentSchema>;
 
 export type RoundUpSettings = typeof roundUpSettings.$inferSelect;
 export type InsertRoundUpSettings = z.infer<typeof insertRoundUpSettingsSchema>;
+
+export type CryptoPurchase = typeof cryptoPurchases.$inferSelect;
+export type InsertCryptoPurchase = z.infer<typeof insertCryptoPurchaseSchema>;

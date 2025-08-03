@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { insertTransactionSchema, insertPaymentSchema, insertDebtSchema } from "@shared/schema";
+import { insertTransactionSchema, insertPaymentSchema, insertDebtSchema, insertCryptoPurchaseSchema, insertRoundUpSettingsSchema } from "@shared/schema";
 import { z } from "zod";
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -199,6 +199,109 @@ export async function registerRoutes(app: Express): Promise<Server> {
       };
 
       res.json(summary);
+    } catch (error) {
+      res.status(500).json({ message: "Internal server error" });
+    }
+  });
+
+  // Get user's crypto purchases
+  app.get("/api/crypto-purchases", async (req, res) => {
+    try {
+      const purchases = await storage.getCryptoPurchasesByUserId("demo-user-1");
+      res.json(purchases);
+    } catch (error) {
+      res.status(500).json({ message: "Internal server error" });
+    }
+  });
+
+  // Create new crypto purchase
+  app.post("/api/crypto-purchases", async (req, res) => {
+    try {
+      const validatedData = insertCryptoPurchaseSchema.parse({
+        ...req.body,
+        userId: "demo-user-1",
+      });
+      
+      const purchase = await storage.createCryptoPurchase(validatedData);
+      res.status(201).json(purchase);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ message: "Invalid crypto purchase data", errors: error.errors });
+      }
+      res.status(500).json({ message: "Internal server error" });
+    }
+  });
+
+  // Get round-up settings
+  app.get("/api/round-up-settings", async (req, res) => {
+    try {
+      const settings = await storage.getRoundUpSettings("demo-user-1");
+      if (!settings) {
+        return res.status(404).json({ message: "Round-up settings not found" });
+      }
+      res.json(settings);
+    } catch (error) {
+      res.status(500).json({ message: "Internal server error" });
+    }
+  });
+
+  // Update round-up settings
+  app.put("/api/round-up-settings", async (req, res) => {
+    try {
+      const validatedData = insertRoundUpSettingsSchema.parse({
+        ...req.body,
+        userId: "demo-user-1",
+      });
+      
+      const settings = await storage.createOrUpdateRoundUpSettings(validatedData);
+      res.json(settings);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ message: "Invalid settings data", errors: error.errors });
+      }
+      res.status(500).json({ message: "Internal server error" });
+    }
+  });
+
+  // Get crypto portfolio summary
+  app.get("/api/crypto-summary", async (req, res) => {
+    try {
+      const purchases = await storage.getCryptoPurchasesByUserId("demo-user-1");
+      const completedPurchases = purchases.filter(p => p.status === 'completed');
+      
+      // Group by crypto symbol
+      const portfolio = completedPurchases.reduce((acc, purchase) => {
+        const symbol = purchase.cryptoSymbol;
+        if (!acc[symbol]) {
+          acc[symbol] = {
+            symbol,
+            totalInvested: 0,
+            totalCrypto: 0,
+            averagePrice: 0,
+            purchaseCount: 0
+          };
+        }
+        
+        acc[symbol].totalInvested += parseFloat(purchase.amountUsd);
+        acc[symbol].totalCrypto += parseFloat(purchase.cryptoAmount);
+        acc[symbol].purchaseCount += 1;
+        
+        return acc;
+      }, {} as Record<string, any>);
+
+      // Calculate average prices
+      Object.values(portfolio).forEach((coin: any) => {
+        coin.averagePrice = coin.totalInvested / coin.totalCrypto;
+      });
+
+      const totalInvested = completedPurchases.reduce((sum, p) => sum + parseFloat(p.amountUsd), 0);
+      
+      res.json({
+        portfolio: Object.values(portfolio),
+        totalInvested: totalInvested.toFixed(2),
+        totalPurchases: completedPurchases.length,
+        lastPurchase: completedPurchases[0]?.createdAt || null
+      });
     } catch (error) {
       res.status(500).json({ message: "Internal server error" });
     }

@@ -7,6 +7,7 @@ import { Navigation } from "@/components/navigation";
 import Dashboard from "@/pages/dashboard";
 import Transactions from "@/pages/transactions";
 import Debts from "@/pages/debts";
+import Crypto from "@/pages/crypto";
 import Insights from "@/pages/insights";
 import NotFound from "@/pages/not-found";
 
@@ -16,6 +17,7 @@ function Router() {
       <Route path="/" component={Dashboard} />
       <Route path="/transactions" component={Transactions} />
       <Route path="/debts" component={Debts} />
+      <Route path="/crypto" component={Crypto} />
       <Route path="/insights" component={Insights} />
       {/* Fallback to 404 */}
       <Route component={NotFound} />
