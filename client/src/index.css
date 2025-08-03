@@ -13,7 +13,7 @@
   --card-foreground: hsl(20, 14.3%, 4.1%);
   --border: hsl(20, 5.9%, 90%);
   --input: hsl(20, 5.9%, 90%);
-  --primary: hsl(207, 90%, 54%);
+  --primary: hsl(271, 81%, 66%);
   --primary-foreground: hsl(211, 100%, 99%);
   --secondary: hsl(60, 4.8%, 95.9%);
   --secondary-foreground: hsl(24, 9.8%, 10%);
@@ -24,10 +24,11 @@
   --ring: hsl(20, 14.3%, 4.1%);
   --radius: 0.5rem;
   
-  /* Dime Time brand colors */
-  --dime-blue: hsl(207, 90%, 54%);
-  --dime-green: hsl(160, 84%, 39%);
-  --dime-teal: hsl(188, 86%, 53%);
+  /* Dime Time brand colors - Lilac Theme */
+  --dime-lilac: hsl(281, 83%, 79%);
+  --dime-purple: hsl(271, 81%, 66%);
+  --dime-lavender: hsl(291, 47%, 85%);
+  --dime-accent: hsl(262, 90%, 50%);
   --slate-50: hsl(210, 40%, 98%);
   --slate-600: hsl(215, 16%, 47%);
   --slate-900: hsl(215, 25%, 27%);
@@ -44,7 +45,7 @@
   --card-foreground: hsl(0, 0%, 98%);
   --border: hsl(240, 3.7%, 15.9%);
   --input: hsl(240, 3.7%, 15.9%);
-  --primary: hsl(207, 90%, 54%);
+  --primary: hsl(271, 81%, 66%);
   --primary-foreground: hsl(211, 100%, 99%);
   --secondary: hsl(240, 3.7%, 15.9%);
   --secondary-foreground: hsl(0, 0%, 98%);
@@ -68,71 +69,103 @@
 }
 
 @layer utilities {
-  .text-dime-blue {
-    color: var(--dime-blue);
+  .text-dime-lilac {
+    color: var(--dime-lilac);
   }
   
-  .text-dime-green {
-    color: var(--dime-green);
+  .text-dime-purple {
+    color: var(--dime-purple);
   }
   
-  .text-dime-teal {
-    color: var(--dime-teal);
+  .text-dime-lavender {
+    color: var(--dime-lavender);
   }
   
-  .bg-dime-blue {
-    background-color: var(--dime-blue);
+  .text-dime-accent {
+    color: var(--dime-accent);
   }
   
-  .bg-dime-green {
-    background-color: var(--dime-green);
+  .bg-dime-lilac {
+    background-color: var(--dime-lilac);
   }
   
-  .bg-dime-teal {
-    background-color: var(--dime-teal);
+  .bg-dime-purple {
+    background-color: var(--dime-purple);
   }
   
-  .border-dime-green {
-    border-color: var(--dime-green);
+  .bg-dime-lavender {
+    background-color: var(--dime-lavender);
   }
   
-  .hover\:bg-dime-blue\/90:hover {
-    background-color: hsl(207, 90%, 48%);
+  .bg-dime-accent {
+    background-color: var(--dime-accent);
   }
   
-  .hover\:bg-dime-green\/90:hover {
-    background-color: hsl(160, 84%, 35%);
+  .border-dime-purple {
+    border-color: var(--dime-purple);
   }
   
-  .bg-dime-blue\/10 {
-    background-color: hsl(207, 90%, 54%, 0.1);
+  .border-dime-lilac {
+    border-color: var(--dime-lilac);
   }
   
-  .bg-dime-green\/10 {
-    background-color: hsl(160, 84%, 39%, 0.1);
+  .hover\:bg-dime-purple\/90:hover {
+    background-color: hsl(271, 81%, 60%);
   }
   
-  .bg-dime-teal\/10 {
-    background-color: hsl(188, 86%, 53%, 0.1);
+  .hover\:bg-dime-lilac\/90:hover {
+    background-color: hsl(281, 83%, 75%);
   }
   
-  .from-dime-blue {
-    --tw-gradient-from: var(--dime-blue);
+  .hover\:bg-dime-accent\/90:hover {
+    background-color: hsl(262, 90%, 45%);
   }
   
-  .to-dime-teal {
-    --tw-gradient-to: var(--dime-teal);
+  .bg-dime-purple\/10 {
+    background-color: hsl(271, 81%, 66%, 0.1);
   }
   
-  .from-dime-green\/10 {
-    --tw-gradient-from: hsl(160, 84%, 39%, 0.1);
+  .bg-dime-lilac\/10 {
+    background-color: hsl(281, 83%, 79%, 0.1);
   }
   
-  .to-dime-teal\/10 {
-    --tw-gradient-to: hsl(188, 86%, 53%, 0.1);
+  .bg-dime-lavender\/10 {
+    background-color: hsl(291, 47%, 85%, 0.1);
   }
   
-  .border-dime-green\/20 {
-    border-color: hsl(160, 84%, 39%, 0.2);
+  .bg-dime-accent\/10 {
+    background-color: hsl(262, 90%, 50%, 0.1);
+  }
+  
+  .from-dime-purple {
+    --tw-gradient-from: var(--dime-purple);
+  }
+  
+  .to-dime-lilac {
+    --tw-gradient-to: var(--dime-lilac);
+  }
+  
+  .from-dime-lavender {
+    --tw-gradient-from: var(--dime-lavender);
+  }
+  
+  .to-dime-accent {
+    --tw-gradient-to: var(--dime-accent);
+  }
+  
+  .from-dime-purple\/10 {
+    --tw-gradient-from: hsl(271, 81%, 66%, 0.1);
+  }
+  
+  .to-dime-lilac\/10 {
+    --tw-gradient-to: hsl(281, 83%, 79%, 0.1);
+  }
+  
+  .border-dime-purple\/20 {
+    border-color: hsl(271, 81%, 66%, 0.2);
+  }
+  
+  .border-dime-lilac\/20 {
+    border-color: hsl(281, 83%, 79%, 0.2);
   }
 }

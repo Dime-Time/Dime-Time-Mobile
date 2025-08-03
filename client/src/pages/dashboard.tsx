@@ -96,11 +96,11 @@ export default function Dashboard() {
       {/* Welcome Section */}
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-slate-900 mb-2">
-          Welcome back, <span className="text-dime-blue">{user.firstName}</span>!
+          Welcome back, <span className="text-dime-purple">{user.firstName}</span>!
         </h1>
         <p className="text-slate-600">
-          You've saved <span className="font-semibold text-dime-green">{formatCurrency(summary.thisMonthRoundUps)}</span> in round-ups this month 
-          and paid down <span className="font-semibold text-dime-blue">{formatCurrency(summary.thisMonthPayments)}</span> in debt.
+          You've saved <span className="font-semibold text-dime-accent">{formatCurrency(summary.thisMonthRoundUps)}</span> in round-ups this month 
+          and paid down <span className="font-semibold text-dime-purple">{formatCurrency(summary.thisMonthPayments)}</span> in debt.
         </p>
       </div>
 
@@ -109,10 +109,10 @@ export default function Dashboard() {
         <Card>
           <CardContent className="p-6">
             <div className="flex items-center justify-between mb-4">
-              <div className="w-12 h-12 bg-dime-blue/10 rounded-lg flex items-center justify-center">
-                <DollarSign className="w-6 h-6 text-dime-blue" />
+              <div className="w-12 h-12 bg-dime-purple/10 rounded-lg flex items-center justify-center">
+                <DollarSign className="w-6 h-6 text-dime-purple" />
               </div>
-              <span className="text-xs text-dime-green font-medium">+{formatCurrency(summary.thisMonthRoundUps)}</span>
+              <span className="text-xs text-dime-accent font-medium">+{formatCurrency(summary.thisMonthRoundUps)}</span>
             </div>
             <h3 className="text-sm font-medium text-slate-600 mb-1">Round-Up Balance</h3>
             <p className="text-2xl font-bold text-slate-900">{formatCurrency(summary.totalRoundUps)}</p>
@@ -135,10 +135,10 @@ export default function Dashboard() {
         <Card>
           <CardContent className="p-6">
             <div className="flex items-center justify-between mb-4">
-              <div className="w-12 h-12 bg-dime-green/10 rounded-lg flex items-center justify-center">
-                <TrendingUp className="w-6 h-6 text-dime-green" />
+              <div className="w-12 h-12 bg-dime-accent/10 rounded-lg flex items-center justify-center">
+                <TrendingUp className="w-6 h-6 text-dime-accent" />
               </div>
-              <span className="text-xs text-dime-green font-medium">{summary.progressPercentage}%</span>
+              <span className="text-xs text-dime-accent font-medium">{summary.progressPercentage}%</span>
             </div>
             <h3 className="text-sm font-medium text-slate-600 mb-1">Progress This Year</h3>
             <p className="text-2xl font-bold text-slate-900">{summary.progressPercentage}%</p>
@@ -148,8 +148,8 @@ export default function Dashboard() {
         <Card>
           <CardContent className="p-6">
             <div className="flex items-center justify-between mb-4">
-              <div className="w-12 h-12 bg-dime-teal/10 rounded-lg flex items-center justify-center">
-                <Calendar className="w-6 h-6 text-dime-teal" />
+              <div className="w-12 h-12 bg-dime-lilac/10 rounded-lg flex items-center justify-center">
+                <Calendar className="w-6 h-6 text-dime-lilac" />
               </div>
               <span className="text-xs text-slate-600 font-medium">Est.</span>
             </div>
@@ -166,7 +166,7 @@ export default function Dashboard() {
             <CardContent className="p-6">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-xl font-semibold text-slate-900">Recent Transactions</h2>
-                <Button variant="ghost" className="text-dime-blue hover:text-dime-blue/80 text-sm font-medium">
+                <Button variant="ghost" className="text-dime-purple hover:text-dime-purple/80 text-sm font-medium">
                   View All
                 </Button>
               </div>
@@ -187,21 +187,21 @@ export default function Dashboard() {
                     </div>
                     <div className="text-right">
                       <p className="font-medium text-slate-900">-{formatCurrency(transaction.amount)}</p>
-                      <p className="text-sm text-dime-green">+{formatCurrency(transaction.roundUpAmount)} round-up</p>
+                      <p className="text-sm text-dime-accent">+{formatCurrency(transaction.roundUpAmount)} round-up</p>
                     </div>
                   </div>
                 ))}
               </div>
 
               {/* Round-up Summary */}
-              <div className="mt-6 p-4 bg-gradient-to-r from-dime-green/10 to-dime-teal/10 rounded-lg border border-dime-green/20">
+              <div className="mt-6 p-4 bg-gradient-to-r from-dime-purple/10 to-dime-lilac/10 rounded-lg border border-dime-purple/20">
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-sm font-medium text-slate-700">Round-ups this week</p>
-                    <p className="text-lg font-bold text-dime-green">{formatCurrency(weekRoundUps)}</p>
+                    <p className="text-lg font-bold text-dime-accent">{formatCurrency(weekRoundUps)}</p>
                   </div>
                   <Button 
-                    className="bg-dime-green text-white hover:bg-dime-green/90"
+                    className="bg-dime-accent text-white hover:bg-dime-accent/90"
                     onClick={() => setShowPaymentModal(true)}
                   >
                     Apply to Debt
@@ -225,7 +225,7 @@ export default function Dashboard() {
               />
               <div className="mt-4 text-center">
                 <p className="text-sm text-slate-600">
-                  You're <span className="font-semibold text-dime-green">3 months ahead</span> of your original timeline!
+                  You're <span className="font-semibold text-dime-accent">3 months ahead</span> of your original timeline!
                 </p>
               </div>
             </CardContent>
@@ -236,7 +236,7 @@ export default function Dashboard() {
             <CardContent className="p-6">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-lg font-semibold text-slate-900">Active Debts</h3>
-                <Button variant="ghost" className="text-dime-blue hover:text-dime-blue/80 text-sm font-medium">
+                <Button variant="ghost" className="text-dime-purple hover:text-dime-purple/80 text-sm font-medium">
                   Manage
                 </Button>
               </div>
@@ -257,7 +257,7 @@ export default function Dashboard() {
                       </div>
                       <div className="w-full bg-slate-200 rounded-full h-2 mb-2">
                         <div 
-                          className="bg-gradient-to-r from-dime-blue to-dime-green h-2 rounded-full transition-all duration-300"
+                          className="bg-gradient-to-r from-dime-purple to-dime-accent h-2 rounded-full transition-all duration-300"
                           style={{ width: `${progress}%` }}
                         ></div>
                       </div>
@@ -278,13 +278,13 @@ export default function Dashboard() {
               <h3 className="text-lg font-semibold text-slate-900 mb-4">Quick Actions</h3>
               <div className="space-y-3">
                 <Button 
-                  className="w-full bg-dime-blue text-white hover:bg-dime-blue/90 flex items-center justify-center space-x-2"
+                  className="w-full bg-dime-purple text-white hover:bg-dime-purple/90 flex items-center justify-center space-x-2"
                   onClick={() => setShowPaymentModal(true)}
                 >
                   <Plus className="w-5 h-5" />
                   <span>Make Extra Payment</span>
                 </Button>
-                <Button className="w-full bg-dime-green text-white hover:bg-dime-green/90 flex items-center justify-center space-x-2">
+                <Button className="w-full bg-dime-accent text-white hover:bg-dime-accent/90 flex items-center justify-center space-x-2">
                   <ArrowUp className="w-5 h-5" />
                   <span>Boost Round-ups</span>
                 </Button>
@@ -300,7 +300,7 @@ export default function Dashboard() {
 
       {/* Educational Content Section */}
       <div className="mt-12">
-        <div className="bg-gradient-to-r from-dime-blue to-dime-teal rounded-xl p-8 text-white">
+        <div className="bg-gradient-to-r from-dime-purple to-dime-lilac rounded-xl p-8 text-white">
           <div className="max-w-3xl">
             <h2 className="text-2xl font-bold mb-4">💡 Dime Time Tip: Accelerate Your Debt Freedom</h2>
             <p className="text-lg mb-6 opacity-90">
@@ -308,7 +308,7 @@ export default function Dashboard() {
               Small changes make a big difference over time.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <Button className="bg-white text-dime-blue hover:bg-slate-50">
+              <Button className="bg-white text-dime-purple hover:bg-slate-50">
                 Learn More Strategies
               </Button>
               <Button variant="outline" className="border-white text-white hover:bg-white/10">

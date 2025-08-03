@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Logo } from "@/components/logo";
 
 export function Navigation() {
   const [location] = useLocation();
@@ -27,9 +28,7 @@ export function Navigation() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 bg-gradient-to-br from-dime-blue to-dime-teal rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-sm">DT</span>
-              </div>
+              <Logo size={32} />
               <span className="text-xl font-bold text-slate-900">Dime Time</span>
             </div>
             
@@ -40,7 +39,7 @@ export function Navigation() {
                   href={item.href}
                   className={`font-medium transition-colors ${
                     location === item.href
-                      ? "text-dime-blue"
+                      ? "text-dime-purple"
                       : "text-slate-600 hover:text-slate-900"
                   }`}
                 >
@@ -74,7 +73,7 @@ export function Navigation() {
                           href={item.href}
                           className={`flex items-center space-x-3 px-3 py-2 rounded-lg transition-colors ${
                             location === item.href
-                              ? "bg-dime-blue/10 text-dime-blue"
+                              ? "bg-dime-purple/10 text-dime-purple"
                               : "text-slate-600 hover:bg-slate-100"
                           }`}
                         >
@@ -102,7 +101,7 @@ export function Navigation() {
                 href={item.href}
                 className={`flex flex-col items-center py-2 transition-colors ${
                   location === item.href
-                    ? "text-dime-blue"
+                    ? "text-dime-purple"
                     : "text-slate-400"
                 }`}
               >

@@ -61,7 +61,7 @@ export default function Debts() {
           <p className="text-slate-600">Track and manage your debt payoff journey</p>
         </div>
         <Button 
-          className="bg-dime-blue hover:bg-dime-blue/90"
+          className="bg-dime-purple hover:bg-dime-purple/90"
           onClick={() => setShowPaymentModal(true)}
         >
           <Plus className="w-4 h-4 mr-2" />
@@ -94,7 +94,7 @@ export default function Debts() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-2xl font-bold text-dime-green">{overallProgress.toFixed(1)}%</p>
+            <p className="text-2xl font-bold text-dime-accent">{overallProgress.toFixed(1)}%</p>
             <Progress value={overallProgress} className="mt-2" />
           </CardContent>
         </Card>
@@ -120,7 +120,7 @@ export default function Debts() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-2xl font-bold text-dime-blue">{formatCurrency(thisMonthPayments)}</p>
+            <p className="text-2xl font-bold text-dime-purple">{formatCurrency(thisMonthPayments)}</p>
             <p className="text-xs text-slate-500 mt-1">Payments made</p>
           </CardContent>
         </Card>
@@ -134,7 +134,7 @@ export default function Debts() {
               <CreditCard className="w-12 h-12 text-slate-300 mx-auto mb-4" />
               <h3 className="text-lg font-medium text-slate-900 mb-2">No debts found</h3>
               <p className="text-slate-500">Add your first debt to start tracking your payoff progress</p>
-              <Button className="mt-4 bg-dime-blue hover:bg-dime-blue/90">
+              <Button className="mt-4 bg-dime-purple hover:bg-dime-purple/90">
                 Add Debt Account
               </Button>
             </CardContent>
@@ -190,21 +190,21 @@ export default function Debts() {
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                    <div className="bg-dime-blue/5 rounded-lg p-4">
+                    <div className="bg-dime-purple/5 rounded-lg p-4">
                       <h4 className="text-sm font-medium text-slate-600 mb-1">Estimated Payoff</h4>
-                      <p className="text-lg font-semibold text-dime-blue">{monthsLeft} months</p>
+                      <p className="text-lg font-semibold text-dime-purple">{monthsLeft} months</p>
                       <p className="text-xs text-slate-500">At minimum payments</p>
                     </div>
-                    <div className="bg-dime-green/5 rounded-lg p-4">
+                    <div className="bg-dime-accent/5 rounded-lg p-4">
                       <h4 className="text-sm font-medium text-slate-600 mb-1">Total Payments</h4>
-                      <p className="text-lg font-semibold text-dime-green">{debtPayments.length}</p>
+                      <p className="text-lg font-semibold text-dime-accent">{debtPayments.length}</p>
                       <p className="text-xs text-slate-500">This year</p>
                     </div>
                   </div>
 
                   <div className="flex gap-3">
                     <Button 
-                      className="flex-1 bg-dime-blue hover:bg-dime-blue/90"
+                      className="flex-1 bg-dime-purple hover:bg-dime-purple/90"
                       onClick={() => setShowPaymentModal(true)}
                     >
                       Make Payment
@@ -222,7 +222,7 @@ export default function Debts() {
 
       {/* Debt Strategy Tips */}
       <div className="mt-8">
-        <Card className="bg-gradient-to-r from-dime-blue/5 to-dime-teal/5 border-dime-blue/20">
+        <Card className="bg-gradient-to-r from-dime-purple/5 to-dime-lilac/5 border-dime-purple/20">
           <CardContent className="p-6">
             <h3 className="text-lg font-semibold text-slate-900 mb-4">💡 Debt Payoff Strategies</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

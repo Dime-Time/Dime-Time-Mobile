@@ -151,7 +151,7 @@ export function PaymentModal({ open, onOpenChange, debts, roundUpBalance }: Paym
             </Button>
             <Button
               type="submit"
-              className="flex-1 bg-dime-blue hover:bg-dime-blue/90"
+              className="flex-1 bg-dime-purple hover:bg-dime-purple/90"
               disabled={paymentMutation.isPending}
             >
               {paymentMutation.isPending ? "Processing..." : "Process Payment"}

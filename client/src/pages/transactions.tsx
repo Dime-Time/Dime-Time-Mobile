@@ -62,7 +62,7 @@ export default function Transactions() {
           <h1 className="text-3xl font-bold text-slate-900 mb-2">Transactions</h1>
           <p className="text-slate-600">Track your purchases and round-up savings</p>
         </div>
-        <Button className="bg-dime-blue hover:bg-dime-blue/90">
+        <Button className="bg-dime-purple hover:bg-dime-purple/90">
           <Plus className="w-4 h-4 mr-2" />
           Add Transaction
         </Button>
@@ -75,7 +75,7 @@ export default function Transactions() {
             <CardTitle className="text-sm font-medium text-slate-600">Total Round-ups</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-2xl font-bold text-dime-green">{formatCurrency(totalRoundUps)}</p>
+            <p className="text-2xl font-bold text-dime-accent">{formatCurrency(totalRoundUps)}</p>
           </CardContent>
         </Card>
 
@@ -84,7 +84,7 @@ export default function Transactions() {
             <CardTitle className="text-sm font-medium text-slate-600">This Month</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-2xl font-bold text-dime-blue">{formatCurrency(thisMonthRoundUps)}</p>
+            <p className="text-2xl font-bold text-dime-purple">{formatCurrency(thisMonthRoundUps)}</p>
           </CardContent>
         </Card>
 
@@ -135,7 +135,7 @@ export default function Transactions() {
                   </div>
                   <div className="text-right">
                     <p className="font-medium text-slate-900">-{formatCurrency(transaction.amount)}</p>
-                    <div className="flex items-center gap-1 text-sm text-dime-green">
+                    <div className="flex items-center gap-1 text-sm text-dime-accent">
                       <Plus className="w-3 h-3" />
                       <span>{formatCurrency(transaction.roundUpAmount)} round-up</span>
                     </div>
@@ -149,7 +149,7 @@ export default function Transactions() {
 
       {/* Round-up Explanation */}
       <div className="mt-8">
-        <Card className="bg-gradient-to-r from-dime-green/5 to-dime-teal/5 border-dime-green/20">
+        <Card className="bg-gradient-to-r from-dime-purple/5 to-dime-lilac/5 border-dime-purple/20">
           <CardContent className="p-6">
             <h3 className="text-lg font-semibold text-slate-900 mb-2">How Round-ups Work</h3>
             <p className="text-slate-600 mb-4">

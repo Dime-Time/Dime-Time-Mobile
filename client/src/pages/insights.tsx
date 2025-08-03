@@ -94,7 +94,7 @@ export default function Insights() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-2xl font-bold text-dime-green">{formatCurrency(averageRoundUp)}</p>
+            <p className="text-2xl font-bold text-dime-accent">{formatCurrency(averageRoundUp)}</p>
             <p className="text-xs text-slate-500 mt-1">Per transaction</p>
           </CardContent>
         </Card>
@@ -107,7 +107,7 @@ export default function Insights() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-2xl font-bold text-dime-blue">{formatCurrency(avgMonthlyReduction)}</p>
+            <p className="text-2xl font-bold text-dime-purple">{formatCurrency(avgMonthlyReduction)}</p>
             <p className="text-xs text-slate-500 mt-1">Per month avg.</p>
           </CardContent>
         </Card>
@@ -135,7 +135,7 @@ export default function Insights() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-2xl font-bold text-dime-teal">{formatCurrency(totalRoundUps)}</p>
+            <p className="text-2xl font-bold text-dime-lilac">{formatCurrency(totalRoundUps)}</p>
             <p className="text-xs text-slate-500 mt-1">Via round-ups</p>
           </CardContent>
         </Card>
@@ -156,9 +156,9 @@ export default function Insights() {
               labels={debtChartLabels}
               className="h-64"
             />
-            <div className="mt-4 p-3 bg-dime-green/10 rounded-lg">
+            <div className="mt-4 p-3 bg-dime-accent/10 rounded-lg">
               <p className="text-sm text-slate-700">
-                <span className="font-semibold text-dime-green">Great progress!</span> You've reduced your debt by{' '}
+                <span className="font-semibold text-dime-accent">Great progress!</span> You've reduced your debt by{' '}
                 {formatCurrency(totalPaid)} this year, averaging {formatCurrency(avgMonthlyReduction)} per month.
               </p>
             </div>
@@ -177,7 +177,7 @@ export default function Insights() {
             <div className="space-y-4">
               {topCategories.map(([category, amount], index) => {
                 const percentage = (amount / totalSpending) * 100;
-                const colors = ['bg-dime-blue', 'bg-dime-green', 'bg-dime-teal', 'bg-purple-500', 'bg-orange-500'];
+                const colors = ['bg-dime-purple', 'bg-dime-accent', 'bg-dime-lilac', 'bg-dime-lavender', 'bg-purple-500'];
                 
                 return (
                   <div key={category}>
@@ -238,7 +238,7 @@ export default function Insights() {
                     <td className="py-3 text-sm text-slate-900 text-right font-medium">
                       {formatCurrency(data.spending)}
                     </td>
-                    <td className="py-3 text-sm text-dime-green text-right font-medium">
+                    <td className="py-3 text-sm text-dime-accent text-right font-medium">
                       {formatCurrency(data.roundUps)}
                     </td>
                     <td className="py-3 text-sm text-slate-600 text-right">
@@ -262,7 +262,7 @@ export default function Insights() {
 
       {/* Insights and Tips */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <Card className="bg-gradient-to-r from-dime-blue/5 to-dime-teal/5 border-dime-blue/20">
+        <Card className="bg-gradient-to-r from-dime-purple/5 to-dime-lilac/5 border-dime-purple/20">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <TrendingUp className="w-5 h-5" />
@@ -273,15 +273,15 @@ export default function Insights() {
             <div className="space-y-4">
               <div className="flex items-center justify-between">
                 <span className="text-sm text-slate-600">Debt paid off</span>
-                <span className="font-semibold text-dime-green">{summary?.progressPercentage}%</span>
+                <span className="font-semibold text-dime-accent">{summary?.progressPercentage}%</span>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-sm text-slate-600">Projected debt-free date</span>
-                <span className="font-semibold text-dime-blue">{summary?.debtFreeDate}</span>
+                <span className="font-semibold text-dime-purple">{summary?.debtFreeDate}</span>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-sm text-slate-600">Round-ups collected</span>
-                <span className="font-semibold text-dime-teal">
+                <span className="font-semibold text-dime-lilac">
                   {formatCurrency(summary?.totalRoundUps || "0")}
                 </span>
               </div>
@@ -289,7 +289,7 @@ export default function Insights() {
           </CardContent>
         </Card>
 
-        <Card className="bg-gradient-to-r from-dime-green/5 to-dime-teal/5 border-dime-green/20">
+        <Card className="bg-gradient-to-r from-dime-accent/5 to-dime-lilac/5 border-dime-accent/20">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Target className="w-5 h-5" />
