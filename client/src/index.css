@@ -13,7 +13,7 @@
   --card-foreground: hsl(20, 14.3%, 4.1%);
   --border: hsl(20, 5.9%, 90%);
   --input: hsl(20, 5.9%, 90%);
-  --primary: hsl(271, 81%, 66%);
+  --primary: hsl(260, 60%, 65%);
   --primary-foreground: hsl(211, 100%, 99%);
   --secondary: hsl(60, 4.8%, 95.9%);
   --secondary-foreground: hsl(24, 9.8%, 10%);
@@ -24,11 +24,11 @@
   --ring: hsl(20, 14.3%, 4.1%);
   --radius: 0.5rem;
   
-  /* Dime Time brand colors - Lilac Theme */
-  --dime-lilac: hsl(281, 83%, 79%);
-  --dime-purple: hsl(271, 81%, 66%);
-  --dime-lavender: hsl(291, 47%, 85%);
-  --dime-accent: hsl(262, 90%, 50%);
+  /* Dime Time brand colors - Light Purple Theme */
+  --dime-lilac: hsl(270, 50%, 80%);
+  --dime-purple: hsl(260, 60%, 65%);
+  --dime-lavender: hsl(280, 45%, 85%);
+  --dime-accent: hsl(250, 55%, 58%);
   --slate-50: hsl(210, 40%, 98%);
   --slate-600: hsl(215, 16%, 47%);
   --slate-900: hsl(215, 25%, 27%);
@@ -45,7 +45,7 @@
   --card-foreground: hsl(0, 0%, 98%);
   --border: hsl(240, 3.7%, 15.9%);
   --input: hsl(240, 3.7%, 15.9%);
-  --primary: hsl(271, 81%, 66%);
+  --primary: hsl(260, 60%, 65%);
   --primary-foreground: hsl(211, 100%, 99%);
   --secondary: hsl(240, 3.7%, 15.9%);
   --secondary-foreground: hsl(0, 0%, 98%);
@@ -110,31 +110,31 @@
   }
   
   .hover\:bg-dime-purple\/90:hover {
-    background-color: hsl(271, 81%, 60%);
+    background-color: hsl(260, 60%, 60%);
   }
   
   .hover\:bg-dime-lilac\/90:hover {
-    background-color: hsl(281, 83%, 75%);
+    background-color: hsl(270, 50%, 75%);
   }
   
   .hover\:bg-dime-accent\/90:hover {
-    background-color: hsl(262, 90%, 45%);
+    background-color: hsl(250, 55%, 53%);
   }
   
   .bg-dime-purple\/10 {
-    background-color: hsl(271, 81%, 66%, 0.1);
+    background-color: hsl(260, 60%, 65%, 0.1);
   }
   
   .bg-dime-lilac\/10 {
-    background-color: hsl(281, 83%, 79%, 0.1);
+    background-color: hsl(270, 50%, 80%, 0.1);
   }
   
   .bg-dime-lavender\/10 {
-    background-color: hsl(291, 47%, 85%, 0.1);
+    background-color: hsl(280, 45%, 85%, 0.1);
   }
   
   .bg-dime-accent\/10 {
-    background-color: hsl(262, 90%, 50%, 0.1);
+    background-color: hsl(250, 55%, 58%, 0.1);
   }
   
   .from-dime-purple {
