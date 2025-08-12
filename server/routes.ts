@@ -95,6 +95,31 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // One-tap accelerated payment
+  app.post("/api/accelerated-payment", async (req, res) => {
+    try {
+      const { debtId, amount } = req.body;
+      
+      if (!debtId || !amount) {
+        return res.status(400).json({ message: "debtId and amount are required" });
+      }
+
+      const result = await storage.makeAcceleratedPayment("demo-user-1", debtId, amount);
+      
+      res.json({
+        success: true,
+        payment: result.payment,
+        updatedDebt: result.updatedDebt,
+        message: `Successfully paid $${amount} toward ${result.updatedDebt.name}`
+      });
+    } catch (error) {
+      if (error instanceof Error) {
+        return res.status(400).json({ message: error.message });
+      }
+      res.status(500).json({ message: "Internal server error" });
+    }
+  });
+
   // Get round-up settings
   app.get("/api/round-up-settings", async (req, res) => {
     try {

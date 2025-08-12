@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { PaymentModal } from "@/components/payment-modal";
+import { AcceleratedPayment } from "@/components/AcceleratedPayment";
 import { formatCurrency, calculateDebtProgress, estimatePayoffMonths } from "@/lib/calculations";
 import { CreditCard, TrendingDown, Calendar, Plus, DollarSign } from "lucide-react";
 import type { Debt, Payment } from "@shared/schema";
@@ -202,7 +203,7 @@ export default function Debts() {
                     </div>
                   </div>
 
-                  <div className="flex gap-3">
+                  <div className="flex gap-3 mb-6">
                     <Button 
                       className="flex-1 bg-dime-purple hover:bg-dime-purple/90"
                       onClick={() => setShowPaymentModal(true)}
@@ -213,6 +214,9 @@ export default function Debts() {
                       View History
                     </Button>
                   </div>
+
+                  {/* One-Tap Accelerated Payment */}
+                  <AcceleratedPayment debt={debt} />
                 </CardContent>
               </Card>
             );

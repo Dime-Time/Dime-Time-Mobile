@@ -23,6 +23,7 @@ export interface IStorage {
   getPaymentsByUserId(userId: string): Promise<Payment[]>;
   getPaymentsByDebtId(debtId: string): Promise<Payment[]>;
   createPayment(payment: InsertPayment): Promise<Payment>;
+  makeAcceleratedPayment(userId: string, debtId: string, amount: string): Promise<{ payment: Payment; updatedDebt: Debt }>;
 
   // Round-up settings methods
   getRoundUpSettings(userId: string): Promise<RoundUpSettings | undefined>;
@@ -319,6 +320,36 @@ export class MemStorage implements IStorage {
     return payment;
   }
 
+  async makeAcceleratedPayment(userId: string, debtId: string, amount: string): Promise<{ payment: Payment; updatedDebt: Debt }> {
+    const debt = this.debts.get(debtId);
+    if (!debt || debt.userId !== userId) {
+      throw new Error('Debt not found or unauthorized');
+    }
+
+    // Create the payment record
+    const payment = await this.createPayment({
+      userId,
+      debtId,
+      amount,
+      source: 'manual',
+    });
+
+    // Update the debt balance
+    const currentBalance = parseFloat(debt.currentBalance);
+    const paymentAmount = parseFloat(amount);
+    const newBalance = Math.max(0, currentBalance - paymentAmount);
+
+    const updatedDebt = await this.updateDebt(debtId, {
+      currentBalance: newBalance.toFixed(2),
+    });
+
+    if (!updatedDebt) {
+      throw new Error('Failed to update debt balance');
+    }
+
+    return { payment, updatedDebt };
+  }
+
   async getRoundUpSettings(userId: string): Promise<RoundUpSettings | undefined> {
     return this.roundUpSettings.get(userId);
   }
@@ -531,6 +562,36 @@ export class DatabaseStorage implements IStorage {
       .values(insertPayment)
       .returning();
     return payment;
+  }
+
+  async makeAcceleratedPayment(userId: string, debtId: string, amount: string): Promise<{ payment: Payment; updatedDebt: Debt }> {
+    const debt = await this.getDebt(debtId);
+    if (!debt || debt.userId !== userId) {
+      throw new Error('Debt not found or unauthorized');
+    }
+
+    // Create the payment record
+    const payment = await this.createPayment({
+      userId,
+      debtId,
+      amount,
+      source: 'manual',
+    });
+
+    // Update the debt balance
+    const currentBalance = parseFloat(debt.currentBalance);
+    const paymentAmount = parseFloat(amount);
+    const newBalance = Math.max(0, currentBalance - paymentAmount);
+
+    const updatedDebt = await this.updateDebt(debtId, {
+      currentBalance: newBalance.toFixed(2),
+    });
+
+    if (!updatedDebt) {
+      throw new Error('Failed to update debt balance');
+    }
+
+    return { payment, updatedDebt };
   }
 
   async getRoundUpSettings(userId: string): Promise<RoundUpSettings | undefined> {
