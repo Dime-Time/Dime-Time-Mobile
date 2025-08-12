@@ -123,6 +123,78 @@ export const insertRoundUpSettingsSchema = createInsertSchema(roundUpSettings).o
   id: true,
 });
 
+// Sweep Account for JP Morgan Chase integration
+export const sweepAccounts = pgTable("sweep_accounts", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull().references(() => users.id),
+  jpMorganAccountId: varchar("jp_morgan_account_id").notNull(),
+  accountNumber: varchar("account_number").notNull(),
+  routingNumber: varchar("routing_number").notNull(),
+  accountType: varchar("account_type").notNull().default("sweep"), // sweep, checking, savings
+  currentBalance: decimal("current_balance", { precision: 12, scale: 2 }).notNull().default("0.00"),
+  interestRate: decimal("interest_rate", { precision: 5, scale: 4 }).notNull().default("0.0200"), // 2%
+  status: varchar("status").notNull().default("active"), // active, inactive, suspended
+  lastInterestCalculation: timestamp("last_interest_calculation"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// Round-up Collections in Sweep Account
+export const sweepDeposits = pgTable("sweep_deposits", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull().references(() => users.id),
+  sweepAccountId: varchar("sweep_account_id").notNull().references(() => sweepAccounts.id),
+  transactionId: varchar("transaction_id").references(() => transactions.id),
+  roundUpAmount: decimal("round_up_amount", { precision: 10, scale: 2 }).notNull(),
+  interestEarned: decimal("interest_earned", { precision: 10, scale: 6 }).notNull().default("0.000000"),
+  depositDate: timestamp("deposit_date").defaultNow(),
+  status: varchar("status").notNull().default("collected"), // collected, earning_interest, dispersed
+});
+
+// Friday Debt Dispersals
+export const weeklyDispersals = pgTable("weekly_dispersals", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull().references(() => users.id),
+  sweepAccountId: varchar("sweep_account_id").notNull().references(() => sweepAccounts.id),
+  dispersalDate: timestamp("dispersal_date").notNull(),
+  totalAmount: decimal("total_amount", { precision: 12, scale: 2 }).notNull(),
+  principalAmount: decimal("principal_amount", { precision: 12, scale: 2 }).notNull(),
+  interestAmount: decimal("interest_amount", { precision: 12, scale: 6 }).notNull(),
+  targetDebtId: varchar("target_debt_id").references(() => debts.id),
+  jpMorganTransactionId: varchar("jp_morgan_transaction_id"),
+  status: varchar("status").notNull().default("pending"), // pending, processing, completed, failed
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// Insert schemas for new tables
+export const insertSweepAccountSchema = createInsertSchema(sweepAccounts).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const insertSweepDepositSchema = createInsertSchema(sweepDeposits).omit({
+  id: true,
+  depositDate: true,
+});
+
+export const insertWeeklyDispersalSchema = createInsertSchema(weeklyDispersals).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+// Type exports for new tables
+export type SweepAccount = typeof sweepAccounts.$inferSelect;
+export type InsertSweepAccount = z.infer<typeof insertSweepAccountSchema>;
+
+export type SweepDeposit = typeof sweepDeposits.$inferSelect;
+export type InsertSweepDeposit = z.infer<typeof insertSweepDepositSchema>;
+
+export type WeeklyDispersal = typeof weeklyDispersals.$inferSelect;
+export type InsertWeeklyDispersal = z.infer<typeof insertWeeklyDispersalSchema>;
+
 export const insertCryptoPurchaseSchema = createInsertSchema(cryptoPurchases).omit({
   id: true,
   createdAt: true,
