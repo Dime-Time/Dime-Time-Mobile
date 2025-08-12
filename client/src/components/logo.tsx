@@ -9,28 +9,28 @@ export function Logo({ className = "", size = 32 }: LogoProps) {
       <svg
         width={size}
         height={size}
-        viewBox="0 0 64 64"
+        viewBox="0 0 40 44"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         className="drop-shadow-sm"
       >
-        {/* Left bell */}
-        <circle cx="20" cy="18" r="8" fill="#6B7AED" stroke="#6B7AED" strokeWidth="2" />
+        {/* Left alarm bell */}
+        <circle cx="12" cy="8" r="6" fill="#6B7AED" />
         
-        {/* Right bell */}
-        <circle cx="44" cy="18" r="8" fill="#6B7AED" stroke="#6B7AED" strokeWidth="2" />
+        {/* Right alarm bell */}
+        <circle cx="28" cy="8" r="6" fill="#6B7AED" />
         
         {/* Main clock body */}
-        <circle cx="32" cy="32" r="16" fill="#6B7AED" stroke="#6B7AED" strokeWidth="3" />
+        <circle cx="20" cy="22" r="12" fill="#6B7AED" />
         
-        {/* Inner white circle */}
-        <circle cx="32" cy="32" r="12" fill="white" stroke="white" strokeWidth="1" />
+        {/* Inner white clock face */}
+        <circle cx="20" cy="22" r="9" fill="white" />
         
-        {/* Dollar sign */}
+        {/* Dollar sign in center */}
         <text
-          x="32"
-          y="36"
-          fontSize="12"
+          x="20"
+          y="26"
+          fontSize="10"
           fontWeight="bold"
           fill="#6B7AED"
           textAnchor="middle"
@@ -40,10 +40,10 @@ export function Logo({ className = "", size = 32 }: LogoProps) {
         </text>
         
         {/* Left leg */}
-        <line x1="26" y1="48" x2="22" y2="58" stroke="#6B7AED" strokeWidth="3" strokeLinecap="round" />
+        <line x1="15" y1="34" x2="12" y2="42" stroke="#6B7AED" strokeWidth="2.5" strokeLinecap="round" />
         
         {/* Right leg */}
-        <line x1="38" y1="48" x2="42" y2="58" stroke="#6B7AED" strokeWidth="3" strokeLinecap="round" />
+        <line x1="25" y1="34" x2="28" y2="42" stroke="#6B7AED" strokeWidth="2.5" strokeLinecap="round" />
       </svg>
     </div>
   );
