@@ -9,6 +9,7 @@ import Transactions from "@/pages/transactions";
 import Debts from "@/pages/debts";
 import Crypto from "@/pages/crypto";
 import Insights from "@/pages/insights";
+import QRCodePage from "@/pages/qr";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -19,6 +20,7 @@ function Router() {
       <Route path="/debts" component={Debts} />
       <Route path="/crypto" component={Crypto} />
       <Route path="/insights" component={Insights} />
+      <Route path="/qr" component={QRCodePage} />
       {/* Fallback to 404 */}
       <Route component={NotFound} />
     </Switch>

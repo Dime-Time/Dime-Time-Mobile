@@ -6,7 +6,8 @@ import {
   Receipt,
   Menu,
   User,
-  Bitcoin
+  Bitcoin,
+  QrCode
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -53,9 +54,11 @@ export function Navigation() {
             </div>
 
             <div className="flex items-center space-x-4">
-              <Button variant="ghost" size="icon" className="text-slate-600 hover:text-slate-900">
-                <TrendingUp className="w-6 h-6" />
-              </Button>
+              <Link href="/qr">
+                <Button variant="ghost" size="icon" className="text-slate-600 hover:text-slate-900">
+                  <QrCode className="w-6 h-6" />
+                </Button>
+              </Link>
               <div className="w-8 h-8 bg-slate-300 rounded-full flex items-center justify-center">
                 <User className="w-4 h-4 text-slate-600" />
               </div>
