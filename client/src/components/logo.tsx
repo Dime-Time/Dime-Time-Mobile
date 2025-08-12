@@ -9,79 +9,90 @@ export function Logo({ className = "", size = 32 }: LogoProps) {
       <svg
         width={size}
         height={size}
-        viewBox="0 0 48 48"
+        viewBox="0 0 80 80"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         className="drop-shadow-sm"
       >
-        {/* Alarm clock body - main circle */}
-        <circle
-          cx="24"
-          cy="24"
-          r="18"
-          fill="hsl(260, 35%, 80%)"
-          stroke="hsl(260, 35%, 80%)"
-          strokeWidth="2"
+        {/* Blue gradient background */}
+        <rect
+          width="80"
+          height="80"
+          fill="url(#blueGradient)"
+          rx="8"
         />
         
-        {/* Inner clock face */}
+        {/* Main alarm clock body */}
         <circle
-          cx="24"
-          cy="24"
-          r="15"
+          cx="40"
+          cy="40"
+          r="20"
           fill="white"
-          stroke="hsl(260, 35%, 80%)"
+          stroke="white"
           strokeWidth="1"
         />
         
         {/* Left alarm bell */}
-        <ellipse
-          cx="10"
-          cy="16"
-          rx="5"
-          ry="6"
-          fill="hsl(260, 35%, 80%)"
-          transform="rotate(-20 10 16)"
+        <circle
+          cx="25"
+          cy="25"
+          r="8"
+          fill="white"
+        />
+        <circle
+          cx="25"
+          cy="25"
+          r="6"
+          fill="white"
+          stroke="none"
         />
         
         {/* Right alarm bell */}
-        <ellipse
-          cx="38"
-          cy="16"
-          rx="5"
-          ry="6"
-          fill="hsl(260, 35%, 80%)"
-          transform="rotate(20 38 16)"
+        <circle
+          cx="55"
+          cy="25"
+          r="8"
+          fill="white"
+        />
+        <circle
+          cx="55"
+          cy="25"
+          r="6"
+          fill="white"
+          stroke="none"
         />
         
-        {/* Wind-up key on left bell */}
-        <circle cx="6" cy="12" r="2" fill="hsl(260, 35%, 80%)" />
-        <rect x="4" y="10" width="4" height="1" fill="hsl(260, 35%, 80%)" />
-        
-        {/* Wind-up key on right bell */}
-        <circle cx="42" cy="12" r="2" fill="hsl(260, 35%, 80%)" />
-        <rect x="40" y="10" width="4" height="1" fill="hsl(260, 35%, 80%)" />
+        {/* Wind-up keys */}
+        <circle cx="18" cy="20" r="2.5" fill="white" />
+        <circle cx="62" cy="20" r="2.5" fill="white" />
         
         {/* Dollar sign in center */}
         <text
-          x="24"
-          y="28"
-          fontSize="16"
+          x="40"
+          y="46"
+          fontSize="18"
           fontWeight="bold"
-          fill="hsl(260, 35%, 80%)"
+          fill="#6B7AED"
           textAnchor="middle"
-          fontFamily="Inter, sans-serif"
+          fontFamily="Arial, sans-serif"
         >
           $
         </text>
         
         {/* Clock legs */}
-        <rect x="16" y="38" width="3" height="8" fill="hsl(260, 35%, 80%)" transform="rotate(-15 17.5 42)" />
-        <rect x="29" y="38" width="3" height="8" fill="hsl(260, 35%, 80%)" transform="rotate(15 30.5 42)" />
+        <rect x="32" y="58" width="3" height="12" fill="white" transform="rotate(-15 33.5 64)" />
+        <rect x="45" y="58" width="3" height="12" fill="white" transform="rotate(15 46.5 64)" />
         
         {/* Leg feet */}
-        <ellipse cx="14" cy="46" rx="4" ry="2" fill="hsl(260, 35%, 80%)" />
-        <ellipse cx="34" cy="46" rx="4" ry="2" fill="hsl(260, 35%, 80%)" />
+        <ellipse cx="28" cy="72" rx="5" ry="2" fill="white" />
+        <ellipse cx="52" cy="72" rx="5" ry="2" fill="white" />
+        
+        <defs>
+          <linearGradient id="blueGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#A5B4FF" />
+            <stop offset="100%" stopColor="#6B7AED" />
+          </linearGradient>
+        </defs>
       </svg>
     </div>
   );
