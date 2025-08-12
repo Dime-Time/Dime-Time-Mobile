@@ -92,7 +92,7 @@ export class MemStorage implements IStorage {
         name: "Chase Freedom Card",
         accountNumber: "••••4892",
         originalBalance: "15000.00",
-        currentBalance: "8247.12",
+        currentBalance: "6847.12",
         interestRate: "18.99",
         minimumPayment: "165.00",
         dueDate: 15,
@@ -105,7 +105,7 @@ export class MemStorage implements IStorage {
         name: "Capital One Venture",
         accountNumber: "••••2847",
         originalBalance: "20000.00",
-        currentBalance: "12400.00",
+        currentBalance: "10200.00",
         interestRate: "21.99",
         minimumPayment: "248.00",
         dueDate: 22,
@@ -118,7 +118,7 @@ export class MemStorage implements IStorage {
         name: "Student Loan",
         accountNumber: "Federal Direct",
         originalBalance: "8000.00",
-        currentBalance: "3200.00",
+        currentBalance: "1850.00",
         interestRate: "4.50",
         minimumPayment: "89.00",
         dueDate: 1,
@@ -128,7 +128,7 @@ export class MemStorage implements IStorage {
     ];
     demoDebts.forEach(debt => this.debts.set(debt.id, debt));
 
-    // Create demo transactions
+    // Create demo transactions with higher round-ups
     const demoTransactions: Transaction[] = [
       {
         id: "trans-1",
@@ -169,6 +169,86 @@ export class MemStorage implements IStorage {
         roundUpAmount: "0.69",
         date: new Date(Date.now() - 172800000), // 2 days ago
         description: "Weekly groceries",
+      },
+      {
+        id: "trans-5",
+        userId: demoUser.id,
+        merchant: "Target",
+        category: "Shopping",
+        amount: "86.23",
+        roundUpAmount: "0.77",
+        date: new Date(Date.now() - 259200000), // 3 days ago
+        description: "Home supplies",
+      },
+      {
+        id: "trans-6",
+        userId: demoUser.id,
+        merchant: "McDonald's",
+        category: "Food & Drink",
+        amount: "12.15",
+        roundUpAmount: "0.85",
+        date: new Date(Date.now() - 345600000), // 4 days ago
+        description: "Lunch",
+      },
+      {
+        id: "trans-7",
+        userId: demoUser.id,
+        merchant: "CVS Pharmacy",
+        category: "Health",
+        amount: "28.33",
+        roundUpAmount: "0.67",
+        date: new Date(Date.now() - 432000000), // 5 days ago
+        description: "Prescriptions",
+      },
+      {
+        id: "trans-8",
+        userId: demoUser.id,
+        merchant: "Uber",
+        category: "Transportation",
+        amount: "19.12",
+        roundUpAmount: "0.88",
+        date: new Date(Date.now() - 518400000), // 6 days ago
+        description: "Ride to airport",
+      },
+      {
+        id: "trans-9",
+        userId: demoUser.id,
+        merchant: "Best Buy",
+        category: "Electronics",
+        amount: "145.67",
+        roundUpAmount: "0.33",
+        date: new Date(Date.now() - 604800000), // 1 week ago
+        description: "Phone charger",
+      },
+      {
+        id: "trans-10",
+        userId: demoUser.id,
+        merchant: "Chipotle",
+        category: "Food & Drink",
+        amount: "13.42",
+        roundUpAmount: "0.58",
+        date: new Date(Date.now() - 691200000), // 8 days ago
+        description: "Dinner",
+      },
+      {
+        id: "trans-11",
+        userId: demoUser.id,
+        merchant: "Home Depot",
+        category: "Home Improvement",
+        amount: "92.18",
+        roundUpAmount: "0.82",
+        date: new Date(Date.now() - 777600000), // 9 days ago
+        description: "Garden supplies",
+      },
+      {
+        id: "trans-12",
+        userId: demoUser.id,
+        merchant: "Netflix",
+        category: "Entertainment",
+        amount: "15.99",
+        roundUpAmount: "0.01",
+        date: new Date(Date.now() - 864000000), // 10 days ago
+        description: "Monthly subscription",
       },
     ];
     demoTransactions.forEach(trans => this.transactions.set(trans.id, trans));
@@ -226,6 +306,65 @@ export class MemStorage implements IStorage {
       }
     ];
     demoCryptoPurchases.forEach(purchase => this.cryptoPurchases.set(purchase.id, purchase));
+
+    // Create demo payment history to show significant debt paydown
+    const demoPayments: Payment[] = [
+      {
+        id: "payment-1",
+        userId: demoUser.id,
+        debtId: "debt-1",
+        amount: "2500.00",
+        source: "manual",
+        date: new Date(Date.now() - 2592000000), // 30 days ago
+        status: "completed",
+      },
+      {
+        id: "payment-2",
+        userId: demoUser.id,
+        debtId: "debt-2",
+        amount: "3200.00",
+        source: "manual",
+        date: new Date(Date.now() - 2160000000), // 25 days ago
+        status: "completed",
+      },
+      {
+        id: "payment-3",
+        userId: demoUser.id,
+        debtId: "debt-3",
+        amount: "1800.00",
+        source: "manual",
+        date: new Date(Date.now() - 1728000000), // 20 days ago
+        status: "completed",
+      },
+      {
+        id: "payment-4",
+        userId: demoUser.id,
+        debtId: "debt-1",
+        amount: "3405.88",
+        source: "round_up",
+        date: new Date(Date.now() - 1296000000), // 15 days ago
+        status: "completed",
+      },
+      {
+        id: "payment-5",
+        userId: demoUser.id,
+        debtId: "debt-2",
+        amount: "6597.00",
+        source: "round_up",
+        date: new Date(Date.now() - 864000000), // 10 days ago
+        status: "completed",
+      },
+      {
+        id: "payment-6",
+        userId: demoUser.id,
+        debtId: "debt-3",
+        amount: "4350.00",
+        source: "round_up",
+        date: new Date(Date.now() - 432000000), // 5 days ago
+        status: "completed",
+      },
+    ];
+    demoPayments.forEach(payment => this.payments.set(payment.id, payment));
   }
 
   async getUser(id: string): Promise<User | undefined> {
