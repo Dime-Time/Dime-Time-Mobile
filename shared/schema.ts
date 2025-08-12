@@ -72,6 +72,31 @@ export const cryptoPurchases = pgTable("crypto_purchases", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
+export const bankAccounts = pgTable("bank_accounts", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull().references(() => users.id),
+  plaidItemId: text("plaid_item_id").notNull().unique(),
+  plaidAccessToken: text("plaid_access_token").notNull(),
+  accountId: text("account_id").notNull(),
+  accountName: text("account_name").notNull(),
+  accountType: text("account_type").notNull(), // checking, savings, credit
+  institutionName: text("institution_name").notNull(),
+  mask: text("mask"), // last 4 digits
+  isActive: boolean("is_active").default(true).notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const userSessions = pgTable("user_sessions", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull().references(() => users.id),
+  sessionToken: text("session_token").notNull().unique(),
+  deviceType: text("device_type").notNull(), // web, mobile
+  deviceId: text("device_id"),
+  lastActivity: timestamp("last_activity").defaultNow().notNull(),
+  isActive: boolean("is_active").default(true).notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
 // Insert schemas
 export const insertUserSchema = createInsertSchema(users).omit({
   id: true,
@@ -104,6 +129,17 @@ export const insertCryptoPurchaseSchema = createInsertSchema(cryptoPurchases).om
   status: true,
 });
 
+export const insertBankAccountSchema = createInsertSchema(bankAccounts).omit({
+  id: true,
+  createdAt: true,
+});
+
+export const insertUserSessionSchema = createInsertSchema(userSessions).omit({
+  id: true,
+  createdAt: true,
+  lastActivity: true,
+});
+
 // Types
 export type User = typeof users.$inferSelect;
 export type InsertUser = z.infer<typeof insertUserSchema>;
@@ -122,3 +158,9 @@ export type InsertRoundUpSettings = z.infer<typeof insertRoundUpSettingsSchema>;
 
 export type CryptoPurchase = typeof cryptoPurchases.$inferSelect;
 export type InsertCryptoPurchase = z.infer<typeof insertCryptoPurchaseSchema>;
+
+export type BankAccount = typeof bankAccounts.$inferSelect;
+export type InsertBankAccount = z.infer<typeof insertBankAccountSchema>;
+
+export type UserSession = typeof userSessions.$inferSelect;
+export type InsertUserSession = z.infer<typeof insertUserSessionSchema>;

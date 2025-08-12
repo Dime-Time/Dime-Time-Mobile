@@ -27,15 +27,21 @@ Preferred communication style: Simple, everyday language.
 - **API Design**: RESTful endpoints following convention with proper HTTP status codes and error handling
 
 ### Database Design
-The schema includes four main entities:
+The schema includes seven main entities:
 - **Users**: Core user authentication and profile information
 - **Debts**: Debt accounts with balance tracking, interest rates, and payment schedules
 - **Transactions**: Purchase history with automatic round-up calculations
 - **Payments**: Payment records linking round-ups to specific debts
 - **Round-up Settings**: User preferences for automated payment behavior
+- **Crypto Purchases**: Cryptocurrency purchase records with Coinbase integration
+- **Bank Accounts**: Plaid-connected bank account information for transaction sync
+- **User Sessions**: Cross-platform session management for web/mobile sync
 
 ### Key Features & Components
 - **Round-up System**: Automatically calculates spare change from transactions and allocates to debt payments
+- **Bank Integration**: Plaid API connection for secure bank account linking and real-time transaction sync
+- **Cryptocurrency Purchases**: Coinbase integration for automatic crypto buying with round-up funds
+- **Cross-Platform Sync**: Web dashboard at dime time.com syncs with mobile app via session management
 - **Dashboard**: Real-time overview of total debt, progress tracking, and recent activity
 - **Transaction Management**: Categorized spending with visual indicators and round-up amounts
 - **Debt Tracking**: Individual debt progress with payment history and payoff projections  

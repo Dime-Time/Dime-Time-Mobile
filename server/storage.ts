@@ -1,7 +1,7 @@
-import { type User, type InsertUser, type Debt, type InsertDebt, type Transaction, type InsertTransaction, type Payment, type InsertPayment, type RoundUpSettings, type InsertRoundUpSettings, type CryptoPurchase, type InsertCryptoPurchase, users, debts, transactions, payments, roundUpSettings, cryptoPurchases } from "@shared/schema";
+import { type User, type InsertUser, type Debt, type InsertDebt, type Transaction, type InsertTransaction, type Payment, type InsertPayment, type RoundUpSettings, type InsertRoundUpSettings, type CryptoPurchase, type InsertCryptoPurchase, type BankAccount, type InsertBankAccount, type UserSession, type InsertUserSession, users, debts, transactions, payments, roundUpSettings, cryptoPurchases, bankAccounts, userSessions } from "@shared/schema";
 import { randomUUID } from "crypto";
 import { db } from "./db";
-import { eq, desc } from "drizzle-orm";
+import { eq, desc, and } from "drizzle-orm";
 
 export interface IStorage {
   // User methods
@@ -32,6 +32,18 @@ export interface IStorage {
   getCryptoPurchasesByUserId(userId: string): Promise<CryptoPurchase[]>;
   createCryptoPurchase(purchase: InsertCryptoPurchase): Promise<CryptoPurchase>;
   updateCryptoPurchaseStatus(id: string, status: string, coinbaseOrderId?: string): Promise<CryptoPurchase | undefined>;
+
+  // Bank account methods
+  getBankAccountsByUserId(userId: string): Promise<BankAccount[]>;
+  createBankAccount(account: InsertBankAccount): Promise<BankAccount>;
+  getBankAccountByPlaidItemId(itemId: string): Promise<BankAccount | undefined>;
+  updateBankAccountStatus(id: string, isActive: boolean): Promise<BankAccount | undefined>;
+
+  // User session methods
+  createUserSession(session: InsertUserSession): Promise<UserSession>;
+  getUserSessionByToken(token: string): Promise<UserSession | undefined>;
+  updateSessionActivity(id: string): Promise<UserSession | undefined>;
+  deactivateUserSessions(userId: string, deviceType?: string): Promise<void>;
 }
 
 export class MemStorage implements IStorage {
@@ -41,6 +53,8 @@ export class MemStorage implements IStorage {
   private payments: Map<string, Payment>;
   private roundUpSettings: Map<string, RoundUpSettings>;
   private cryptoPurchases: Map<string, CryptoPurchase>;
+  private bankAccounts: Map<string, BankAccount>;
+  private userSessions: Map<string, UserSession>;
 
   constructor() {
     this.users = new Map();
@@ -49,6 +63,8 @@ export class MemStorage implements IStorage {
     this.payments = new Map();
     this.roundUpSettings = new Map();
     this.cryptoPurchases = new Map();
+    this.bankAccounts = new Map();
+    this.userSessions = new Map();
     
     // Initialize with demo data
     this.initializeDemoData();
@@ -363,6 +379,74 @@ export class MemStorage implements IStorage {
     this.cryptoPurchases.set(id, updated);
     return updated;
   }
+
+  async getBankAccountsByUserId(userId: string): Promise<BankAccount[]> {
+    return Array.from(this.bankAccounts.values())
+      .filter(account => account.userId === userId && account.isActive)
+      .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+  }
+
+  async createBankAccount(account: InsertBankAccount): Promise<BankAccount> {
+    const id = randomUUID();
+    const bankAccount: BankAccount = {
+      ...account,
+      id,
+      mask: account.mask ?? null,
+      isActive: account.isActive ?? true,
+      createdAt: new Date(),
+    };
+    this.bankAccounts.set(id, bankAccount);
+    return bankAccount;
+  }
+
+  async getBankAccountByPlaidItemId(itemId: string): Promise<BankAccount | undefined> {
+    return Array.from(this.bankAccounts.values()).find(account => account.plaidItemId === itemId);
+  }
+
+  async updateBankAccountStatus(id: string, isActive: boolean): Promise<BankAccount | undefined> {
+    const account = this.bankAccounts.get(id);
+    if (!account) return undefined;
+    
+    const updated = { ...account, isActive };
+    this.bankAccounts.set(id, updated);
+    return updated;
+  }
+
+  async createUserSession(session: InsertUserSession): Promise<UserSession> {
+    const id = randomUUID();
+    const userSession: UserSession = {
+      ...session,
+      id,
+      deviceId: session.deviceId ?? null,
+      isActive: session.isActive ?? true,
+      lastActivity: new Date(),
+      createdAt: new Date(),
+    };
+    this.userSessions.set(id, userSession);
+    return userSession;
+  }
+
+  async getUserSessionByToken(token: string): Promise<UserSession | undefined> {
+    return Array.from(this.userSessions.values()).find(session => session.sessionToken === token);
+  }
+
+  async updateSessionActivity(id: string): Promise<UserSession | undefined> {
+    const session = this.userSessions.get(id);
+    if (!session) return undefined;
+    
+    const updated = { ...session, lastActivity: new Date() };
+    this.userSessions.set(id, updated);
+    return updated;
+  }
+
+  async deactivateUserSessions(userId: string, deviceType?: string): Promise<void> {
+    Array.from(this.userSessions.entries()).forEach(([id, session]) => {
+      if (session.userId === userId && (!deviceType || session.deviceType === deviceType)) {
+        const updated = { ...session, isActive: false };
+        this.userSessions.set(id, updated);
+      }
+    });
+  }
 }
 
 export class DatabaseStorage implements IStorage {
@@ -499,6 +583,70 @@ export class DatabaseStorage implements IStorage {
       .where(eq(cryptoPurchases.id, id))
       .returning();
     return updated || undefined;
+  }
+
+  async getBankAccountsByUserId(userId: string): Promise<BankAccount[]> {
+    return await db.select().from(bankAccounts)
+      .where(eq(bankAccounts.userId, userId))
+      .orderBy(desc(bankAccounts.createdAt));
+  }
+
+  async createBankAccount(account: InsertBankAccount): Promise<BankAccount> {
+    const [bankAccount] = await db
+      .insert(bankAccounts)
+      .values(account)
+      .returning();
+    return bankAccount;
+  }
+
+  async getBankAccountByPlaidItemId(itemId: string): Promise<BankAccount | undefined> {
+    const [account] = await db.select().from(bankAccounts)
+      .where(eq(bankAccounts.plaidItemId, itemId));
+    return account || undefined;
+  }
+
+  async updateBankAccountStatus(id: string, isActive: boolean): Promise<BankAccount | undefined> {
+    const [updated] = await db
+      .update(bankAccounts)
+      .set({ isActive })
+      .where(eq(bankAccounts.id, id))
+      .returning();
+    return updated || undefined;
+  }
+
+  async createUserSession(session: InsertUserSession): Promise<UserSession> {
+    const [userSession] = await db
+      .insert(userSessions)
+      .values(session)
+      .returning();
+    return userSession;
+  }
+
+  async getUserSessionByToken(token: string): Promise<UserSession | undefined> {
+    const [session] = await db.select().from(userSessions)
+      .where(eq(userSessions.sessionToken, token));
+    return session || undefined;
+  }
+
+  async updateSessionActivity(id: string): Promise<UserSession | undefined> {
+    const [updated] = await db
+      .update(userSessions)
+      .set({ lastActivity: new Date() })
+      .where(eq(userSessions.id, id))
+      .returning();
+    return updated || undefined;
+  }
+
+  async deactivateUserSessions(userId: string, deviceType?: string): Promise<void> {
+    if (deviceType) {
+      await db.update(userSessions)
+        .set({ isActive: false })
+        .where(and(eq(userSessions.userId, userId), eq(userSessions.deviceType, deviceType)));
+    } else {
+      await db.update(userSessions)
+        .set({ isActive: false })
+        .where(eq(userSessions.userId, userId));
+    }
   }
 }
 
