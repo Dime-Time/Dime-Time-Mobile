@@ -48,12 +48,16 @@ export function Logo({ className = "", size = 32 }: LogoProps) {
           strokeWidth="1"
         />
         
-        {/* Hour markers */}
-        <g fill="hsl(250, 55%, 58%)">
-          <circle cx="24" cy="17" r="1" />
-          <circle cx="33" cy="26" r="1" />
-          <circle cx="24" cy="35" r="1" />
-          <circle cx="15" cy="26" r="1" />
+        {/* Hour numbers around the clock */}
+        <g fill="hsl(250, 55%, 58%)" fontSize="8" fontWeight="600" textAnchor="middle" fontFamily="Inter, sans-serif">
+          <text x="24" y="19" dominantBaseline="middle">12</text>
+          <text x="31" y="22" dominantBaseline="middle">1</text>
+          <text x="35" y="28" dominantBaseline="middle">3</text>
+          <text x="31" y="34" dominantBaseline="middle">5</text>
+          <text x="24" y="37" dominantBaseline="middle">6</text>
+          <text x="17" y="34" dominantBaseline="middle">7</text>
+          <text x="13" y="28" dominantBaseline="middle">9</text>
+          <text x="17" y="22" dominantBaseline="middle">11</text>
         </g>
         
         {/* Dollar sign prominently displayed */}
@@ -69,16 +73,8 @@ export function Logo({ className = "", size = 32 }: LogoProps) {
           $
         </text>
         
-        {/* Clock hands pointing to 10:10 (classic clock time) */}
-        <g stroke="hsl(250, 55%, 58%)" strokeWidth="2" strokeLinecap="round">
-          {/* Hour hand */}
-          <line x1="24" y1="26" x2="20" y2="20" />
-          {/* Minute hand */}
-          <line x1="24" y1="26" x2="28" y2="20" />
-        </g>
-        
-        {/* Clock center dot */}
-        <circle cx="24" cy="26" r="2" fill="hsl(250, 55%, 58%)" />
+        {/* Small center dot (no hands) */}
+        <circle cx="24" cy="26" r="1" fill="hsl(250, 55%, 58%)" />
         
         {/* Bell connectors to clock */}
         <g stroke="hsl(250, 55%, 58%)" strokeWidth="1.5" strokeLinecap="round">
