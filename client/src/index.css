@@ -13,7 +13,7 @@
   --card-foreground: hsl(20, 14.3%, 4.1%);
   --border: hsl(20, 5.9%, 90%);
   --input: hsl(20, 5.9%, 90%);
-  --primary: hsl(180, 40%, 45%);
+  --primary: hsl(260, 35%, 80%);
   --primary-foreground: hsl(211, 100%, 99%);
   --secondary: hsl(60, 4.8%, 95.9%);
   --secondary-foreground: hsl(24, 9.8%, 10%);
@@ -24,11 +24,11 @@
   --ring: hsl(20, 14.3%, 4.1%);
   --radius: 0.5rem;
   
-  /* Dime Time brand colors - Teal Theme (from logo) */
-  --dime-lilac: hsl(180, 35%, 85%);
-  --dime-purple: hsl(180, 40%, 45%);
-  --dime-lavender: hsl(180, 30%, 90%);
-  --dime-accent: hsl(180, 45%, 40%);
+  /* Dime Time brand colors - Soft Purple Theme */
+  --dime-lilac: hsl(270, 30%, 88%);
+  --dime-purple: hsl(260, 35%, 80%);
+  --dime-lavender: hsl(280, 25%, 92%);
+  --dime-accent: hsl(250, 30%, 75%);
   --slate-50: hsl(210, 40%, 98%);
   --slate-600: hsl(215, 16%, 47%);
   --slate-900: hsl(215, 25%, 27%);
@@ -45,7 +45,7 @@
   --card-foreground: hsl(0, 0%, 98%);
   --border: hsl(240, 3.7%, 15.9%);
   --input: hsl(240, 3.7%, 15.9%);
-  --primary: hsl(180, 40%, 45%);
+  --primary: hsl(260, 35%, 80%);
   --primary-foreground: hsl(211, 100%, 99%);
   --secondary: hsl(240, 3.7%, 15.9%);
   --secondary-foreground: hsl(0, 0%, 98%);
