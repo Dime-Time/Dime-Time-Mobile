@@ -9,110 +9,41 @@ export function Logo({ className = "", size = 32 }: LogoProps) {
       <svg
         width={size}
         height={size}
-        viewBox="0 0 100 100"
+        viewBox="0 0 64 64"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         className="drop-shadow-sm"
       >
-        {/* Blue gradient background */}
-        <rect
-          width="100"
-          height="100"
-          fill="url(#blueGradient)"
-          rx="8"
-        />
+        {/* Left bell */}
+        <circle cx="20" cy="18" r="8" fill="#6B7AED" stroke="#6B7AED" strokeWidth="2" />
         
-        {/* Left alarm bell */}
-        <circle
-          cx="30"
-          cy="30"
-          r="12"
-          fill="white"
-        />
+        {/* Right bell */}
+        <circle cx="44" cy="18" r="8" fill="#6B7AED" stroke="#6B7AED" strokeWidth="2" />
         
-        {/* Right alarm bell */}
-        <circle
-          cx="70"
-          cy="30"
-          r="12"
-          fill="white"
-        />
+        {/* Main clock body */}
+        <circle cx="32" cy="32" r="16" fill="#6B7AED" stroke="#6B7AED" strokeWidth="3" />
         
-        {/* Main clock body - large circle */}
-        <circle
-          cx="50"
-          cy="50"
-          r="22"
-          fill="white"
-        />
+        {/* Inner white circle */}
+        <circle cx="32" cy="32" r="12" fill="white" stroke="white" strokeWidth="1" />
         
-        {/* Inner clock ring */}
-        <circle
-          cx="50"
-          cy="50"
-          r="18"
-          fill="none"
-          stroke="url(#blueGradient)"
-          strokeWidth="3"
-        />
-        
-        {/* Dollar sign in center */}
+        {/* Dollar sign */}
         <text
-          x="50"
-          y="58"
-          fontSize="20"
+          x="32"
+          y="36"
+          fontSize="12"
           fontWeight="bold"
-          fill="url(#blueGradient)"
+          fill="#6B7AED"
           textAnchor="middle"
-          fontFamily="Arial, sans-serif"
+          fontFamily="system-ui, sans-serif"
         >
           $
         </text>
         
-        {/* Left clock leg */}
-        <rect 
-          x="40" 
-          y="72" 
-          width="4" 
-          height="12" 
-          fill="white"
-          transform="rotate(-20 42 78)"
-        />
+        {/* Left leg */}
+        <line x1="26" y1="48" x2="22" y2="58" stroke="#6B7AED" strokeWidth="3" strokeLinecap="round" />
         
-        {/* Right clock leg */}
-        <rect 
-          x="56" 
-          y="72" 
-          width="4" 
-          height="12" 
-          fill="white"
-          transform="rotate(20 58 78)"
-        />
-        
-        {/* Left leg foot */}
-        <ellipse 
-          cx="36" 
-          cy="86" 
-          rx="6" 
-          ry="3" 
-          fill="white"
-        />
-        
-        {/* Right leg foot */}
-        <ellipse 
-          cx="64" 
-          cy="86" 
-          rx="6" 
-          ry="3" 
-          fill="white"
-        />
-        
-        <defs>
-          <linearGradient id="blueGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#9BB5FF" />
-            <stop offset="100%" stopColor="#6B7AED" />
-          </linearGradient>
-        </defs>
+        {/* Right leg */}
+        <line x1="38" y1="48" x2="42" y2="58" stroke="#6B7AED" strokeWidth="3" strokeLinecap="round" />
       </svg>
     </div>
   );
