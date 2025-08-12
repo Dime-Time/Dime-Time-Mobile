@@ -48,17 +48,7 @@ export function Logo({ className = "", size = 32 }: LogoProps) {
           strokeWidth="1"
         />
         
-        {/* Hour numbers around the clock */}
-        <g fill="hsl(250, 55%, 58%)" fontSize="8" fontWeight="600" textAnchor="middle" fontFamily="Inter, sans-serif">
-          <text x="24" y="19" dominantBaseline="middle">12</text>
-          <text x="31" y="22" dominantBaseline="middle">1</text>
-          <text x="35" y="28" dominantBaseline="middle">3</text>
-          <text x="31" y="34" dominantBaseline="middle">5</text>
-          <text x="24" y="37" dominantBaseline="middle">6</text>
-          <text x="17" y="34" dominantBaseline="middle">7</text>
-          <text x="13" y="28" dominantBaseline="middle">9</text>
-          <text x="17" y="22" dominantBaseline="middle">11</text>
-        </g>
+
         
         {/* Dollar sign prominently displayed */}
         <text
