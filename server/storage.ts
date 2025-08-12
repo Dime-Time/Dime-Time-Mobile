@@ -75,11 +75,11 @@ export class MemStorage implements IStorage {
     // Create demo user
     const demoUser: User = {
       id: "demo-user-1",
-      username: "sarah.demo",
+      username: "anna.demo",
       password: "hashedpassword",
-      firstName: "Sarah",
+      firstName: "Anna",
       lastName: "Johnson",
-      email: "sarah@example.com",
+      email: "anna@example.com",
       createdAt: new Date("2024-01-01"),
     };
     this.users.set(demoUser.id, demoUser);
