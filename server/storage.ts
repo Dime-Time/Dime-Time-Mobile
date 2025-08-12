@@ -15,12 +15,6 @@ import {
   type InsertBankAccount, 
   type UserSession, 
   type InsertUserSession,
-  type SweepAccount,
-  type InsertSweepAccount,
-  type SweepDeposit,
-  type InsertSweepDeposit,
-  type WeeklyDispersal,
-  type InsertWeeklyDispersal,
   users, 
   debts, 
   transactions, 
@@ -28,10 +22,7 @@ import {
   roundUpSettings, 
   cryptoPurchases, 
   bankAccounts, 
-  userSessions,
-  sweepAccounts,
-  sweepDeposits,
-  weeklyDispersals
+  userSessions
 } from "@shared/schema";
 import { randomUUID } from "crypto";
 import { db } from "./db";
@@ -79,26 +70,6 @@ export interface IStorage {
   getUserSessionByToken(token: string): Promise<UserSession | undefined>;
   updateSessionActivity(id: string): Promise<UserSession | undefined>;
   deactivateUserSessions(userId: string, deviceType?: string): Promise<void>;
-
-  // Sweep Account methods
-  getUserSweepAccount(userId: string): Promise<SweepAccount | undefined>;
-  createSweepAccount(account: InsertSweepAccount): Promise<SweepAccount>;
-  updateSweepAccountBalance(accountId: string, newBalance: string): Promise<void>;
-  getAllActiveSweepAccounts(): Promise<SweepAccount[]>;
-
-  // Sweep Deposit methods
-  createSweepDeposit(deposit: InsertSweepDeposit): Promise<SweepDeposit>;
-  getUserSweepDeposits(sweepAccountId: string): Promise<SweepDeposit[]>;
-  addInterestToDeposits(sweepAccountId: string, interestAmount: number): Promise<void>;
-  markDepositsAsDispersed(sweepAccountId: string): Promise<void>;
-
-  // Weekly Dispersal methods
-  createWeeklyDispersal(dispersal: InsertWeeklyDispersal): Promise<WeeklyDispersal>;
-  getWeeklyDispersalsByUser(userId: string): Promise<WeeklyDispersal[]>;
-
-  // Utility methods for sweep functionality
-  getUserHighestPriorityDebt(userId: string): Promise<Debt | undefined>;
-  updateDebtBalance(debtId: string, newBalance: string): Promise<void>;
 }
 
 export class MemStorage implements IStorage {
@@ -110,9 +81,6 @@ export class MemStorage implements IStorage {
   private cryptoPurchases: Map<string, CryptoPurchase>;
   private bankAccounts: Map<string, BankAccount>;
   private userSessions: Map<string, UserSession>;
-  private sweepAccounts: Map<string, SweepAccount>;
-  private sweepDeposits: Map<string, SweepDeposit>;
-  private weeklyDispersals: Map<string, WeeklyDispersal>;
 
   constructor() {
     this.users = new Map();
@@ -123,9 +91,6 @@ export class MemStorage implements IStorage {
     this.cryptoPurchases = new Map();
     this.bankAccounts = new Map();
     this.userSessions = new Map();
-    this.sweepAccounts = new Map();
-    this.sweepDeposits = new Map();
-    this.weeklyDispersals = new Map();
     
     // Initialize with demo data
     this.initializeDemoData();
@@ -677,130 +642,6 @@ export class MemStorage implements IStorage {
       }
     });
   }
-
-  // Sweep Account methods
-  async getUserSweepAccount(userId: string): Promise<SweepAccount | undefined> {
-    return Array.from(this.sweepAccounts.values()).find(account => 
-      account.userId === userId && account.status === 'active'
-    );
-  }
-
-  async createSweepAccount(account: InsertSweepAccount): Promise<SweepAccount> {
-    const newAccount: SweepAccount = {
-      id: randomUUID(),
-      ...account,
-      status: account.status || 'active',
-      currentBalance: account.currentBalance || '0.00',
-      interestRate: account.interestRate || '0.0200',
-      accountType: account.accountType || 'sweep',
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      lastInterestCalculation: account.lastInterestCalculation || null,
-    };
-    this.sweepAccounts.set(newAccount.id, newAccount);
-    return newAccount;
-  }
-
-  async updateSweepAccountBalance(accountId: string, newBalance: string): Promise<void> {
-    const account = this.sweepAccounts.get(accountId);
-    if (account) {
-      account.currentBalance = newBalance;
-      account.updatedAt = new Date();
-    }
-  }
-
-  async getAllActiveSweepAccounts(): Promise<SweepAccount[]> {
-    return Array.from(this.sweepAccounts.values()).filter(account => 
-      account.status === 'active'
-    );
-  }
-
-  // Sweep Deposit methods
-  async createSweepDeposit(deposit: InsertSweepDeposit): Promise<SweepDeposit> {
-    const newDeposit: SweepDeposit = {
-      id: randomUUID(),
-      ...deposit,
-      status: deposit.status || 'collected',
-      interestEarned: deposit.interestEarned || '0.000000',
-      transactionId: deposit.transactionId || null,
-      depositDate: new Date(),
-    };
-    this.sweepDeposits.set(newDeposit.id, newDeposit);
-    return newDeposit;
-  }
-
-  async getUserSweepDeposits(sweepAccountId: string): Promise<SweepDeposit[]> {
-    return Array.from(this.sweepDeposits.values()).filter(deposit => 
-      deposit.sweepAccountId === sweepAccountId
-    );
-  }
-
-  async addInterestToDeposits(sweepAccountId: string, interestAmount: number): Promise<void> {
-    const deposits = Array.from(this.sweepDeposits.values()).filter(deposit => 
-      deposit.sweepAccountId === sweepAccountId && deposit.status !== 'dispersed'
-    );
-    
-    const interestPerDeposit = deposits.length > 0 ? interestAmount / deposits.length : 0;
-    
-    deposits.forEach(deposit => {
-      const currentInterest = parseFloat(deposit.interestEarned);
-      deposit.interestEarned = (currentInterest + interestPerDeposit).toFixed(6);
-    });
-  }
-
-  async markDepositsAsDispersed(sweepAccountId: string): Promise<void> {
-    Array.from(this.sweepDeposits.values())
-      .filter(deposit => deposit.sweepAccountId === sweepAccountId)
-      .forEach(deposit => {
-        deposit.status = 'dispersed';
-      });
-  }
-
-  // Weekly Dispersal methods
-  async createWeeklyDispersal(dispersal: InsertWeeklyDispersal): Promise<WeeklyDispersal> {
-    const newDispersal: WeeklyDispersal = {
-      id: randomUUID(),
-      ...dispersal,
-      status: dispersal.status || 'pending',
-      targetDebtId: dispersal.targetDebtId || null,
-      jpMorganTransactionId: dispersal.jpMorganTransactionId || null,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    };
-    this.weeklyDispersals.set(newDispersal.id, newDispersal);
-    return newDispersal;
-  }
-
-  async getWeeklyDispersalsByUser(userId: string): Promise<WeeklyDispersal[]> {
-    return Array.from(this.weeklyDispersals.values())
-      .filter(dispersal => dispersal.userId === userId)
-      .sort((a, b) => b.dispersalDate.getTime() - a.dispersalDate.getTime());
-  }
-
-  // Utility methods for sweep functionality
-  async getUserHighestPriorityDebt(userId: string): Promise<Debt | undefined> {
-    const userDebts = await this.getDebtsByUserId(userId);
-    if (userDebts.length === 0) return undefined;
-    
-    // Priority: highest interest rate first, then highest balance
-    return userDebts
-      .filter(debt => debt.isActive && parseFloat(debt.currentBalance) > 0)
-      .sort((a, b) => {
-        const interestDiff = parseFloat(b.interestRate) - parseFloat(a.interestRate);
-        if (interestDiff !== 0) return interestDiff;
-        return parseFloat(b.currentBalance) - parseFloat(a.currentBalance);
-      })[0];
-  }
-
-  async updateDebtBalance(debtId: string, newBalance: string): Promise<void> {
-    const debt = this.debts.get(debtId);
-    if (debt) {
-      debt.currentBalance = newBalance;
-      if (parseFloat(newBalance) <= 0) {
-        debt.isActive = false;
-      }
-    }
-  }
 }
 
 export class DatabaseStorage implements IStorage {
@@ -1031,112 +872,6 @@ export class DatabaseStorage implements IStorage {
         .set({ isActive: false })
         .where(eq(userSessions.userId, userId));
     }
-  }
-
-  // Sweep Account methods
-  async getUserSweepAccount(userId: string): Promise<SweepAccount | undefined> {
-    const [account] = await db.select().from(sweepAccounts)
-      .where(and(eq(sweepAccounts.userId, userId), eq(sweepAccounts.status, 'active')));
-    return account || undefined;
-  }
-
-  async createSweepAccount(account: InsertSweepAccount): Promise<SweepAccount> {
-    const [sweepAccount] = await db
-      .insert(sweepAccounts)
-      .values(account)
-      .returning();
-    return sweepAccount;
-  }
-
-  async updateSweepAccountBalance(accountId: string, newBalance: string): Promise<void> {
-    await db
-      .update(sweepAccounts)
-      .set({ currentBalance: newBalance, updatedAt: new Date() })
-      .where(eq(sweepAccounts.id, accountId));
-  }
-
-  async getAllActiveSweepAccounts(): Promise<SweepAccount[]> {
-    return await db.select().from(sweepAccounts)
-      .where(eq(sweepAccounts.status, 'active'));
-  }
-
-  // Sweep Deposit methods
-  async createSweepDeposit(deposit: InsertSweepDeposit): Promise<SweepDeposit> {
-    const [sweepDeposit] = await db
-      .insert(sweepDeposits)
-      .values(deposit)
-      .returning();
-    return sweepDeposit;
-  }
-
-  async getUserSweepDeposits(sweepAccountId: string): Promise<SweepDeposit[]> {
-    return await db.select().from(sweepDeposits)
-      .where(eq(sweepDeposits.sweepAccountId, sweepAccountId));
-  }
-
-  async addInterestToDeposits(sweepAccountId: string, interestAmount: number): Promise<void> {
-    const deposits = await db.select().from(sweepDeposits)
-      .where(and(
-        eq(sweepDeposits.sweepAccountId, sweepAccountId),
-        eq(sweepDeposits.status, 'earning_interest')
-      ));
-    
-    const interestPerDeposit = deposits.length > 0 ? interestAmount / deposits.length : 0;
-    
-    for (const deposit of deposits) {
-      const currentInterest = parseFloat(deposit.interestEarned);
-      const newInterest = (currentInterest + interestPerDeposit).toFixed(6);
-      
-      await db
-        .update(sweepDeposits)
-        .set({ interestEarned: newInterest })
-        .where(eq(sweepDeposits.id, deposit.id));
-    }
-  }
-
-  async markDepositsAsDispersed(sweepAccountId: string): Promise<void> {
-    await db
-      .update(sweepDeposits)
-      .set({ status: 'dispersed' })
-      .where(eq(sweepDeposits.sweepAccountId, sweepAccountId));
-  }
-
-  // Weekly Dispersal methods
-  async createWeeklyDispersal(dispersal: InsertWeeklyDispersal): Promise<WeeklyDispersal> {
-    const [weeklyDispersal] = await db
-      .insert(weeklyDispersals)
-      .values(dispersal)
-      .returning();
-    return weeklyDispersal;
-  }
-
-  async getWeeklyDispersalsByUser(userId: string): Promise<WeeklyDispersal[]> {
-    return await db.select().from(weeklyDispersals)
-      .where(eq(weeklyDispersals.userId, userId))
-      .orderBy(desc(weeklyDispersals.dispersalDate));
-  }
-
-  // Utility methods for sweep functionality
-  async getUserHighestPriorityDebt(userId: string): Promise<Debt | undefined> {
-    const userDebts = await this.getDebtsByUserId(userId);
-    if (userDebts.length === 0) return undefined;
-    
-    // Priority: highest interest rate first, then highest balance
-    return userDebts
-      .filter(debt => debt.isActive && parseFloat(debt.currentBalance) > 0)
-      .sort((a, b) => {
-        const interestDiff = parseFloat(b.interestRate) - parseFloat(a.interestRate);
-        if (interestDiff !== 0) return interestDiff;
-        return parseFloat(b.currentBalance) - parseFloat(a.currentBalance);
-      })[0];
-  }
-
-  async updateDebtBalance(debtId: string, newBalance: string): Promise<void> {
-    const isActive = parseFloat(newBalance) > 0;
-    await db
-      .update(debts)
-      .set({ currentBalance: newBalance, isActive })
-      .where(eq(debts.id, debtId));
   }
 }
 
