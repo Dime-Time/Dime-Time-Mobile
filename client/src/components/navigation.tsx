@@ -33,7 +33,7 @@ export function Navigation() {
               <div className="mt-1">
                 <Logo size={32} />
               </div>
-              <span className="text-xl font-bold text-dime-lilac">Dime Time</span>
+              <span className="text-xl font-black text-black">Dime Time</span>
             </div>
             
             <div className="hidden md:flex items-center space-x-8">
