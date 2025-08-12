@@ -371,15 +371,15 @@ export class MemStorage implements IStorage {
     };
     this.roundUpSettings.set(demoUser.id, demoRoundUpSettings);
 
-    // Create demo crypto purchases
+    // Create demo crypto purchases with higher amounts
     const demoCryptoPurchases: CryptoPurchase[] = [
       {
         id: "crypto-1",
         userId: demoUser.id,
         transactionId: "trans-1",
         cryptoSymbol: "BTC",
-        amountUsd: "0.08", // 25% of $0.33 round-up
-        cryptoAmount: "0.00000086",
+        amountUsd: "0.21", // 25% of $0.83 round-up
+        cryptoAmount: "0.00000225",
         purchasePrice: "93000.00",
         coinbaseOrderId: "order-btc-001",
         status: "completed",
@@ -390,8 +390,8 @@ export class MemStorage implements IStorage {
         userId: demoUser.id,
         transactionId: "trans-2",
         cryptoSymbol: "BTC",
-        amountUsd: "0.15", // 25% of $0.58 round-up
-        cryptoAmount: "0.00000161",
+        amountUsd: "0.18", // 25% of $0.72 round-up
+        cryptoAmount: "0.00000193",
         purchasePrice: "93200.00",
         coinbaseOrderId: "order-btc-002",
         status: "completed",
@@ -400,14 +400,158 @@ export class MemStorage implements IStorage {
       {
         id: "crypto-3",
         userId: demoUser.id,
-        transactionId: "trans-4",
+        transactionId: "trans-3",
         cryptoSymbol: "BTC",
-        amountUsd: "0.17", // 25% of $0.69 round-up
-        cryptoAmount: "0.00000182",
-        purchasePrice: "93500.00",
+        amountUsd: "0.21", // 25% of $0.85 round-up
+        cryptoAmount: "0.00000225",
+        purchasePrice: "93300.00",
         coinbaseOrderId: "order-btc-003",
         status: "completed",
+        createdAt: new Date(Date.now() - 86400000),
+      },
+      {
+        id: "crypto-4",
+        userId: demoUser.id,
+        transactionId: "trans-4",
+        cryptoSymbol: "BTC",
+        amountUsd: "0.19", // 25% of $0.78 round-up
+        cryptoAmount: "0.00000203",
+        purchasePrice: "93500.00",
+        coinbaseOrderId: "order-btc-004",
+        status: "completed",
         createdAt: new Date(Date.now() - 172800000),
+      },
+      {
+        id: "crypto-5",
+        userId: demoUser.id,
+        transactionId: "trans-5",
+        cryptoSymbol: "BTC",
+        amountUsd: "0.22", // 25% of $0.89 round-up
+        cryptoAmount: "0.00000235",
+        purchasePrice: "93600.00",
+        coinbaseOrderId: "order-btc-005",
+        status: "completed",
+        createdAt: new Date(Date.now() - 259200000),
+      },
+      {
+        id: "crypto-6",
+        userId: demoUser.id,
+        transactionId: "trans-6",
+        cryptoSymbol: "BTC",
+        amountUsd: "0.23", // 25% of $0.92 round-up
+        cryptoAmount: "0.00000246",
+        purchasePrice: "93700.00",
+        coinbaseOrderId: "order-btc-006",
+        status: "completed",
+        createdAt: new Date(Date.now() - 345600000),
+      },
+      {
+        id: "crypto-7",
+        userId: demoUser.id,
+        transactionId: "trans-7",
+        cryptoSymbol: "ETH",
+        amountUsd: "0.22", // 25% of $0.87 round-up
+        cryptoAmount: "0.000082",
+        purchasePrice: "2680.00",
+        coinbaseOrderId: "order-eth-001",
+        status: "completed",
+        createdAt: new Date(Date.now() - 432000000),
+      },
+      {
+        id: "crypto-8",
+        userId: demoUser.id,
+        transactionId: "trans-8",
+        cryptoSymbol: "ETH",
+        amountUsd: "0.23", // 25% of $0.93 round-up
+        cryptoAmount: "0.000086",
+        purchasePrice: "2700.00",
+        coinbaseOrderId: "order-eth-002",
+        status: "completed",
+        createdAt: new Date(Date.now() - 518400000),
+      },
+      {
+        id: "crypto-9",
+        userId: demoUser.id,
+        transactionId: "trans-9",
+        cryptoSymbol: "BTC",
+        amountUsd: "0.22", // 25% of $0.88 round-up
+        cryptoAmount: "0.00000234",
+        purchasePrice: "94000.00",
+        coinbaseOrderId: "order-btc-007",
+        status: "completed",
+        createdAt: new Date(Date.now() - 604800000),
+      },
+      {
+        id: "crypto-10",
+        userId: demoUser.id,
+        transactionId: "trans-10",
+        cryptoSymbol: "BTC",
+        amountUsd: "0.23", // 25% of $0.91 round-up
+        cryptoAmount: "0.00000244",
+        purchasePrice: "94200.00",
+        coinbaseOrderId: "order-btc-008",
+        status: "completed",
+        createdAt: new Date(Date.now() - 691200000),
+      },
+      {
+        id: "crypto-11",
+        userId: demoUser.id,
+        transactionId: "trans-11",
+        cryptoSymbol: "ETH",
+        amountUsd: "0.24", // 25% of $0.94 round-up
+        cryptoAmount: "0.000089",
+        purchasePrice: "2720.00",
+        coinbaseOrderId: "order-eth-003",
+        status: "completed",
+        createdAt: new Date(Date.now() - 777600000),
+      },
+      {
+        id: "crypto-12",
+        userId: demoUser.id,
+        transactionId: "trans-13",
+        cryptoSymbol: "BTC",
+        amountUsd: "0.23", // 25% of $0.92 round-up
+        cryptoAmount: "0.00000243",
+        purchasePrice: "94500.00",
+        coinbaseOrderId: "order-btc-009",
+        status: "completed",
+        createdAt: new Date(Date.now() - 950400000),
+      },
+      {
+        id: "crypto-13",
+        userId: demoUser.id,
+        transactionId: "trans-15",
+        cryptoSymbol: "ETH",
+        amountUsd: "0.19", // 25% of $0.77 round-up
+        cryptoAmount: "0.000071",
+        purchasePrice: "2740.00",
+        coinbaseOrderId: "order-eth-004",
+        status: "completed",
+        createdAt: new Date(Date.now() - 1123200000),
+      },
+      {
+        id: "crypto-14",
+        userId: demoUser.id,
+        transactionId: "trans-16",
+        cryptoSymbol: "BTC",
+        amountUsd: "0.21", // 25% of $0.84 round-up
+        cryptoAmount: "0.00000222",
+        purchasePrice: "94800.00",
+        coinbaseOrderId: "order-btc-010",
+        status: "completed",
+        createdAt: new Date(Date.now() - 1209600000),
+      },
+      {
+        id: "crypto-15",
+        userId: demoUser.id,
+        transactionId: "trans-18",
+        cryptoSymbol: "ETH",
+        amountUsd: "0.22", // 25% of $0.88 round-up
+        cryptoAmount: "0.000081",
+        purchasePrice: "2760.00",
+        coinbaseOrderId: "order-eth-005",
+        status: "completed",
+        createdAt: new Date(Date.now() - 1382400000),
       }
     ];
     demoCryptoPurchases.forEach(purchase => this.cryptoPurchases.set(purchase.id, purchase));
