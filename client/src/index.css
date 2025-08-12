@@ -4,23 +4,23 @@
 
 :root {
   --background: hsl(0, 0%, 100%);
-  --foreground: hsl(20, 14.3%, 4.1%);
+  --foreground: hsl(0, 0%, 0%);
   --muted: hsl(60, 4.8%, 95.9%);
-  --muted-foreground: hsl(25, 5.3%, 44.7%);
+  --muted-foreground: hsl(0, 0%, 0%);
   --popover: hsl(0, 0%, 100%);
-  --popover-foreground: hsl(20, 14.3%, 4.1%);
+  --popover-foreground: hsl(0, 0%, 0%);
   --card: hsl(0, 0%, 100%);
-  --card-foreground: hsl(20, 14.3%, 4.1%);
+  --card-foreground: hsl(0, 0%, 0%);
   --border: hsl(20, 5.9%, 90%);
   --input: hsl(20, 5.9%, 90%);
   --primary: hsl(260, 35%, 80%);
-  --primary-foreground: hsl(211, 100%, 99%);
+  --primary-foreground: hsl(0, 0%, 0%);
   --secondary: hsl(60, 4.8%, 95.9%);
-  --secondary-foreground: hsl(24, 9.8%, 10%);
+  --secondary-foreground: hsl(0, 0%, 0%);
   --accent: hsl(60, 4.8%, 95.9%);
-  --accent-foreground: hsl(24, 9.8%, 10%);
+  --accent-foreground: hsl(0, 0%, 0%);
   --destructive: hsl(0, 84.2%, 60.2%);
-  --destructive-foreground: hsl(60, 9.1%, 97.8%);
+  --destructive-foreground: hsl(0, 0%, 0%);
   --ring: hsl(20, 14.3%, 4.1%);
   --radius: 0.5rem;
   
@@ -30,8 +30,8 @@
   --dime-lavender: hsl(280, 25%, 92%);
   --dime-accent: hsl(250, 30%, 75%);
   --slate-50: hsl(210, 40%, 98%);
-  --slate-600: hsl(215, 16%, 47%);
-  --slate-900: hsl(215, 25%, 27%);
+  --slate-600: hsl(0, 0%, 0%);
+  --slate-900: hsl(0, 0%, 0%);
 }
 
 .dark {
@@ -65,6 +65,18 @@
   body {
     @apply font-sans antialiased bg-slate-50 text-foreground;
     font-family: 'Inter', system-ui, sans-serif;
+  }
+
+  /* Force all text to be black */
+  * {
+    color: black !important;
+  }
+  
+  /* Preserve button text colors on colored backgrounds */
+  button:has(.text-white), 
+  .bg-dime-purple *,
+  .bg-primary * {
+    color: white !important;
   }
 }
 
