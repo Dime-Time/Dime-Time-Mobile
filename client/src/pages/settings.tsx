@@ -337,6 +337,7 @@ export default function Settings() {
                       <SelectContent>
                         <SelectItem value="BTC">Bitcoin (BTC)</SelectItem>
                         <SelectItem value="ETH">Ethereum (ETH)</SelectItem>
+                        <SelectItem value="XRP">Ripple (XRP)</SelectItem>
                         <SelectItem value="LTC">Litecoin (LTC)</SelectItem>
                         <SelectItem value="ADA">Cardano (ADA)</SelectItem>
                       </SelectContent>
