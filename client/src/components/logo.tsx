@@ -14,22 +14,26 @@ export function Logo({ className = "", size = 32 }: LogoProps) {
         xmlns="http://www.w3.org/2000/svg"
         className="drop-shadow-sm"
       >
-        {/* Left alarm bell */}
-        <circle cx="12" cy="8" r="6" fill="#6B7AED" />
-        
-        {/* Right alarm bell */}
-        <circle cx="28" cy="8" r="6" fill="#6B7AED" />
-        
         {/* Main clock body */}
-        <circle cx="20" cy="22" r="12" fill="#6B7AED" />
+        <circle cx="20" cy="20" r="12" fill="#6B7AED" />
         
         {/* Inner white clock face */}
-        <circle cx="20" cy="22" r="9" fill="white" />
+        <circle cx="20" cy="20" r="9" fill="white" />
+        
+        {/* Left alarm bell - positioned on upper left side */}
+        <circle cx="9" cy="12" r="5" fill="#6B7AED" />
+        
+        {/* Right alarm bell - positioned on upper right side */}
+        <circle cx="31" cy="12" r="5" fill="#6B7AED" />
+        
+        {/* Bell wind-up keys */}
+        <circle cx="6" cy="9" r="1.5" fill="#6B7AED" />
+        <circle cx="34" cy="9" r="1.5" fill="#6B7AED" />
         
         {/* Dollar sign in center */}
         <text
           x="20"
-          y="26"
+          y="24"
           fontSize="10"
           fontWeight="bold"
           fill="#6B7AED"
@@ -40,10 +44,14 @@ export function Logo({ className = "", size = 32 }: LogoProps) {
         </text>
         
         {/* Left leg */}
-        <line x1="15" y1="34" x2="12" y2="42" stroke="#6B7AED" strokeWidth="2.5" strokeLinecap="round" />
+        <line x1="15" y1="32" x2="12" y2="40" stroke="#6B7AED" strokeWidth="2.5" strokeLinecap="round" />
         
         {/* Right leg */}
-        <line x1="25" y1="34" x2="28" y2="42" stroke="#6B7AED" strokeWidth="2.5" strokeLinecap="round" />
+        <line x1="25" y1="32" x2="28" y2="40" stroke="#6B7AED" strokeWidth="2.5" strokeLinecap="round" />
+        
+        {/* Leg feet */}
+        <circle cx="12" cy="40" r="2" fill="#6B7AED" />
+        <circle cx="28" cy="40" r="2" fill="#6B7AED" />
       </svg>
     </div>
   );
