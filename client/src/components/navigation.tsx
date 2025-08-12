@@ -30,7 +30,9 @@ export function Navigation() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center justify-center space-x-3">
-              <Logo size={32} />
+              <div className="mt-1">
+                <Logo size={32} />
+              </div>
               <span className="text-xl font-bold text-slate-900">Dime Time</span>
             </div>
             
