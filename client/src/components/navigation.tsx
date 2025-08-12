@@ -7,7 +7,9 @@ import {
   Menu,
   User,
   Bitcoin,
-  QrCode
+  QrCode,
+  Bell,
+  Settings
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -54,9 +56,22 @@ export function Navigation() {
             </div>
 
             <div className="flex items-center space-x-4">
+              <Link href="/notifications">
+                <Button variant="ghost" size="icon" className="text-slate-600 hover:text-slate-900 relative">
+                  <Bell className="w-5 h-5" />
+                  <div className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full flex items-center justify-center">
+                    <span className="text-xs text-white font-bold">3</span>
+                  </div>
+                </Button>
+              </Link>
+              <Link href="/settings">
+                <Button variant="ghost" size="icon" className="text-slate-600 hover:text-slate-900">
+                  <Settings className="w-5 h-5" />
+                </Button>
+              </Link>
               <Link href="/qr">
                 <Button variant="ghost" size="icon" className="text-slate-600 hover:text-slate-900">
-                  <QrCode className="w-6 h-6" />
+                  <QrCode className="w-5 h-5" />
                 </Button>
               </Link>
               <div className="w-8 h-8 bg-slate-300 rounded-full flex items-center justify-center">
@@ -89,6 +104,45 @@ export function Navigation() {
                         </Link>
                       );
                     })}
+                    
+                    <div className="border-t pt-4 mt-4">
+                      <Link
+                        href="/notifications"
+                        className={`flex items-center space-x-3 px-3 py-2 rounded-lg transition-colors ${
+                          location === "/notifications"
+                            ? "bg-dime-purple/10 text-dime-purple"
+                            : "text-slate-600 hover:bg-slate-100"
+                        }`}
+                      >
+                        <Bell className="w-5 h-5" />
+                        <span className="font-medium">Notifications</span>
+                        <div className="w-2 h-2 bg-red-500 rounded-full ml-auto"></div>
+                      </Link>
+                      
+                      <Link
+                        href="/settings"
+                        className={`flex items-center space-x-3 px-3 py-2 rounded-lg transition-colors ${
+                          location === "/settings"
+                            ? "bg-dime-purple/10 text-dime-purple"
+                            : "text-slate-600 hover:bg-slate-100"
+                        }`}
+                      >
+                        <Settings className="w-5 h-5" />
+                        <span className="font-medium">Settings</span>
+                      </Link>
+                      
+                      <Link
+                        href="/qr"
+                        className={`flex items-center space-x-3 px-3 py-2 rounded-lg transition-colors ${
+                          location === "/qr"
+                            ? "bg-dime-purple/10 text-dime-purple"
+                            : "text-slate-600 hover:bg-slate-100"
+                        }`}
+                      >
+                        <QrCode className="w-5 h-5" />
+                        <span className="font-medium">QR Code</span>
+                      </Link>
+                    </div>
                   </div>
                 </SheetContent>
               </Sheet>

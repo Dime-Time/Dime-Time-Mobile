@@ -10,6 +10,8 @@ import Debts from "@/pages/debts";
 import Crypto from "@/pages/crypto";
 import Insights from "@/pages/insights";
 import QRCodePage from "@/pages/qr";
+import Settings from "@/pages/settings";
+import Notifications from "@/pages/notifications";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -21,6 +23,8 @@ function Router() {
       <Route path="/crypto" component={Crypto} />
       <Route path="/insights" component={Insights} />
       <Route path="/qr" component={QRCodePage} />
+      <Route path="/settings" component={Settings} />
+      <Route path="/notifications" component={Notifications} />
       {/* Fallback to 404 */}
       <Route component={NotFound} />
     </Switch>
