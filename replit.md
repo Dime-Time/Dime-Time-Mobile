@@ -1,81 +1,61 @@
-# Dime Time - Debt Management App
+# Dime Time - Fintech Debt Reduction App
 
-## Overview
+## Project Overview
+Dime Time is an innovative fintech application that transforms debt reduction into an engaging, user-friendly experience, now featuring advanced sweep account integration with JP Morgan Chase and **full Replit-based user authentication**.
 
-Dime Time is a modern web application designed to help users manage their debt through an automated round-up payment system. The app tracks user transactions, rounds up purchases to the nearest dollar, and uses the spare change to make payments toward debts. Built with a React frontend and Express backend, it provides users with insights into their spending patterns, debt progress tracking, and automated debt reduction strategies.
+The application leverages automated financial tracking, micro-investment strategies, and round-up collection mechanisms to help users systematically reduce debt through small, consistent actions and intelligent fund management.
+
+## Recent Changes (December 2024)
+
+### Authentication Implementation ✓
+- **Added Replit OpenID Connect Authentication**: Complete login/logout system with secure session management
+- **Updated Database Schema**: Migrated from username/password auth to Replit auth with profile integration
+- **Protected All API Routes**: All endpoints now require authentication and use actual user IDs
+- **Landing Page**: Created beautiful landing page for unauthenticated users with feature highlights
+- **Navigation Updates**: Added logout functionality and responsive authentication states
+
+### Technical Architecture
+- **Frontend**: React.js with TypeScript, Tailwind CSS, wouter routing
+- **Backend**: Node.js Express with PostgreSQL database
+- **Authentication**: Replit OpenID Connect with session storage
+- **Database**: PostgreSQL with Drizzle ORM and proper user isolation
+- **API Security**: All routes protected with isAuthenticated middleware
 
 ## User Preferences
+- Clean, modern UI with focus on user experience
+- Secure authentication flow without disrupting existing data
+- Comprehensive error handling and user feedback
+- Mobile-responsive design with intuitive navigation
 
-Preferred communication style: Simple, everyday language.
+## Project Architecture
 
-## System Architecture
+### Authentication Flow
+1. **Unauthenticated Users**: See landing page with login button
+2. **Login Process**: Redirect to `/api/login` → Replit OAuth → callback → dashboard
+3. **Authenticated State**: Full app access with user-specific data
+4. **Logout Process**: `/api/logout` → Replit logout → landing page
 
-### Frontend Architecture
-- **Framework**: React 18 with TypeScript for type safety and modern development practices
-- **Routing**: Wouter for lightweight client-side routing with minimal bundle size impact  
-- **State Management**: TanStack Query (React Query) for server state management and caching
-- **UI Components**: Radix UI primitives with shadcn/ui components for accessible, customizable design system
-- **Styling**: Tailwind CSS with CSS custom properties for theming and responsive design
-- **Charts**: Chart.js for data visualization of debt progress and spending analytics
-- **Build Tool**: Vite for fast development and optimized production builds
+### Database Schema
+- **Users**: Replit-compatible schema (id, email, firstName, lastName, profileImageUrl)
+- **Sessions**: PostgreSQL session storage for authentication persistence
+- **All user data**: Properly isolated by authenticated user ID
 
-### Backend Architecture
-- **Runtime**: Node.js with Express.js framework for RESTful API endpoints
-- **Language**: TypeScript throughout the stack for consistency and type safety
-- **Data Layer**: Drizzle ORM for type-safe database operations with PostgreSQL
-- **Storage**: PostgreSQL database with Drizzle ORM and DatabaseStorage implementation for persistent data
-- **API Design**: RESTful endpoints following convention with proper HTTP status codes and error handling
+### Security Features
+- Session-based authentication with PostgreSQL storage
+- CSRF protection and secure cookies
+- All API endpoints protected with authentication middleware
+- User data isolation and proper authorization checks
 
-### Database Design
-The schema includes seven main entities:
-- **Users**: Core user authentication and profile information
-- **Debts**: Debt accounts with balance tracking, interest rates, and payment schedules
-- **Transactions**: Purchase history with automatic round-up calculations
-- **Payments**: Payment records linking round-ups to specific debts
-- **Round-up Settings**: User preferences for automated payment behavior
-- **Crypto Purchases**: Cryptocurrency purchase records with Coinbase integration
-- **Bank Accounts**: Plaid-connected bank account information for transaction sync
-- **User Sessions**: Cross-platform session management for web/mobile sync
+## Key Features Implemented
+1. **Round-up Technology**: Automated spare change collection
+2. **JP Morgan Integration**: Secure sweep accounts with competitive rates
+3. **Smart Analytics**: Detailed insights and debt-free projections
+4. **One-tap Payments**: Streamlined debt payment interface
+5. **Crypto Integration**: Optional cryptocurrency micro-investments
+6. **Secure Authentication**: Full user account management
 
-### Key Features & Components
-- **Round-up System**: Automatically calculates spare change from transactions and allocates to debt payments
-- **Bank Integration**: Plaid API connection for secure bank account linking and real-time transaction sync
-- **Cryptocurrency Purchases**: Coinbase integration for automatic crypto buying with round-up funds
-- **Cross-Platform Sync**: Web dashboard at dime time.com syncs with mobile app via session management
-- **Dashboard**: Real-time overview of total debt, progress tracking, and recent activity
-- **Transaction Management**: Categorized spending with visual indicators and round-up amounts
-- **Debt Tracking**: Individual debt progress with payment history and payoff projections  
-- **Analytics**: Spending insights by category and debt reduction visualizations
-- **Payment Processing**: Manual and automated payment capabilities with debt selection
-
-### Development Environment
-- **Hot Reload**: Vite development server with HMR for rapid iteration
-- **Type Checking**: Comprehensive TypeScript configuration across client, server, and shared code
-- **Path Aliases**: Simplified imports with @ prefixes for cleaner code organization
-- **Error Handling**: Runtime error overlay integration for development debugging
-
-## External Dependencies
-
-### Core Framework Dependencies
-- **@neondatabase/serverless**: PostgreSQL serverless driver for database connectivity
-- **drizzle-orm**: Modern TypeScript ORM for type-safe database operations
-- **@tanstack/react-query**: Powerful data synchronization for server state management
-- **wouter**: Minimalist routing library for React applications
-
-### UI & Design System
-- **@radix-ui/***: Complete set of accessible UI primitives (accordion, dialog, dropdown, etc.)
-- **tailwindcss**: Utility-first CSS framework for rapid UI development
-- **class-variance-authority**: Utility for creating consistent component variants
-- **chart.js**: Canvas-based charting library for data visualization
-
-### Development Tools
-- **vite**: Next-generation frontend build tool with lightning-fast HMR
-- **typescript**: Static type checking for JavaScript applications
-- **drizzle-kit**: CLI companion for Drizzle ORM schema management and migrations
-- **@replit/vite-plugin-***: Replit-specific development enhancements and debugging tools
-
-### Utility Libraries
-- **date-fns**: Modern JavaScript date utility library for formatting and manipulation
-- **zod**: TypeScript-first schema validation for runtime type checking
-- **react-hook-form**: Performant forms library with minimal re-renders
-- **lucide-react**: Beautiful & consistent icon set as React components
+## Next Steps
+- User testing of authentication flow
+- Error handling enhancements
+- Production deployment considerations
+- Additional security hardening if needed

@@ -1,6 +1,7 @@
 import { 
   type User, 
   type InsertUser, 
+  type UpsertUser,
   type Debt, 
   type InsertDebt, 
   type Transaction, 
@@ -29,10 +30,9 @@ import { db } from "./db";
 import { eq, desc, and } from "drizzle-orm";
 
 export interface IStorage {
-  // User methods
+  // User methods (required for Replit Auth)
   getUser(id: string): Promise<User | undefined>;
-  getUserByUsername(username: string): Promise<User | undefined>;
-  createUser(user: InsertUser): Promise<User>;
+  upsertUser(user: UpsertUser): Promise<User>;
 
   // Debt methods
   getDebtsByUserId(userId: string): Promise<Debt[]>;
@@ -632,19 +632,31 @@ export class MemStorage implements IStorage {
     return this.users.get(id);
   }
 
-  async getUserByUsername(username: string): Promise<User | undefined> {
-    return Array.from(this.users.values()).find(user => user.username === username);
-  }
-
-  async createUser(insertUser: InsertUser): Promise<User> {
-    const id = randomUUID();
-    const user: User = { 
-      ...insertUser, 
-      id,
-      createdAt: new Date(),
-    };
-    this.users.set(id, user);
-    return user;
+  async upsertUser(userData: UpsertUser): Promise<User> {
+    const userId = userData.id || randomUUID();
+    const existingUser = this.users.get(userId);
+    if (existingUser) {
+      const updatedUser: User = {
+        ...existingUser,
+        ...userData,
+        id: userId,
+        updatedAt: new Date(),
+      };
+      this.users.set(userId, updatedUser);
+      return updatedUser;
+    } else {
+      const newUser: User = {
+        id: userId,
+        email: userData.email || null,
+        firstName: userData.firstName || null,
+        lastName: userData.lastName || null,
+        profileImageUrl: userData.profileImageUrl || null,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
+      this.users.set(userId, newUser);
+      return newUser;
+    }
   }
 
   async getDebtsByUserId(userId: string): Promise<Debt[]> {
@@ -886,15 +898,17 @@ export class DatabaseStorage implements IStorage {
     return user || undefined;
   }
 
-  async getUserByUsername(username: string): Promise<User | undefined> {
-    const [user] = await db.select().from(users).where(eq(users.username, username));
-    return user || undefined;
-  }
-
-  async createUser(insertUser: InsertUser): Promise<User> {
+  async upsertUser(userData: UpsertUser): Promise<User> {
     const [user] = await db
       .insert(users)
-      .values(insertUser)
+      .values(userData)
+      .onConflictDoUpdate({
+        target: users.id,
+        set: {
+          ...userData,
+          updatedAt: new Date(),
+        },
+      })
       .returning();
     return user;
   }
@@ -1111,4 +1125,4 @@ export class DatabaseStorage implements IStorage {
   }
 }
 
-export const storage = new MemStorage();
+export const storage = new DatabaseStorage();

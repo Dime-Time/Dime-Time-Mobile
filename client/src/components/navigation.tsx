@@ -9,7 +9,8 @@ import {
   Bitcoin,
   QrCode,
   Bell,
-  Settings
+  Settings,
+  LogOut
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -74,6 +75,14 @@ export function Navigation() {
                   <QrCode className="w-5 h-5" />
                 </Button>
               </Link>
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className="text-slate-600 hover:text-slate-900"
+                onClick={() => window.location.href = '/api/logout'}
+              >
+                <LogOut className="w-5 h-5" />
+              </Button>
               <div className="w-8 h-8 bg-slate-300 rounded-full flex items-center justify-center">
                 <User className="w-4 h-4 text-slate-600" />
               </div>
@@ -142,6 +151,14 @@ export function Navigation() {
                         <QrCode className="w-5 h-5" />
                         <span className="font-medium">QR Code</span>
                       </Link>
+                      
+                      <button
+                        className="flex items-center space-x-3 px-3 py-2 rounded-lg transition-colors text-slate-600 hover:bg-slate-100"
+                        onClick={() => window.location.href = '/api/logout'}
+                      >
+                        <LogOut className="w-5 h-5" />
+                        <span className="font-medium">Logout</span>
+                      </button>
                     </div>
                   </div>
                 </SheetContent>

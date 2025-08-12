@@ -1,14 +1,31 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
+import { setupAuth, isAuthenticated } from "./replitAuth";
 import { insertTransactionSchema, insertPaymentSchema, insertDebtSchema, insertCryptoPurchaseSchema, insertRoundUpSettingsSchema } from "@shared/schema";
 import { z } from "zod";
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  // Get current user (demo user for now)
-  app.get("/api/user", async (req, res) => {
+  // Auth middleware
+  await setupAuth(app);
+
+  // Auth routes
+  app.get('/api/auth/user', isAuthenticated, async (req: any, res) => {
     try {
-      const user = await storage.getUser("demo-user-1");
+      const userId = req.user.claims.sub;
+      const user = await storage.getUser(userId);
+      res.json(user);
+    } catch (error) {
+      console.error("Error fetching user:", error);
+      res.status(500).json({ message: "Failed to fetch user" });
+    }
+  });
+
+  // Get current user
+  app.get("/api/user", isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const user = await storage.getUser(userId);
       if (!user) {
         return res.status(404).json({ message: "User not found" });
       }
@@ -19,9 +36,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Get user's debts
-  app.get("/api/debts", async (req, res) => {
+  app.get("/api/debts", isAuthenticated, async (req: any, res) => {
     try {
-      const debts = await storage.getDebtsByUserId("demo-user-1");
+      const userId = req.user.claims.sub;
+      const debts = await storage.getDebtsByUserId(userId);
       res.json(debts);
     } catch (error) {
       res.status(500).json({ message: "Internal server error" });
@@ -29,10 +47,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Get user's transactions
-  app.get("/api/transactions", async (req, res) => {
+  app.get("/api/transactions", isAuthenticated, async (req: any, res) => {
     try {
+      const userId = req.user.claims.sub;
       const limit = req.query.limit ? parseInt(req.query.limit as string) : undefined;
-      const transactions = await storage.getTransactionsByUserId("demo-user-1", limit);
+      const transactions = await storage.getTransactionsByUserId(userId, limit);
       res.json(transactions);
     } catch (error) {
       res.status(500).json({ message: "Internal server error" });
@@ -40,11 +59,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Create new transaction
-  app.post("/api/transactions", async (req, res) => {
+  app.post("/api/transactions", isAuthenticated, async (req: any, res) => {
     try {
+      const userId = req.user.claims.sub;
       const validatedData = insertTransactionSchema.parse({
         ...req.body,
-        userId: "demo-user-1",
+        userId,
       });
       
       const transaction = await storage.createTransaction(validatedData);
@@ -58,9 +78,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Get user's payments
-  app.get("/api/payments", async (req, res) => {
+  app.get("/api/payments", isAuthenticated, async (req: any, res) => {
     try {
-      const payments = await storage.getPaymentsByUserId("demo-user-1");
+      const userId = req.user.claims.sub;
+      const payments = await storage.getPaymentsByUserId(userId);
       res.json(payments);
     } catch (error) {
       res.status(500).json({ message: "Internal server error" });
@@ -68,11 +89,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Create new payment
-  app.post("/api/payments", async (req, res) => {
+  app.post("/api/payments", isAuthenticated, async (req: any, res) => {
     try {
+      const userId = req.user.claims.sub;
       const validatedData = insertPaymentSchema.parse({
         ...req.body,
-        userId: "demo-user-1",
+        userId,
       });
       
       const payment = await storage.createPayment(validatedData);
@@ -96,15 +118,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // One-tap accelerated payment
-  app.post("/api/accelerated-payment", async (req, res) => {
+  app.post("/api/accelerated-payment", isAuthenticated, async (req: any, res) => {
     try {
+      const userId = req.user.claims.sub;
       const { debtId, amount } = req.body;
       
       if (!debtId || !amount) {
         return res.status(400).json({ message: "debtId and amount are required" });
       }
 
-      const result = await storage.makeAcceleratedPayment("demo-user-1", debtId, amount);
+      const result = await storage.makeAcceleratedPayment(userId, debtId, amount);
       
       res.json({
         success: true,
@@ -121,9 +144,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Get round-up settings
-  app.get("/api/round-up-settings", async (req, res) => {
+  app.get("/api/round-up-settings", isAuthenticated, async (req: any, res) => {
     try {
-      const settings = await storage.getRoundUpSettings("demo-user-1");
+      const userId = req.user.claims.sub;
+      const settings = await storage.getRoundUpSettings(userId);
       res.json(settings);
     } catch (error) {
       res.status(500).json({ message: "Internal server error" });
@@ -131,11 +155,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Update round-up settings
-  app.put("/api/round-up-settings", async (req, res) => {
+  app.put("/api/round-up-settings", isAuthenticated, async (req: any, res) => {
     try {
+      const userId = req.user.claims.sub;
       const settings = await storage.createOrUpdateRoundUpSettings({
         ...req.body,
-        userId: "demo-user-1",
+        userId,
       });
       res.json(settings);
     } catch (error) {
@@ -144,7 +169,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Apply round-ups to debt
-  app.post("/api/apply-round-ups", async (req, res) => {
+  app.post("/api/apply-round-ups", isAuthenticated, async (req: any, res) => {
     try {
       const { debtId, amount } = req.body;
       
@@ -153,8 +178,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       // Create payment record
+      const userId = req.user.claims.sub;
       const payment = await storage.createPayment({
-        userId: "demo-user-1",
+        userId,
         debtId,
         amount,
         source: "round_up",
@@ -176,12 +202,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Get dashboard summary
-  app.get("/api/dashboard-summary", async (req, res) => {
+  app.get("/api/dashboard-summary", isAuthenticated, async (req: any, res) => {
     try {
+      const userId = req.user.claims.sub;
       const [debts, transactions, payments] = await Promise.all([
-        storage.getDebtsByUserId("demo-user-1"),
-        storage.getTransactionsByUserId("demo-user-1"),
-        storage.getPaymentsByUserId("demo-user-1"),
+        storage.getDebtsByUserId(userId),
+        storage.getTransactionsByUserId(userId),
+        storage.getPaymentsByUserId(userId),
       ]);
 
       const totalDebt = debts.reduce((sum, debt) => sum + parseFloat(debt.currentBalance), 0);
@@ -230,9 +257,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Get user's crypto purchases
-  app.get("/api/crypto-purchases", async (req, res) => {
+  app.get("/api/crypto-purchases", isAuthenticated, async (req: any, res) => {
     try {
-      const purchases = await storage.getCryptoPurchasesByUserId("demo-user-1");
+      const userId = req.user.claims.sub;
+      const purchases = await storage.getCryptoPurchasesByUserId(userId);
       res.json(purchases);
     } catch (error) {
       res.status(500).json({ message: "Internal server error" });
@@ -240,11 +268,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Create new crypto purchase
-  app.post("/api/crypto-purchases", async (req, res) => {
+  app.post("/api/crypto-purchases", isAuthenticated, async (req: any, res) => {
     try {
+      const userId = req.user.claims.sub;
       const validatedData = insertCryptoPurchaseSchema.parse({
         ...req.body,
-        userId: "demo-user-1",
+        userId,
       });
       
       const purchase = await storage.createCryptoPurchase(validatedData);
@@ -289,9 +318,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Get crypto portfolio summary
-  app.get("/api/crypto-summary", async (req, res) => {
+  app.get("/api/crypto-summary", isAuthenticated, async (req: any, res) => {
     try {
-      const purchases = await storage.getCryptoPurchasesByUserId("demo-user-1");
+      const userId = req.user.claims.sub;
+      const purchases = await storage.getCryptoPurchasesByUserId(userId);
       const completedPurchases = purchases.filter(p => p.status === 'completed');
       
       // Group by crypto symbol
