@@ -1,5 +1,7 @@
-import { type User, type InsertUser, type Debt, type InsertDebt, type Transaction, type InsertTransaction, type Payment, type InsertPayment, type RoundUpSettings, type InsertRoundUpSettings, type CryptoPurchase, type InsertCryptoPurchase } from "@shared/schema";
+import { type User, type InsertUser, type Debt, type InsertDebt, type Transaction, type InsertTransaction, type Payment, type InsertPayment, type RoundUpSettings, type InsertRoundUpSettings, type CryptoPurchase, type InsertCryptoPurchase, users, debts, transactions, payments, roundUpSettings, cryptoPurchases } from "@shared/schema";
 import { randomUUID } from "crypto";
+import { db } from "./db";
+import { eq, desc } from "drizzle-orm";
 
 export interface IStorage {
   // User methods
@@ -241,6 +243,7 @@ export class MemStorage implements IStorage {
     const debt: Debt = { 
       ...insertDebt, 
       id,
+      isActive: insertDebt.isActive ?? true,
       createdAt: new Date(),
     };
     this.debts.set(id, debt);
@@ -269,6 +272,7 @@ export class MemStorage implements IStorage {
     const transaction: Transaction = { 
       ...insertTransaction, 
       id,
+      description: insertTransaction.description ?? null,
       date: new Date(),
     };
     this.transactions.set(id, transaction);
@@ -312,7 +316,16 @@ export class MemStorage implements IStorage {
       return updated;
     } else {
       const id = randomUUID();
-      const newSettings: RoundUpSettings = { ...settings, id };
+      const newSettings: RoundUpSettings = { 
+        ...settings, 
+        id,
+        isEnabled: settings.isEnabled ?? true,
+        multiplier: settings.multiplier ?? "1.00",
+        autoApplyThreshold: settings.autoApplyThreshold ?? "25.00",
+        cryptoEnabled: settings.cryptoEnabled ?? false,
+        cryptoPercentage: settings.cryptoPercentage ?? "0.00",
+        preferredCrypto: settings.preferredCrypto ?? "BTC",
+      };
       this.roundUpSettings.set(settings.userId, newSettings);
       return newSettings;
     }
@@ -329,6 +342,8 @@ export class MemStorage implements IStorage {
     const purchase: CryptoPurchase = {
       ...insertPurchase,
       id,
+      transactionId: insertPurchase.transactionId ?? null,
+      coinbaseOrderId: insertPurchase.coinbaseOrderId ?? null,
       status: 'pending',
       createdAt: new Date(),
     };
@@ -350,4 +365,141 @@ export class MemStorage implements IStorage {
   }
 }
 
-export const storage = new MemStorage();
+export class DatabaseStorage implements IStorage {
+  async getUser(id: string): Promise<User | undefined> {
+    const [user] = await db.select().from(users).where(eq(users.id, id));
+    return user || undefined;
+  }
+
+  async getUserByUsername(username: string): Promise<User | undefined> {
+    const [user] = await db.select().from(users).where(eq(users.username, username));
+    return user || undefined;
+  }
+
+  async createUser(insertUser: InsertUser): Promise<User> {
+    const [user] = await db
+      .insert(users)
+      .values(insertUser)
+      .returning();
+    return user;
+  }
+
+  async getDebtsByUserId(userId: string): Promise<Debt[]> {
+    return await db.select().from(debts).where(eq(debts.userId, userId));
+  }
+
+  async getDebt(id: string): Promise<Debt | undefined> {
+    const [debt] = await db.select().from(debts).where(eq(debts.id, id));
+    return debt || undefined;
+  }
+
+  async createDebt(insertDebt: InsertDebt): Promise<Debt> {
+    const [debt] = await db
+      .insert(debts)
+      .values(insertDebt)
+      .returning();
+    return debt;
+  }
+
+  async updateDebt(id: string, updates: Partial<Debt>): Promise<Debt | undefined> {
+    const [debt] = await db
+      .update(debts)
+      .set(updates)
+      .where(eq(debts.id, id))
+      .returning();
+    return debt || undefined;
+  }
+
+  async getTransactionsByUserId(userId: string, limit?: number): Promise<Transaction[]> {
+    const query = db.select().from(transactions)
+      .where(eq(transactions.userId, userId))
+      .orderBy(desc(transactions.date));
+    
+    if (limit) {
+      return await query.limit(limit);
+    }
+    return await query;
+  }
+
+  async createTransaction(insertTransaction: InsertTransaction): Promise<Transaction> {
+    const [transaction] = await db
+      .insert(transactions)
+      .values(insertTransaction)
+      .returning();
+    return transaction;
+  }
+
+  async getPaymentsByUserId(userId: string): Promise<Payment[]> {
+    return await db.select().from(payments)
+      .where(eq(payments.userId, userId))
+      .orderBy(desc(payments.date));
+  }
+
+  async getPaymentsByDebtId(debtId: string): Promise<Payment[]> {
+    return await db.select().from(payments)
+      .where(eq(payments.debtId, debtId))
+      .orderBy(desc(payments.date));
+  }
+
+  async createPayment(insertPayment: InsertPayment): Promise<Payment> {
+    const [payment] = await db
+      .insert(payments)
+      .values(insertPayment)
+      .returning();
+    return payment;
+  }
+
+  async getRoundUpSettings(userId: string): Promise<RoundUpSettings | undefined> {
+    const [settings] = await db.select().from(roundUpSettings).where(eq(roundUpSettings.userId, userId));
+    return settings || undefined;
+  }
+
+  async createOrUpdateRoundUpSettings(settings: InsertRoundUpSettings): Promise<RoundUpSettings> {
+    const existing = await this.getRoundUpSettings(settings.userId);
+    
+    if (existing) {
+      const [updated] = await db
+        .update(roundUpSettings)
+        .set(settings)
+        .where(eq(roundUpSettings.userId, settings.userId))
+        .returning();
+      return updated;
+    } else {
+      const [newSettings] = await db
+        .insert(roundUpSettings)
+        .values(settings)
+        .returning();
+      return newSettings;
+    }
+  }
+
+  async getCryptoPurchasesByUserId(userId: string): Promise<CryptoPurchase[]> {
+    return await db.select().from(cryptoPurchases)
+      .where(eq(cryptoPurchases.userId, userId))
+      .orderBy(desc(cryptoPurchases.createdAt));
+  }
+
+  async createCryptoPurchase(insertPurchase: InsertCryptoPurchase): Promise<CryptoPurchase> {
+    const [purchase] = await db
+      .insert(cryptoPurchases)
+      .values(insertPurchase)
+      .returning();
+    return purchase;
+  }
+
+  async updateCryptoPurchaseStatus(id: string, status: string, coinbaseOrderId?: string): Promise<CryptoPurchase | undefined> {
+    const updateData: any = { status };
+    if (coinbaseOrderId) {
+      updateData.coinbaseOrderId = coinbaseOrderId;
+    }
+    
+    const [updated] = await db
+      .update(cryptoPurchases)
+      .set(updateData)
+      .where(eq(cryptoPurchases.id, id))
+      .returning();
+    return updated || undefined;
+  }
+}
+
+export const storage = new DatabaseStorage();

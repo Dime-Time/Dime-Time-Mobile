@@ -23,7 +23,7 @@ Preferred communication style: Simple, everyday language.
 - **Runtime**: Node.js with Express.js framework for RESTful API endpoints
 - **Language**: TypeScript throughout the stack for consistency and type safety
 - **Data Layer**: Drizzle ORM for type-safe database operations with PostgreSQL
-- **Storage**: In-memory storage implementation (MemStorage) for development, with interface for easy database switching
+- **Storage**: PostgreSQL database with Drizzle ORM and DatabaseStorage implementation for persistent data
 - **API Design**: RESTful endpoints following convention with proper HTTP status codes and error handling
 
 ### Database Design
