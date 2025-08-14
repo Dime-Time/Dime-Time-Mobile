@@ -1,185 +1,150 @@
-import crypto from 'crypto';
-import { storage } from '../storage';
+import { Client } from 'coinbase';
 
-interface CoinbaseOrder {
-  id: string;
-  size: string;
-  funds: string;
-  side: 'buy' | 'sell';
-  product_id: string;
-  status: string;
-}
-
-export class CoinbaseService {
-  private apiKey: string;
-  private apiSecret: string;
-  private passphrase: string;
-  private baseUrl: string;
+class CoinbaseService {
+  private client: any;
+  private isConfigured: boolean = false;
 
   constructor() {
-    this.apiKey = process.env.COINBASE_API_KEY!;
-    this.apiSecret = process.env.COINBASE_API_SECRET!;
-    this.passphrase = process.env.COINBASE_PASSPHRASE!;
-    this.baseUrl = 'https://api.exchange.coinbase.com';
-  }
-
-  private generateSignature(timestamp: string, method: string, requestPath: string, body: string = '') {
-    const message = timestamp + method.toUpperCase() + requestPath + body;
-    return crypto.createHmac('sha256', Buffer.from(this.apiSecret, 'base64')).update(message).digest('base64');
-  }
-
-  private async makeRequest(method: string, path: string, body?: any) {
-    const timestamp = Date.now() / 1000;
-    const bodyString = body ? JSON.stringify(body) : '';
-    const signature = this.generateSignature(timestamp.toString(), method, path, bodyString);
-
-    const headers = {
-      'CB-ACCESS-KEY': this.apiKey,
-      'CB-ACCESS-SIGN': signature,
-      'CB-ACCESS-TIMESTAMP': timestamp.toString(),
-      'CB-ACCESS-PASSPHRASE': this.passphrase,
-      'Content-Type': 'application/json',
-    };
-
     try {
-      const response = await fetch(`${this.baseUrl}${path}`, {
-        method,
-        headers,
-        body: bodyString || undefined,
-      });
-
-      if (!response.ok) {
-        throw new Error(`Coinbase API error: ${response.status} ${response.statusText}`);
-      }
-
-      return await response.json();
-    } catch (error) {
-      console.error('Coinbase API request failed:', error);
-      throw new Error('Failed to communicate with Coinbase');
-    }
-  }
-
-  async getCurrentPrice(cryptoSymbol: string): Promise<number> {
-    try {
-      const response = await fetch(`https://api.coinbase.com/v2/prices/${cryptoSymbol}-USD/spot`);
-      const data = await response.json();
-      return parseFloat(data.data.amount);
-    } catch (error) {
-      console.error('Error fetching crypto price:', error);
-      throw new Error('Failed to get current crypto price');
-    }
-  }
-
-  async placeBuyOrder(cryptoSymbol: string, amountUsd: number): Promise<CoinbaseOrder> {
-    try {
-      const productId = `${cryptoSymbol}-USD`;
-      const orderRequest = {
-        type: 'market',
-        side: 'buy',
-        product_id: productId,
-        funds: amountUsd.toFixed(2),
-      };
-
-      const order = await this.makeRequest('POST', '/orders', orderRequest);
-      return order;
-    } catch (error) {
-      console.error('Error placing Coinbase buy order:', error);
-      throw new Error('Failed to purchase cryptocurrency');
-    }
-  }
-
-  async getOrderStatus(orderId: string): Promise<CoinbaseOrder> {
-    try {
-      return await this.makeRequest('GET', `/orders/${orderId}`);
-    } catch (error) {
-      console.error('Error fetching order status:', error);
-      throw new Error('Failed to get order status');
-    }
-  }
-
-  async purchaseCryptoWithRoundUp(
-    userId: string,
-    transactionId: string,
-    roundUpAmount: number,
-    cryptoSymbol: string
-  ) {
-    try {
-      // Get current crypto price
-      const currentPrice = await this.getCurrentPrice(cryptoSymbol);
-      
-      // Calculate crypto amount
-      const cryptoAmount = roundUpAmount / currentPrice;
-
-      // Create crypto purchase record
-      const cryptoPurchase = await storage.createCryptoPurchase({
-        userId,
-        transactionId,
-        cryptoSymbol,
-        amountUsd: roundUpAmount.toFixed(2),
-        cryptoAmount: cryptoAmount.toFixed(8),
-        purchasePrice: currentPrice.toFixed(2),
-      });
-
-      try {
-        // Place buy order with Coinbase
-        const order = await this.placeBuyOrder(cryptoSymbol, roundUpAmount);
-        
-        // Update purchase record with order ID
-        await storage.updateCryptoPurchaseStatus(
-          cryptoPurchase.id,
-          'completed',
-          order.id
-        );
-
-        return {
-          ...cryptoPurchase,
-          status: 'completed',
-          coinbaseOrderId: order.id,
-        };
-      } catch (orderError) {
-        // Update purchase record as failed
-        await storage.updateCryptoPurchaseStatus(cryptoPurchase.id, 'failed');
-        throw orderError;
+      if (process.env.COINBASE_API_KEY && process.env.COINBASE_API_SECRET) {
+        this.client = new Client({
+          apiKey: process.env.COINBASE_API_KEY,
+          apiSecret: process.env.COINBASE_API_SECRET,
+          strictSSL: true,
+          sandbox: process.env.NODE_ENV !== 'production', // Use sandbox for development
+        });
+        this.isConfigured = true;
+      } else {
+        this.isConfigured = false;
       }
     } catch (error) {
-      console.error('Error purchasing crypto with round-up:', error);
-      throw new Error('Failed to purchase cryptocurrency with round-up');
+      console.error('Failed to initialize Coinbase service:', error);
+      this.isConfigured = false;
     }
   }
 
-  async getPortfolioSummary(userId: string) {
-    try {
-      const purchases = await storage.getCryptoPurchasesByUserId(userId);
-      
-      const summary = purchases.reduce((acc, purchase) => {
-        const symbol = purchase.cryptoSymbol;
-        if (!acc[symbol]) {
-          acc[symbol] = {
-            symbol,
-            totalInvested: 0,
-            totalAmount: 0,
-            averagePrice: 0,
-            purchaseCount: 0,
-          };
+  async getAccounts() {
+    if (!this.isConfigured) {
+      throw new Error('Coinbase service not configured. Please provide COINBASE_API_KEY and COINBASE_API_SECRET environment variables.');
+    }
+
+    return new Promise((resolve, reject) => {
+      this.client.getAccounts({}, (err: any, accounts: any) => {
+        if (err) {
+          console.error('Error fetching Coinbase accounts:', err);
+          reject(err);
+        } else {
+          resolve(accounts);
         }
-        
-        acc[symbol].totalInvested += parseFloat(purchase.amountUsd);
-        acc[symbol].totalAmount += parseFloat(purchase.cryptoAmount);
-        acc[symbol].purchaseCount += 1;
-        
-        return acc;
-      }, {} as Record<string, any>);
-
-      // Calculate average prices
-      Object.values(summary).forEach((crypto: any) => {
-        crypto.averagePrice = crypto.totalAmount > 0 ? crypto.totalInvested / crypto.totalAmount : 0;
       });
+    });
+  }
 
-      return Object.values(summary);
-    } catch (error) {
-      console.error('Error getting portfolio summary:', error);
-      throw new Error('Failed to get crypto portfolio summary');
+  async getAccount(accountId: string) {
+    if (!this.isConfigured) {
+      throw new Error('Coinbase service not configured');
     }
+
+    return new Promise((resolve, reject) => {
+      this.client.getAccount(accountId, (err: any, account: any) => {
+        if (err) {
+          console.error('Error fetching Coinbase account:', err);
+          reject(err);
+        } else {
+          resolve(account);
+        }
+      });
+    });
+  }
+
+  async buyCrypto(accountId: string, amount: string, currency: string = 'USD') {
+    if (!this.isConfigured) {
+      throw new Error('Coinbase service not configured');
+    }
+
+    return new Promise((resolve, reject) => {
+      this.client.getAccount(accountId, (err: any, account: any) => {
+        if (err) {
+          reject(err);
+          return;
+        }
+
+        account.buy({
+          amount: amount,
+          currency: currency,
+          commit: true
+        }, (buyErr: any, tx: any) => {
+          if (buyErr) {
+            console.error('Error buying crypto:', buyErr);
+            reject(buyErr);
+          } else {
+            resolve(tx);
+          }
+        });
+      });
+    });
+  }
+
+  async getExchangeRates(currency: string = 'BTC') {
+    if (!this.isConfigured) {
+      throw new Error('Coinbase service not configured');
+    }
+
+    return new Promise((resolve, reject) => {
+      this.client.getExchangeRates({ currency }, (err: any, rates: any) => {
+        if (err) {
+          console.error('Error fetching exchange rates:', err);
+          reject(err);
+        } else {
+          resolve(rates);
+        }
+      });
+    });
+  }
+
+  async getSpotPrice(currencyPair: string = 'BTC-USD') {
+    if (!this.isConfigured) {
+      throw new Error('Coinbase service not configured');
+    }
+
+    return new Promise((resolve, reject) => {
+      this.client.getSpotPrice({ currencyPair }, (err: any, price: any) => {
+        if (err) {
+          console.error('Error fetching spot price:', err);
+          reject(err);
+        } else {
+          resolve(price);
+        }
+      });
+    });
+  }
+
+  async getTransactions(accountId: string) {
+    if (!this.isConfigured) {
+      throw new Error('Coinbase service not configured');
+    }
+
+    return new Promise((resolve, reject) => {
+      this.client.getAccount(accountId, (err: any, account: any) => {
+        if (err) {
+          reject(err);
+          return;
+        }
+
+        account.getTransactions(null, (txErr: any, transactions: any) => {
+          if (txErr) {
+            console.error('Error fetching transactions:', txErr);
+            reject(txErr);
+          } else {
+            resolve(transactions);
+          }
+        });
+      });
+    });
+  }
+
+  isServiceConfigured(): boolean {
+    return this.isConfigured;
   }
 }
 

@@ -5,6 +5,7 @@ import { storage } from "./storage";
 import { insertTransactionSchema, insertPaymentSchema, insertDebtSchema, insertCryptoPurchaseSchema, insertRoundUpSettingsSchema } from "@shared/schema";
 import { z } from "zod";
 import { plaidService } from "./services/plaidService";
+import { coinbaseService } from "./services/coinbaseService";
 
 export async function registerRoutes(app: Express): Promise<Server> {
 
@@ -489,6 +490,115 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error('Error fetching account balances:', error);
       res.status(500).json({ message: "Failed to fetch balances" });
+    }
+  });
+
+  // Coinbase cryptocurrency integration routes
+  app.get("/api/coinbase/accounts", async (req, res) => {
+    try {
+      if (!coinbaseService.isServiceConfigured()) {
+        return res.status(503).json({ 
+          message: "Coinbase service not configured. Please provide COINBASE_API_KEY and COINBASE_API_SECRET environment variables.",
+          configured: false
+        });
+      }
+
+      const accounts = await coinbaseService.getAccounts();
+      res.json({ accounts, configured: true });
+    } catch (error) {
+      console.error('Error fetching Coinbase accounts:', error);
+      res.status(500).json({ message: "Failed to fetch Coinbase accounts" });
+    }
+  });
+
+  app.get("/api/coinbase/prices/:currency?", async (req, res) => {
+    try {
+      const currency = req.params.currency || 'BTC';
+      
+      if (!coinbaseService.isServiceConfigured()) {
+        return res.status(503).json({ 
+          message: "Coinbase service not configured",
+          configured: false
+        });
+      }
+
+      const [spotPrice, exchangeRates] = await Promise.all([
+        coinbaseService.getSpotPrice(`${currency}-USD`),
+        coinbaseService.getExchangeRates(currency)
+      ]);
+
+      res.json({ spotPrice, exchangeRates, configured: true });
+    } catch (error) {
+      console.error('Error fetching crypto prices:', error);
+      res.status(500).json({ message: "Failed to fetch crypto prices" });
+    }
+  });
+
+  app.post("/api/coinbase/buy", async (req, res) => {
+    try {
+      const { accountId, amount, currency = 'USD' } = req.body;
+      const userId = "demo-user-1";
+
+      if (!accountId || !amount) {
+        return res.status(400).json({ message: "Account ID and amount are required" });
+      }
+
+      if (!coinbaseService.isServiceConfigured()) {
+        return res.status(503).json({ message: "Coinbase service not configured" });
+      }
+
+      const transaction = await coinbaseService.buyCrypto(accountId, amount, currency);
+      
+      // Store crypto purchase in our database
+      await storage.createCryptoPurchase({
+        userId,
+        cryptoSymbol: 'BTC', // You might want to make this dynamic
+        amountUsd: amount,
+        cryptoAmount: '0', // Will be updated when transaction completes
+        purchasePrice: amount,
+        coinbaseOrderId: (transaction as any).id || '',
+        status: 'pending'
+      });
+
+      res.json({ success: true, transaction });
+    } catch (error) {
+      console.error('Error buying crypto:', error);
+      res.status(500).json({ message: "Failed to purchase cryptocurrency" });
+    }
+  });
+
+  app.get("/api/coinbase/transactions/:accountId", async (req, res) => {
+    try {
+      const { accountId } = req.params;
+
+      if (!coinbaseService.isServiceConfigured()) {
+        return res.status(503).json({ message: "Coinbase service not configured" });
+      }
+
+      const transactions = await coinbaseService.getTransactions(accountId);
+      res.json(transactions);
+    } catch (error) {
+      console.error('Error fetching Coinbase transactions:', error);
+      res.status(500).json({ message: "Failed to fetch transactions" });
+    }
+  });
+
+  app.get("/api/service-status", async (req, res) => {
+    try {
+      const status = {
+        plaid: {
+          configured: plaidService.isServiceConfigured(),
+          status: plaidService.isServiceConfigured() ? 'ready' : 'missing_credentials'
+        },
+        coinbase: {
+          configured: coinbaseService.isServiceConfigured(),
+          status: coinbaseService.isServiceConfigured() ? 'ready' : 'missing_credentials'
+        }
+      };
+      res.json(status);
+    } catch (error) {
+      console.error('Error checking service status:', error);
+      res.status(500).json({ message: "Failed to check service status" });
     }
   });
 

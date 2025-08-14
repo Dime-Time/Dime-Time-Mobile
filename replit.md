@@ -65,7 +65,8 @@ The application leverages automated financial tracking, micro-investment strateg
 
 ### Pending User Actions
 - **Apple Developer Account**: Setup required for App Store submission
-- **Plaid API Credentials**: Needed to activate real banking connections
+- **Plaid API Credentials**: PLAID_CLIENT_ID, PLAID_SECRET, PLAID_REDIRECT_URI
+- **Coinbase API Credentials**: COINBASE_API_KEY, COINBASE_API_SECRET for crypto features
 - **App Store Submission**: Ready once developer account is established
 
 ### Future Enhancements
