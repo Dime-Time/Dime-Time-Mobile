@@ -255,21 +255,88 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Create new crypto purchase
+  // Create new crypto purchase with real Coinbase integration
   app.post("/api/crypto-purchases", async (req: any, res) => {
     try {
       const userId = "demo-user-1";
-      const validatedData = insertCryptoPurchaseSchema.parse({
-        ...req.body,
-        userId,
-      });
+      const { amount, cryptoSymbol = "BTC" } = req.body;
+
+      if (!amount || parseFloat(amount) <= 0) {
+        return res.status(400).json({ message: "Valid amount is required" });
+      }
+
+      let purchase;
       
-      const purchase = await storage.createCryptoPurchase(validatedData);
-      res.status(201).json(purchase);
+      if (coinbaseService.isServiceConfigured()) {
+        try {
+          // Get Coinbase accounts to find the primary account
+          const accounts = await coinbaseService.getAccounts();
+          const primaryAccount = (accounts as any).find((acc: any) => acc.primary) || (accounts as any)[0];
+          
+          if (primaryAccount) {
+            // Execute real crypto purchase through Coinbase
+            const coinbaseTransaction = await coinbaseService.buyCrypto(primaryAccount.id, amount, 'USD');
+            
+            // Store the real purchase in database
+            purchase = await storage.createCryptoPurchase({
+              userId,
+              cryptoSymbol,
+              amountUsd: amount,
+              cryptoAmount: (coinbaseTransaction as any).amount?.amount || '0',
+              purchasePrice: amount,
+              coinbaseOrderId: (coinbaseTransaction as any).id || '',
+              status: "completed",
+            });
+
+            res.status(201).json({
+              ...purchase,
+              coinbaseTransaction,
+              message: "Real crypto purchase completed via Coinbase"
+            });
+          } else {
+            throw new Error("No Coinbase account found");
+          }
+        } catch (coinbaseError) {
+          console.error("Coinbase purchase failed:", coinbaseError);
+          
+          // Store failed attempt for tracking
+          purchase = await storage.createCryptoPurchase({
+            userId,
+            cryptoSymbol,
+            amountUsd: amount,
+            cryptoAmount: '0',
+            purchasePrice: amount,
+            status: "failed",
+          });
+
+          res.status(503).json({
+            ...purchase,
+            error: coinbaseError,
+            message: "Coinbase purchase failed - check API credentials"
+          });
+        }
+      } else {
+        // Demo mode when Coinbase not configured
+        const cryptoAmount = (parseFloat(amount) / 50000).toFixed(8);
+        purchase = await storage.createCryptoPurchase({
+          userId,
+          cryptoSymbol,
+          amountUsd: amount,
+          cryptoAmount,
+          purchasePrice: amount,
+          status: "demo",
+        });
+
+        res.status(201).json({
+          ...purchase,
+          message: "Demo purchase - Add Coinbase credentials for real trading"
+        });
+      }
     } catch (error) {
       if (error instanceof z.ZodError) {
         return res.status(400).json({ message: "Invalid crypto purchase data", errors: error.errors });
       }
+      console.error("Error creating crypto purchase:", error);
       res.status(500).json({ message: "Internal server error" });
     }
   });

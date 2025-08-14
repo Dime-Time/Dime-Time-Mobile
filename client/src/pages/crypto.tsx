@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import { formatCurrency } from "@/lib/calculations";
 import { apiRequest } from "@/lib/queryClient";
+import { CoinbaseStatus } from "@/components/CoinbaseStatus";
 
 interface CryptoPurchase {
   id: string;
@@ -212,6 +213,9 @@ export default function CryptoPage() {
           </CardContent>
         </Card>
       )}
+
+      {/* Coinbase Connection Status */}
+      <CoinbaseStatus />
 
       {/* Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
