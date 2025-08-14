@@ -23,6 +23,7 @@ export function Navigation() {
     { href: "/transactions", label: "Transactions", icon: Receipt },
     { href: "/debts", label: "Debts", icon: CreditCard },
     { href: "/crypto", label: "Crypto", icon: Bitcoin },
+    { href: "/banking", label: "Banking", icon: CreditCard },
     { href: "/insights", label: "Insights", icon: TrendingUp },
   ];
 

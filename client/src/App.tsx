@@ -10,6 +10,7 @@ import Transactions from "@/pages/transactions";
 import Debts from "@/pages/debts";
 import Crypto from "@/pages/crypto";
 import Insights from "@/pages/insights";
+import Banking from "@/pages/banking";
 import QRCodePage from "@/pages/qr";
 import Settings from "@/pages/settings";
 import Notifications from "@/pages/notifications";
@@ -23,6 +24,7 @@ function Router() {
       <Route path="/debts" component={Debts} />
       <Route path="/crypto" component={Crypto} />
       <Route path="/insights" component={Insights} />
+      <Route path="/banking" component={Banking} />
       <Route path="/qr" component={QRCodePage} />
       <Route path="/settings" component={Settings} />
       <Route path="/notifications" component={Notifications} />

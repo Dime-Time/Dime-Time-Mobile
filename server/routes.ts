@@ -4,6 +4,7 @@ import { storage } from "./storage";
 
 import { insertTransactionSchema, insertPaymentSchema, insertDebtSchema, insertCryptoPurchaseSchema, insertRoundUpSettingsSchema } from "@shared/schema";
 import { z } from "zod";
+import { plaidService } from "./services/plaidService";
 
 export async function registerRoutes(app: Express): Promise<Server> {
 
@@ -345,6 +346,149 @@ export async function registerRoutes(app: Express): Promise<Server> {
       });
     } catch (error) {
       res.status(500).json({ message: "Internal server error" });
+    }
+  });
+
+  // Plaid banking integration routes
+  app.post("/api/plaid/create-link-token", async (req, res) => {
+    try {
+      const userId = "demo-user-1";
+      
+      if (!plaidService.isServiceConfigured()) {
+        return res.status(503).json({ 
+          message: "Plaid service not configured. Please provide PLAID_CLIENT_ID and PLAID_SECRET environment variables.",
+          configured: false
+        });
+      }
+
+      const linkToken = await plaidService.createLinkToken(userId);
+      res.json({ linkToken, configured: true });
+    } catch (error) {
+      console.error('Error creating Plaid link token:', error);
+      res.status(500).json({ message: "Failed to create link token" });
+    }
+  });
+
+  app.post("/api/plaid/exchange-token", async (req, res) => {
+    try {
+      const { publicToken } = req.body;
+      const userId = "demo-user-1";
+
+      if (!publicToken) {
+        return res.status(400).json({ message: "Public token is required" });
+      }
+
+      if (!plaidService.isServiceConfigured()) {
+        return res.status(503).json({ message: "Plaid service not configured" });
+      }
+
+      const { accessToken, itemId } = await plaidService.exchangePublicToken(publicToken);
+      
+      // Get account information
+      const accounts = await plaidService.getAccounts(accessToken);
+      
+      // Store bank account information in storage
+      for (const account of accounts) {
+        await storage.createBankAccount({
+          userId,
+          plaidItemId: itemId,
+          plaidAccessToken: accessToken,
+          accountId: account.account_id,
+          accountName: account.name,
+          accountType: account.type,
+          institutionName: account.name, // You might want to fetch institution details
+          mask: account.mask || '',
+        });
+      }
+
+      res.json({ 
+        success: true, 
+        accounts: accounts.map(acc => ({
+          id: acc.account_id,
+          name: acc.name,
+          type: acc.type,
+          subtype: acc.subtype,
+          mask: acc.mask
+        }))
+      });
+    } catch (error) {
+      console.error('Error exchanging Plaid token:', error);
+      res.status(500).json({ message: "Failed to exchange token" });
+    }
+  });
+
+  app.get("/api/plaid/accounts", async (req, res) => {
+    try {
+      const userId = "demo-user-1";
+      const bankAccounts = await storage.getBankAccountsByUserId(userId);
+      res.json(bankAccounts);
+    } catch (error) {
+      console.error('Error fetching bank accounts:', error);
+      res.status(500).json({ message: "Failed to fetch bank accounts" });
+    }
+  });
+
+  app.get("/api/plaid/transactions", async (req, res) => {
+    try {
+      const userId = "demo-user-1";
+      const bankAccounts = await storage.getBankAccountsByUserId(userId);
+      
+      if (bankAccounts.length === 0) {
+        return res.json([]);
+      }
+
+      if (!plaidService.isServiceConfigured()) {
+        return res.status(503).json({ message: "Plaid service not configured" });
+      }
+
+      // Get transactions from the last 30 days
+      const endDate = new Date().toISOString().split('T')[0];
+      const startDate = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+      
+      const allTransactions = [];
+      for (const account of bankAccounts) {
+        try {
+          const transactions = await plaidService.getTransactions(account.plaidAccessToken, startDate, endDate);
+          allTransactions.push(...transactions);
+        } catch (error) {
+          console.error(`Error fetching transactions for account ${account.accountId}:`, error);
+        }
+      }
+
+      res.json(allTransactions);
+    } catch (error) {
+      console.error('Error fetching Plaid transactions:', error);
+      res.status(500).json({ message: "Failed to fetch transactions" });
+    }
+  });
+
+  app.get("/api/plaid/balances", async (req, res) => {
+    try {
+      const userId = "demo-user-1";
+      const bankAccounts = await storage.getBankAccountsByUserId(userId);
+      
+      if (bankAccounts.length === 0) {
+        return res.json([]);
+      }
+
+      if (!plaidService.isServiceConfigured()) {
+        return res.status(503).json({ message: "Plaid service not configured" });
+      }
+
+      const allBalances = [];
+      for (const account of bankAccounts) {
+        try {
+          const balances = await plaidService.getBalance(account.plaidAccessToken);
+          allBalances.push(...balances);
+        } catch (error) {
+          console.error(`Error fetching balance for account ${account.accountId}:`, error);
+        }
+      }
+
+      res.json(allBalances);
+    } catch (error) {
+      console.error('Error fetching account balances:', error);
+      res.status(500).json({ message: "Failed to fetch balances" });
     }
   });
 
