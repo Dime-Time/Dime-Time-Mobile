@@ -150,16 +150,18 @@ export function LegalDisclaimer({ onAccept, onDecline }: LegalDisclaimerProps) {
               variant="outline"
               onClick={onDecline}
               className="text-gray-600"
+              data-testid="button-decline-terms"
             >
-              Decline & Exit
+              Cancel
             </Button>
             
             <Button
               onClick={onAccept}
               disabled={!canProceed}
               className="bg-dime-purple hover:bg-dime-purple/90"
+              data-testid="button-accept-terms"
             >
-              Accept & Continue
+              OK - Accept Terms & Services
             </Button>
           </div>
         </CardContent>

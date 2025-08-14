@@ -15,6 +15,7 @@ import QRCodePage from "@/pages/qr";
 import Settings from "@/pages/settings";
 import Notifications from "@/pages/notifications";
 import Legal from "@/pages/legal";
+import Signup from "@/pages/signup";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -30,6 +31,7 @@ function Router() {
       <Route path="/settings" component={Settings} />
       <Route path="/notifications" component={Notifications} />
       <Route path="/legal" component={Legal} />
+      <Route path="/signup" component={Signup} />
       <Route component={NotFound} />
     </Switch>
   );
