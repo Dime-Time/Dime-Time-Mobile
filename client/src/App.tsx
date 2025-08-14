@@ -14,6 +14,7 @@ import Banking from "@/pages/banking";
 import QRCodePage from "@/pages/qr";
 import Settings from "@/pages/settings";
 import Notifications from "@/pages/notifications";
+import Legal from "@/pages/legal";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -28,6 +29,7 @@ function Router() {
       <Route path="/qr" component={QRCodePage} />
       <Route path="/settings" component={Settings} />
       <Route path="/notifications" component={Notifications} />
+      <Route path="/legal" component={Legal} />
       <Route component={NotFound} />
     </Switch>
   );
