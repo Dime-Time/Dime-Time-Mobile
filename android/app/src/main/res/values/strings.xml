@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Dime Time</string>
+    <string name="title_activity_main">Dime Time</string>
+    <string name="package_name">com.dimetime.app</string>
+    <string name="custom_url_scheme">com.dimetime.app</string>
+</resources>
