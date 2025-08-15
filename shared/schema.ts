@@ -214,6 +214,45 @@ export const insertUserSessionSchema = createInsertSchema(userSessions).omit({
 
 // Types
 export type User = typeof users.$inferSelect;
+
+// Dime Time Token (DTT) tables
+export const dimeTokenRewards = pgTable("dime_token_rewards", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull().references(() => users.id),
+  action: varchar("action").notNull(), // 'round_up', 'debt_payment', 'referral', etc.
+  amount: varchar("amount").notNull(), // DTT amount as string for precision
+  transactionHash: varchar("transaction_hash"),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const dimeTokenBalances = pgTable("dime_token_balances", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull().references(() => users.id).unique(),
+  balance: varchar("balance").notNull().default('0'), // DTT balance
+  stakedAmount: varchar("staked_amount").notNull().default('0'), // Currently staked DTT
+  totalEarned: varchar("total_earned").notNull().default('0'), // Lifetime DTT earned
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const dimeTokenStaking = pgTable("dime_token_staking", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull().references(() => users.id),
+  stakedAmount: varchar("staked_amount").notNull(),
+  stakingDuration: integer("staking_duration").notNull(), // days
+  apy: varchar("apy").notNull(), // annual percentage yield as string
+  rewardsAccrued: varchar("rewards_accrued").notNull().default('0'),
+  startDate: timestamp("start_date").defaultNow(),
+  maturityDate: timestamp("maturity_date").notNull(),
+  status: varchar("status").notNull().default('active'), // 'active', 'matured', 'withdrawn'
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export type DimeTokenReward = typeof dimeTokenRewards.$inferSelect;
+export type InsertDimeTokenReward = typeof dimeTokenRewards.$inferInsert;
+export type DimeTokenBalance = typeof dimeTokenBalances.$inferSelect;
+export type InsertDimeTokenBalance = typeof dimeTokenBalances.$inferInsert;
+export type DimeTokenStaking = typeof dimeTokenStaking.$inferSelect;
+export type InsertDimeTokenStaking = typeof dimeTokenStaking.$inferInsert;
 export type InsertUser = z.infer<typeof insertUserSchema>;
 
 export type Debt = typeof debts.$inferSelect;

@@ -7,6 +7,7 @@ import {
   Menu,
   User,
   Bitcoin,
+  Coins,
   QrCode,
   Bell,
   Settings
@@ -23,6 +24,7 @@ export function Navigation() {
     { href: "/transactions", label: "Transactions", icon: Receipt },
     { href: "/debts", label: "Debts", icon: CreditCard },
     { href: "/crypto", label: "Crypto", icon: Bitcoin },
+    { href: "/dime-token", label: "DTT Token", icon: Coins },
     { href: "/banking", label: "Banking", icon: CreditCard },
     { href: "/insights", label: "Insights", icon: TrendingUp },
   ];

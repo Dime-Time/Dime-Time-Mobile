@@ -1,6 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
+import { dimeTokenService } from "./services/dimeTokenService";
 
 import { insertTransactionSchema, insertPaymentSchema, insertDebtSchema, insertCryptoPurchaseSchema, insertRoundUpSettingsSchema } from "@shared/schema";
 import { z } from "zod";
@@ -285,7 +286,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
               cryptoAmount: (coinbaseTransaction as any).amount?.amount || '0',
               purchasePrice: amount,
               coinbaseOrderId: (coinbaseTransaction as any).id || '',
-              status: "completed",
             });
 
             res.status(201).json({
@@ -306,7 +306,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
             amountUsd: amount,
             cryptoAmount: '0',
             purchasePrice: amount,
-            status: "failed",
           });
 
           res.status(503).json({
@@ -324,7 +323,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
           amountUsd: amount,
           cryptoAmount,
           purchasePrice: amount,
-          status: "demo",
         });
 
         res.status(201).json({
@@ -666,6 +664,126 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error('Error checking service status:', error);
       res.status(500).json({ message: "Failed to check service status" });
+    }
+  });
+
+  // Dime Time Token (DTT) API Routes
+  app.get('/api/dime-token/info', async (req, res) => {
+    try {
+      const tokenInfo = dimeTokenService.getTokenInfo();
+      res.json(tokenInfo);
+    } catch (error) {
+      console.error('Error fetching token info:', error);
+      res.status(500).json({ message: 'Failed to fetch token information' });
+    }
+  });
+
+  app.get('/api/dime-token/balance', async (req, res) => {
+    try {
+      const userId = "demo-user-1";
+      // Mock balance data - in production would be from database
+      const balance = {
+        balance: '1250.75',
+        stakedAmount: '500.00',
+        totalEarned: '89.25'
+      };
+      res.json(balance);
+    } catch (error) {
+      console.error('Error fetching token balance:', error);
+      res.status(500).json({ message: 'Failed to fetch token balance' });
+    }
+  });
+
+  app.get('/api/dime-token/rewards', async (req, res) => {
+    try {
+      const userId = "demo-user-1";
+      // Mock rewards data - in production would be from database
+      const rewards = [
+        {
+          id: 'reward-1',
+          action: 'round_up',
+          amount: '2.5',
+          transactionHash: '0x' + Math.random().toString(16).substr(2, 64),
+          createdAt: new Date(Date.now() - 86400000).toISOString() // Yesterday
+        },
+        {
+          id: 'reward-2',
+          action: 'debt_payment',
+          amount: '15.0',
+          transactionHash: '0x' + Math.random().toString(16).substr(2, 64),
+          createdAt: new Date(Date.now() - 172800000).toISOString() // 2 days ago
+        },
+        {
+          id: 'reward-3',
+          action: 'milestone',
+          amount: '50.0',
+          transactionHash: '0x' + Math.random().toString(16).substr(2, 64),
+          createdAt: new Date(Date.now() - 604800000).toISOString() // 1 week ago
+        }
+      ];
+      res.json(rewards);
+    } catch (error) {
+      console.error('Error fetching rewards:', error);
+      res.status(500).json({ message: 'Failed to fetch token rewards' });
+    }
+  });
+
+  app.post('/api/dime-token/stake', async (req, res) => {
+    try {
+      const userId = "demo-user-1";
+      const { amount, duration } = req.body;
+
+      if (!amount || !duration || parseFloat(amount) <= 0) {
+        return res.status(400).json({ message: 'Valid amount and duration required' });
+      }
+
+      const stakingRewards = dimeTokenService.calculateStakingRewards(
+        parseFloat(amount), 
+        parseInt(duration)
+      );
+
+      const stakeData = {
+        id: `stake-${Date.now()}`,
+        userId,
+        stakedAmount: amount,
+        stakingDuration: parseInt(duration),
+        apy: stakingRewards.apy.toString(),
+        expectedRewards: stakingRewards.totalRewards.toString(),
+        startDate: new Date().toISOString(),
+        maturityDate: new Date(Date.now() + parseInt(duration) * 24 * 60 * 60 * 1000).toISOString(),
+        status: 'active'
+      };
+
+      res.json({
+        ...stakeData,
+        message: `Successfully staked ${amount} DTT for ${duration} days at ${(stakingRewards.apy * 100).toFixed(1)}% APY`
+      });
+    } catch (error) {
+      console.error('Error staking tokens:', error);
+      res.status(500).json({ message: 'Failed to stake tokens' });
+    }
+  });
+
+  app.get('/api/dime-token/trading-pairs', async (req, res) => {
+    try {
+      const tradingPairs = dimeTokenService.getTradingPairs();
+      res.json(tradingPairs);
+    } catch (error) {
+      console.error('Error fetching trading pairs:', error);
+      res.status(500).json({ message: 'Failed to fetch trading pairs' });
+    }
+  });
+
+  // Award DTT tokens for user actions (called internally)
+  app.post('/api/dime-token/award', async (req, res) => {
+    try {
+      const { userId, action, amount } = req.body;
+      
+      const reward = await dimeTokenService.awardTokens(userId || "demo-user-1", action, amount);
+      res.json(reward);
+    } catch (error) {
+      console.error('Error awarding tokens:', error);
+      res.status(500).json({ message: 'Failed to award tokens' });
     }
   });
 
