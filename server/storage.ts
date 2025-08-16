@@ -904,6 +904,8 @@ export class MemStorage implements IStorage {
     const notification: Notification = {
       ...insertNotification,
       id,
+      status: insertNotification.status ?? 'pending',
+      priority: insertNotification.priority ?? 'medium',
       sentAt: null,
       deliveredAt: null,
       metadata: insertNotification.metadata ?? null,
@@ -956,7 +958,15 @@ export class MemStorage implements IStorage {
       const settings: NotificationSettings = {
         ...insertSettings,
         id,
+        smsEnabled: insertSettings.smsEnabled ?? true,
+        emailEnabled: insertSettings.emailEnabled ?? true,
+        pushEnabled: insertSettings.pushEnabled ?? true,
         phoneNumber: insertSettings.phoneNumber ?? null,
+        paymentReminders: insertSettings.paymentReminders ?? true,
+        roundupMilestones: insertSettings.roundupMilestones ?? true,
+        cryptoUpdates: insertSettings.cryptoUpdates ?? true,
+        weeklyReports: insertSettings.weeklyReports ?? true,
+        marketingMessages: insertSettings.marketingMessages ?? false,
         updatedAt: new Date(),
       };
       this.notificationSettingsMap.set(id, settings);
@@ -1192,6 +1202,64 @@ export class DatabaseStorage implements IStorage {
       await db.update(userSessions)
         .set({ isActive: false })
         .where(eq(userSessions.userId, userId));
+    }
+  }
+
+  // Notification methods
+  async createNotification(insertNotification: InsertNotification): Promise<Notification> {
+    const [notification] = await db
+      .insert(notifications)
+      .values(insertNotification)
+      .returning();
+    return notification;
+  }
+
+  async getNotificationsByUserId(userId: string, limit?: number): Promise<Notification[]> {
+    const query = db.select().from(notifications)
+      .where(eq(notifications.userId, userId))
+      .orderBy(desc(notifications.createdAt));
+    
+    if (limit) {
+      return await query.limit(limit);
+    }
+    return await query;
+  }
+
+  async updateNotificationStatus(id: string, status: string, sentAt?: Date, deliveredAt?: Date): Promise<Notification | undefined> {
+    const updateData: any = { status };
+    if (sentAt) updateData.sentAt = sentAt;
+    if (deliveredAt) updateData.deliveredAt = deliveredAt;
+    
+    const [updated] = await db
+      .update(notifications)
+      .set(updateData)
+      .where(eq(notifications.id, id))
+      .returning();
+    return updated || undefined;
+  }
+
+  async getNotificationSettings(userId: string): Promise<NotificationSettings | undefined> {
+    const [settings] = await db.select().from(notificationSettings)
+      .where(eq(notificationSettings.userId, userId));
+    return settings || undefined;
+  }
+
+  async createOrUpdateNotificationSettings(insertSettings: InsertNotificationSettings): Promise<NotificationSettings> {
+    const existingSettings = await this.getNotificationSettings(insertSettings.userId);
+    
+    if (existingSettings) {
+      const [updated] = await db
+        .update(notificationSettings)
+        .set({ ...insertSettings, updatedAt: new Date() })
+        .where(eq(notificationSettings.userId, insertSettings.userId))
+        .returning();
+      return updated;
+    } else {
+      const [settings] = await db
+        .insert(notificationSettings)
+        .values(insertSettings)
+        .returning();
+      return settings;
     }
   }
 }

@@ -1,4 +1,4 @@
-import type { Express } from "express";
+import type { Express, Request, Response } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { dimeTokenService } from "./services/dimeTokenService";
@@ -11,7 +11,7 @@ import { coinbaseService } from "./services/coinbaseService";
 export async function registerRoutes(app: Express): Promise<Server> {
 
   // Get current user (demo user)
-  app.get("/api/user", async (req, res) => {
+  app.get("/api/user", async (req: Request, res: Response) => {
     try {
       const userId = "demo-user-1";
       const user = await storage.getUser(userId);
@@ -25,7 +25,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Get user's debts
-  app.get("/api/debts", async (req, res) => {
+  app.get("/api/debts", async (req: Request, res: Response) => {
     try {
       const userId = "demo-user-1";
       const debts = await storage.getDebtsByUserId(userId);
@@ -36,7 +36,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Get user's transactions
-  app.get("/api/transactions", async (req, res) => {
+  app.get("/api/transactions", async (req: Request, res: Response) => {
     try {
       const userId = "demo-user-1";
       const limit = req.query.limit ? parseInt(req.query.limit as string) : undefined;
@@ -48,7 +48,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Create new transaction
-  app.post("/api/transactions", async (req, res) => {
+  app.post("/api/transactions", async (req: Request, res: Response) => {
     try {
       const userId = "demo-user-1";
       const validatedData = insertTransactionSchema.parse({
@@ -67,7 +67,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Get user's payments
-  app.get("/api/payments", async (req: any, res) => {
+  app.get("/api/payments", async (req: Request, res: Response) => {
     try {
       const userId = "demo-user-1";
       const payments = await storage.getPaymentsByUserId(userId);
@@ -78,7 +78,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Create new payment
-  app.post("/api/payments", async (req: any, res) => {
+  app.post("/api/payments", async (req: Request, res: Response) => {
     try {
       const userId = "demo-user-1";
       const validatedData = insertPaymentSchema.parse({
@@ -107,7 +107,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // One-tap accelerated payment
-  app.post("/api/accelerated-payment", async (req: any, res) => {
+  app.post("/api/accelerated-payment", async (req: Request, res: Response) => {
     try {
       const userId = "demo-user-1";
       const { debtId, amount } = req.body;
@@ -133,7 +133,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Get round-up settings
-  app.get("/api/round-up-settings", async (req: any, res) => {
+  app.get("/api/round-up-settings", async (req: Request, res: Response) => {
     try {
       const userId = "demo-user-1";
       const settings = await storage.getRoundUpSettings(userId);
@@ -144,7 +144,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Update round-up settings
-  app.put("/api/round-up-settings", async (req: any, res) => {
+  app.put("/api/round-up-settings", async (req: Request, res: Response) => {
     try {
       const userId = "demo-user-1";
       const settings = await storage.createOrUpdateRoundUpSettings({
@@ -158,7 +158,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Apply round-ups to debt
-  app.post("/api/apply-round-ups", async (req: any, res) => {
+  app.post("/api/apply-round-ups", async (req: Request, res: Response) => {
     try {
       const { debtId, amount } = req.body;
       
@@ -191,7 +191,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Get dashboard summary
-  app.get("/api/dashboard-summary", async (req: any, res) => {
+  app.get("/api/dashboard-summary", async (req: Request, res: Response) => {
     try {
       const userId = "demo-user-1";
       const [debts, transactions, payments] = await Promise.all([
@@ -246,7 +246,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Get user's crypto purchases
-  app.get("/api/crypto-purchases", async (req: any, res) => {
+  app.get("/api/crypto-purchases", async (req: Request, res: Response) => {
     try {
       const userId = "demo-user-1";
       const purchases = await storage.getCryptoPurchasesByUserId(userId);
@@ -257,7 +257,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Create new crypto purchase with real Coinbase integration
-  app.post("/api/crypto-purchases", async (req: any, res) => {
+  app.post("/api/crypto-purchases", async (req: Request, res: Response) => {
     try {
       const userId = "demo-user-1";
       const { amount, cryptoSymbol = "BTC" } = req.body;
@@ -340,7 +340,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Get round-up settings
-  app.get("/api/round-up-settings", async (req, res) => {
+  app.get("/api/round-up-settings", async (req: Request, res: Response) => {
     try {
       const settings = await storage.getRoundUpSettings("demo-user-1");
       if (!settings) {
@@ -353,7 +353,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Update round-up settings
-  app.put("/api/round-up-settings", async (req, res) => {
+  app.put("/api/round-up-settings", async (req: Request, res: Response) => {
     try {
       const validatedData = insertRoundUpSettingsSchema.parse({
         ...req.body,
@@ -371,7 +371,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Get crypto portfolio summary
-  app.get("/api/crypto-summary", async (req: any, res) => {
+  app.get("/api/crypto-summary", async (req: Request, res: Response) => {
     try {
       const userId = "demo-user-1";
       const purchases = await storage.getCryptoPurchasesByUserId(userId);
@@ -416,7 +416,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Plaid banking integration routes
-  app.post("/api/plaid/create-link-token", async (req, res) => {
+  app.post("/api/plaid/create-link-token", async (req: Request, res: Response) => {
     try {
       const userId = "demo-user-1";
       
@@ -435,7 +435,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post("/api/plaid/exchange-token", async (req, res) => {
+  app.post("/api/plaid/exchange-token", async (req: Request, res: Response) => {
     try {
       const { publicToken } = req.body;
       const userId = "demo-user-1";
@@ -483,7 +483,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get("/api/plaid/accounts", async (req, res) => {
+  app.get("/api/plaid/accounts", async (req: Request, res: Response) => {
     try {
       const userId = "demo-user-1";
       const bankAccounts = await storage.getBankAccountsByUserId(userId);
@@ -494,7 +494,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get("/api/plaid/transactions", async (req, res) => {
+  app.get("/api/plaid/transactions", async (req: Request, res: Response) => {
     try {
       const userId = "demo-user-1";
       const bankAccounts = await storage.getBankAccountsByUserId(userId);
@@ -528,7 +528,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get("/api/plaid/balances", async (req, res) => {
+  app.get("/api/plaid/balances", async (req: Request, res: Response) => {
     try {
       const userId = "demo-user-1";
       const bankAccounts = await storage.getBankAccountsByUserId(userId);
@@ -559,7 +559,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Coinbase cryptocurrency integration routes
-  app.get("/api/coinbase/accounts", async (req, res) => {
+  app.get("/api/coinbase/accounts", async (req: Request, res: Response) => {
     try {
       if (!coinbaseService.isServiceConfigured()) {
         return res.status(503).json({ 
@@ -576,7 +576,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get("/api/coinbase/prices/:currency?", async (req, res) => {
+  app.get("/api/coinbase/prices/:currency?", async (req: Request, res: Response) => {
     try {
       const currency = req.params.currency || 'BTC';
       
@@ -599,7 +599,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post("/api/coinbase/buy", async (req, res) => {
+  app.post("/api/coinbase/buy", async (req: Request, res: Response) => {
     try {
       const { accountId, amount, currency = 'USD' } = req.body;
       const userId = "demo-user-1";
@@ -632,7 +632,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get("/api/coinbase/transactions/:accountId", async (req, res) => {
+  app.get("/api/coinbase/transactions/:accountId", async (req: Request, res: Response) => {
     try {
       const { accountId } = req.params;
 
@@ -648,7 +648,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get("/api/service-status", async (req, res) => {
+  app.get("/api/service-status", async (req: Request, res: Response) => {
     try {
       const status = {
         plaid: {
@@ -668,7 +668,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Dime Time Token (DTT) API Routes
-  app.get('/api/dime-token/info', async (req, res) => {
+  app.get('/api/dime-token/info', async (req: Request, res: Response) => {
     try {
       const tokenInfo = dimeTokenService.getTokenInfo();
       res.json(tokenInfo);
@@ -678,7 +678,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get('/api/dime-token/balance', async (req, res) => {
+  app.get('/api/dime-token/balance', async (req: Request, res: Response) => {
     try {
       const userId = "demo-user-1";
       // Mock balance data - in production would be from database
@@ -694,7 +694,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get('/api/dime-token/rewards', async (req, res) => {
+  app.get('/api/dime-token/rewards', async (req: Request, res: Response) => {
     try {
       const userId = "demo-user-1";
       // Mock rewards data - in production would be from database
@@ -728,7 +728,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post('/api/dime-token/stake', async (req, res) => {
+  app.post('/api/dime-token/stake', async (req: Request, res: Response) => {
     try {
       const userId = "demo-user-1";
       const { amount, duration } = req.body;
@@ -764,7 +764,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get('/api/dime-token/trading-pairs', async (req, res) => {
+  app.get('/api/dime-token/trading-pairs', async (req: Request, res: Response) => {
     try {
       const tradingPairs = dimeTokenService.getTradingPairs();
       res.json(tradingPairs);
@@ -775,7 +775,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Award DTT tokens for user actions (called internally)
-  app.post('/api/dime-token/award', async (req, res) => {
+  app.post('/api/dime-token/award', async (req: Request, res: Response) => {
     try {
       const { userId, action, amount } = req.body;
       
