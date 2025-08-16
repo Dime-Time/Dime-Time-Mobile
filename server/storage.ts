@@ -15,6 +15,10 @@ import {
   type InsertBankAccount, 
   type UserSession, 
   type InsertUserSession,
+  type Notification,
+  type InsertNotification,
+  type NotificationSettings,
+  type InsertNotificationSettings,
   users, 
   debts, 
   transactions, 
@@ -22,7 +26,9 @@ import {
   roundUpSettings, 
   cryptoPurchases, 
   bankAccounts, 
-  userSessions
+  userSessions,
+  notifications,
+  notificationSettings
 } from "@shared/schema";
 import { randomUUID } from "crypto";
 import { db } from "./db";
@@ -70,6 +76,15 @@ export interface IStorage {
   getUserSessionByToken(token: string): Promise<UserSession | undefined>;
   updateSessionActivity(id: string): Promise<UserSession | undefined>;
   deactivateUserSessions(userId: string, deviceType?: string): Promise<void>;
+
+  // Notification methods
+  createNotification(notification: InsertNotification): Promise<Notification>;
+  getNotificationsByUserId(userId: string, limit?: number): Promise<Notification[]>;
+  updateNotificationStatus(id: string, status: string, sentAt?: Date, deliveredAt?: Date): Promise<Notification | undefined>;
+  
+  // Notification settings methods
+  getNotificationSettings(userId: string): Promise<NotificationSettings | undefined>;
+  createOrUpdateNotificationSettings(settings: InsertNotificationSettings): Promise<NotificationSettings>;
 }
 
 export class MemStorage implements IStorage {
@@ -81,6 +96,8 @@ export class MemStorage implements IStorage {
   private cryptoPurchases: Map<string, CryptoPurchase>;
   private bankAccounts: Map<string, BankAccount>;
   private userSessions: Map<string, UserSession>;
+  private notifications: Map<string, Notification>;
+  private notificationSettingsMap: Map<string, NotificationSettings>;
 
   constructor() {
     this.users = new Map();
@@ -91,6 +108,8 @@ export class MemStorage implements IStorage {
     this.cryptoPurchases = new Map();
     this.bankAccounts = new Map();
     this.userSessions = new Map();
+    this.notifications = new Map();
+    this.notificationSettingsMap = new Map();
     
     // Initialize with demo data
     this.initializeDemoData();
@@ -877,6 +896,72 @@ export class MemStorage implements IStorage {
         this.userSessions.set(id, updated);
       }
     });
+  }
+
+  // Notification methods
+  async createNotification(insertNotification: InsertNotification): Promise<Notification> {
+    const id = randomUUID();
+    const notification: Notification = {
+      ...insertNotification,
+      id,
+      sentAt: null,
+      deliveredAt: null,
+      metadata: insertNotification.metadata ?? null,
+      createdAt: new Date(),
+    };
+    this.notifications.set(id, notification);
+    return notification;
+  }
+
+  async getNotificationsByUserId(userId: string, limit?: number): Promise<Notification[]> {
+    const userNotifications = Array.from(this.notifications.values())
+      .filter(notification => notification.userId === userId)
+      .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+    
+    return limit ? userNotifications.slice(0, limit) : userNotifications;
+  }
+
+  async updateNotificationStatus(id: string, status: string, sentAt?: Date, deliveredAt?: Date): Promise<Notification | undefined> {
+    const notification = this.notifications.get(id);
+    if (!notification) return undefined;
+    
+    const updated: Notification = {
+      ...notification,
+      status,
+      sentAt: sentAt || notification.sentAt,
+      deliveredAt: deliveredAt || notification.deliveredAt,
+    };
+    this.notifications.set(id, updated);
+    return updated;
+  }
+
+  async getNotificationSettings(userId: string): Promise<NotificationSettings | undefined> {
+    return Array.from(this.notificationSettingsMap.values())
+      .find(settings => settings.userId === userId);
+  }
+
+  async createOrUpdateNotificationSettings(insertSettings: InsertNotificationSettings): Promise<NotificationSettings> {
+    const existingSettings = await this.getNotificationSettings(insertSettings.userId);
+    
+    if (existingSettings) {
+      const updated: NotificationSettings = {
+        ...existingSettings,
+        ...insertSettings,
+        updatedAt: new Date(),
+      };
+      this.notificationSettingsMap.set(existingSettings.id, updated);
+      return updated;
+    } else {
+      const id = randomUUID();
+      const settings: NotificationSettings = {
+        ...insertSettings,
+        id,
+        phoneNumber: insertSettings.phoneNumber ?? null,
+        updatedAt: new Date(),
+      };
+      this.notificationSettingsMap.set(id, settings);
+      return settings;
+    }
   }
 }
 

@@ -275,3 +275,55 @@ export type InsertBankAccount = z.infer<typeof insertBankAccountSchema>;
 
 export type UserSession = typeof userSessions.$inferSelect;
 export type InsertUserSession = z.infer<typeof insertUserSessionSchema>;
+
+// Notifications table
+export const notifications = pgTable("notifications", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull().references(() => users.id),
+  type: text("type").notNull(), // 'sms', 'email', 'push', 'system'
+  channel: text("channel").notNull(), // 'sms', 'email', 'push', 'toast'
+  title: text("title").notNull(),
+  message: text("message").notNull(),
+  recipient: text("recipient").notNull(), // phone number for SMS, email for email
+  status: text("status").notNull().default('pending'), // 'pending', 'sent', 'delivered', 'failed'
+  priority: text("priority").notNull().default('medium'), // 'low', 'medium', 'high'
+  metadata: text("metadata"), // JSON string for additional data
+  sentAt: timestamp("sent_at"),
+  deliveredAt: timestamp("delivered_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+// User notification preferences
+export const notificationSettings = pgTable("notification_settings", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull().references(() => users.id).unique(),
+  smsEnabled: boolean("sms_enabled").default(true).notNull(),
+  emailEnabled: boolean("email_enabled").default(true).notNull(),
+  pushEnabled: boolean("push_enabled").default(true).notNull(),
+  phoneNumber: text("phone_number"), // User's phone number for SMS
+  paymentReminders: boolean("payment_reminders").default(true).notNull(),
+  roundupMilestones: boolean("roundup_milestones").default(true).notNull(),
+  cryptoUpdates: boolean("crypto_updates").default(true).notNull(),
+  weeklyReports: boolean("weekly_reports").default(true).notNull(),
+  marketingMessages: boolean("marketing_messages").default(false).notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+// Insert schemas for notifications
+export const insertNotificationSchema = createInsertSchema(notifications).omit({
+  id: true,
+  createdAt: true,
+  sentAt: true,
+  deliveredAt: true,
+});
+
+export const insertNotificationSettingsSchema = createInsertSchema(notificationSettings).omit({
+  id: true,
+  updatedAt: true,
+});
+
+// Types for notifications
+export type Notification = typeof notifications.$inferSelect;
+export type InsertNotification = z.infer<typeof insertNotificationSchema>;
+export type NotificationSettings = typeof notificationSettings.$inferSelect;
+export type InsertNotificationSettings = z.infer<typeof insertNotificationSettingsSchema>;
