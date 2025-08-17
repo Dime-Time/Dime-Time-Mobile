@@ -16,7 +16,7 @@ The application leverages automated financial tracking, micro-investment strateg
 - **App Store Preparation**: iOS and Android platforms ready for developer account setup
 
 ### Design Updates ✓
-- **Background Color**: Updated app background to user-specified hex color #A7AFFE (RGB: 167, 175, 254)
+- **Background Color**: Updated app background to user-specified hex color #8C9CFF (RGB: 140, 156, 255, HSL: 234°, 100%, 77%)
 - **CSS Variables**: Added --dime-background variable and utility classes for consistent theming
 - **Brand Consistency**: Maintained existing purple theme while implementing new background
 
