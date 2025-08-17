@@ -1,4 +1,4 @@
-import logoImage from "@assets/IMG_0084_1754976738724.jpeg";
+import logoImage from "@assets/D22C55D0-9527-4CE7-863F-F9327653E73E_1755411050022.png";
 
 interface LogoProps {
   className?: string;
@@ -10,141 +10,47 @@ export function Logo({ className = "", size = 32 }: LogoProps) {
     <div className={`relative ${className}`} style={{ width: size, height: size }}>
       <img 
         src={logoImage} 
-        alt="Dime Time Logo" 
+        alt="Dime Time Official Logo" 
         width={size} 
         height={size}
         className="object-contain drop-shadow-sm"
+        style={{ 
+          filter: 'brightness(1.1) contrast(1.2)',
+          backgroundColor: 'transparent'
+        }}
       />
     </div>
   );
 }
 
-// Version with DIME TIME text for standalone use
+// Version with DIME TIME text for standalone use - using official logo design
 export function LogoWithText({ className = "", size = 120 }: LogoProps) {
   return (
-    <div className={`relative ${className}`} style={{ width: size, height: size * 1.3 }}>
-      <svg
-        width={size}
-        height={size * 1.3}
-        viewBox="0 0 100 130"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        className="drop-shadow-lg"
-      >
-        {/* Blue gradient background */}
-        <rect
-          width="100"
-          height="100"
-          fill="url(#blueGradientWithText)"
-          rx="8"
+    <div className={`flex flex-col items-center ${className}`} style={{ width: size * 1.2 }}>
+      <div style={{ width: size, height: size }}>
+        <img 
+          src={logoImage} 
+          alt="Dime Time Official Logo" 
+          width={size} 
+          height={size}
+          className="object-contain drop-shadow-lg"
+          style={{ 
+            filter: 'brightness(1.1) contrast(1.2)',
+            backgroundColor: 'transparent'
+          }}
         />
-        
-        {/* Left alarm bell */}
-        <circle
-          cx="30"
-          cy="30"
-          r="12"
-          fill="white"
-        />
-        
-        {/* Right alarm bell */}
-        <circle
-          cx="70"
-          cy="30"
-          r="12"
-          fill="white"
-        />
-        
-        {/* Main clock body - large circle */}
-        <circle
-          cx="50"
-          cy="50"
-          r="22"
-          fill="white"
-        />
-        
-        {/* Inner clock ring */}
-        <circle
-          cx="50"
-          cy="50"
-          r="18"
-          fill="none"
-          stroke="url(#blueGradientWithText)"
-          strokeWidth="3"
-        />
-        
-        {/* Dollar sign in center */}
-        <text
-          x="50"
-          y="58"
-          fontSize="20"
-          fontWeight="bold"
-          fill="url(#blueGradientWithText)"
-          textAnchor="middle"
-          fontFamily="Arial, sans-serif"
-        >
-          $
-        </text>
-        
-        {/* Left clock leg */}
-        <rect 
-          x="40" 
-          y="72" 
-          width="4" 
-          height="12" 
-          fill="white"
-          transform="rotate(-20 42 78)"
-        />
-        
-        {/* Right clock leg */}
-        <rect 
-          x="56" 
-          y="72" 
-          width="4" 
-          height="12" 
-          fill="white"
-          transform="rotate(20 58 78)"
-        />
-        
-        {/* Left leg foot */}
-        <ellipse 
-          cx="36" 
-          cy="86" 
-          rx="6" 
-          ry="3" 
-          fill="white"
-        />
-        
-        {/* Right leg foot */}
-        <ellipse 
-          cx="64" 
-          cy="86" 
-          rx="6" 
-          ry="3" 
-          fill="white"
-        />
-        
-        {/* DIME TIME text */}
-        <text
-          x="50"
-          y="115"
-          fontSize="12"
-          fontWeight="bold"
-          fill="white"
-          textAnchor="middle"
-          fontFamily="Arial, sans-serif"
-          letterSpacing="2px"
+      </div>
+      <div className="mt-2">
+        <span 
+          className="font-bold text-black tracking-wide"
+          style={{ 
+            fontSize: size * 0.12,
+            letterSpacing: '2px'
+          }}
         >
           DIME TIME
-        </text>
-        
-        <defs>
-          <linearGradient id="blueGradientWithText" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#9BB5FF" />
-            <stop offset="100%" stopColor="#6B7AED" />
-          </linearGradient>
-        </defs>
-      </svg>
+        </span>
+      </div>
     </div>
   );
 }

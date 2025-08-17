@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowRight, Shield, TrendingUp, CreditCard, Smartphone } from "lucide-react";
+import { LogoWithText } from "@/components/logo";
 
 export default function Landing() {
   return (
@@ -8,6 +9,9 @@ export default function Landing() {
       {/* Hero Section */}
       <div className="container mx-auto px-4 py-16 text-center">
         <div className="max-w-4xl mx-auto">
+          <div className="mb-8 flex justify-center">
+            <LogoWithText size={150} />
+          </div>
           <h1 className="text-5xl font-bold text-slate-900 dark:text-slate-100 mb-6">
             Turn Spare Change into 
             <span className="text-blue-600 dark:text-blue-400"> Debt Freedom</span>
