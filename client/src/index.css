@@ -29,6 +29,7 @@
   --dime-purple: hsl(260, 35%, 80%);
   --dime-lavender: hsl(280, 25%, 92%);
   --dime-accent: hsl(250, 30%, 75%);
+  --dime-background: hsl(234, 97%, 83%);
   --slate-50: hsl(210, 40%, 98%);
   --slate-600: hsl(0, 0%, 0%);
   --slate-900: hsl(0, 0%, 0%);
@@ -63,8 +64,9 @@
   }
 
   body {
-    @apply font-sans antialiased bg-slate-50 text-foreground;
+    @apply font-sans antialiased text-foreground;
     font-family: 'Inter', system-ui, sans-serif;
+    background-color: var(--dime-background);
   }
 
   /* Force all text to be black */
@@ -111,6 +113,10 @@
   
   .bg-dime-accent {
     background-color: var(--dime-accent);
+  }
+  
+  .bg-dime-background {
+    background-color: var(--dime-background);
   }
   
   .border-dime-purple {
