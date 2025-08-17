@@ -3,25 +3,25 @@
 @tailwind utilities;
 
 :root {
-  --background: hsl(0, 0%, 100%);
-  --foreground: hsl(0, 0%, 0%);
-  --muted: hsl(60, 4.8%, 95.9%);
-  --muted-foreground: hsl(0, 0%, 0%);
-  --popover: hsl(0, 0%, 100%);
-  --popover-foreground: hsl(0, 0%, 0%);
-  --card: hsl(0, 0%, 100%);
-  --card-foreground: hsl(0, 0%, 0%);
-  --border: hsl(20, 5.9%, 90%);
-  --input: hsl(20, 5.9%, 90%);
+  --background: hsl(234, 100%, 77%);
+  --foreground: hsl(0, 0%, 100%);
+  --muted: hsl(234, 80%, 85%);
+  --muted-foreground: hsl(0, 0%, 100%);
+  --popover: hsl(234, 100%, 77%);
+  --popover-foreground: hsl(0, 0%, 100%);
+  --card: hsl(234, 100%, 77%);
+  --card-foreground: hsl(0, 0%, 100%);
+  --border: hsl(234, 60%, 90%);
+  --input: hsl(234, 80%, 85%);
   --primary: hsl(234, 100%, 77%);
-  --primary-foreground: hsl(0, 0%, 0%);
-  --secondary: hsl(60, 4.8%, 95.9%);
-  --secondary-foreground: hsl(0, 0%, 0%);
-  --accent: hsl(60, 4.8%, 95.9%);
-  --accent-foreground: hsl(0, 0%, 0%);
+  --primary-foreground: hsl(0, 0%, 100%);
+  --secondary: hsl(234, 80%, 85%);
+  --secondary-foreground: hsl(0, 0%, 100%);
+  --accent: hsl(234, 60%, 90%);
+  --accent-foreground: hsl(0, 0%, 100%);
   --destructive: hsl(0, 84.2%, 60.2%);
-  --destructive-foreground: hsl(0, 0%, 0%);
-  --ring: hsl(20, 14.3%, 4.1%);
+  --destructive-foreground: hsl(0, 0%, 100%);
+  --ring: hsl(234, 60%, 90%);
   --radius: 0.5rem;
   
   /* Dime Time brand colors - Updated Purple Theme */
@@ -37,25 +37,25 @@
 }
 
 .dark {
-  --background: hsl(240, 10%, 3.9%);
-  --foreground: hsl(0, 0%, 98%);
-  --muted: hsl(240, 3.7%, 15.9%);
-  --muted-foreground: hsl(240, 5%, 64.9%);
-  --popover: hsl(240, 10%, 3.9%);
-  --popover-foreground: hsl(0, 0%, 98%);
-  --card: hsl(240, 10%, 3.9%);
-  --card-foreground: hsl(0, 0%, 98%);
-  --border: hsl(240, 3.7%, 15.9%);
-  --input: hsl(240, 3.7%, 15.9%);
+  --background: hsl(234, 100%, 77%);
+  --foreground: hsl(0, 0%, 100%);
+  --muted: hsl(234, 80%, 85%);
+  --muted-foreground: hsl(0, 0%, 100%);
+  --popover: hsl(234, 100%, 77%);
+  --popover-foreground: hsl(0, 0%, 100%);
+  --card: hsl(234, 100%, 77%);
+  --card-foreground: hsl(0, 0%, 100%);
+  --border: hsl(234, 60%, 90%);
+  --input: hsl(234, 80%, 85%);
   --primary: hsl(234, 100%, 77%);
-  --primary-foreground: hsl(211, 100%, 99%);
-  --secondary: hsl(240, 3.7%, 15.9%);
-  --secondary-foreground: hsl(0, 0%, 98%);
-  --accent: hsl(240, 3.7%, 15.9%);
-  --accent-foreground: hsl(0, 0%, 98%);
+  --primary-foreground: hsl(0, 0%, 100%);
+  --secondary: hsl(234, 80%, 85%);
+  --secondary-foreground: hsl(0, 0%, 100%);
+  --accent: hsl(234, 60%, 90%);
+  --accent-foreground: hsl(0, 0%, 100%);
   --destructive: hsl(0, 62.8%, 30.6%);
-  --destructive-foreground: hsl(0, 0%, 98%);
-  --ring: hsl(240, 4.9%, 83.9%);
+  --destructive-foreground: hsl(0, 0%, 100%);
+  --ring: hsl(234, 60%, 90%);
   --radius: 0.5rem;
 }
 
@@ -70,16 +70,21 @@
     background-color: var(--dime-background);
   }
 
-  /* Force all text to be black */
+  /* Force all text to be white */
   * {
-    color: black !important;
+    color: white !important;
   }
   
-  /* Preserve button text colors on colored backgrounds */
-  button:has(.text-white), 
-  .bg-dime-purple *,
-  .bg-primary * {
-    color: white !important;
+  /* Ensure all backgrounds use the lavender color */
+  body, html, #root {
+    background-color: var(--dime-background) !important;
+  }
+  
+  /* All components use lavender background */
+  .bg-white, .bg-slate-50, .bg-slate-100, .bg-slate-200, .bg-slate-300,
+  .bg-gray-50, .bg-gray-100, .bg-gray-200, .bg-gray-300,
+  .bg-neutral-50, .bg-neutral-100, .bg-neutral-200, .bg-neutral-300 {
+    background-color: var(--dime-background) !important;
   }
 }
 

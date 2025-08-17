@@ -42,7 +42,7 @@ export function LogoWithText({ className = "", size = 120 }: LogoProps) {
       </div>
       <div className="mt-2">
         <span 
-          className="font-bold text-black tracking-wide"
+          className="font-bold text-white tracking-wide"
           style={{ 
             fontSize: size * 0.12,
             letterSpacing: '2px'
