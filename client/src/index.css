@@ -13,7 +13,7 @@
   --card-foreground: hsl(0, 0%, 0%);
   --border: hsl(20, 5.9%, 90%);
   --input: hsl(20, 5.9%, 90%);
-  --primary: hsl(260, 35%, 80%);
+  --primary: hsl(234, 100%, 77%);
   --primary-foreground: hsl(0, 0%, 0%);
   --secondary: hsl(60, 4.8%, 95.9%);
   --secondary-foreground: hsl(0, 0%, 0%);
@@ -24,11 +24,12 @@
   --ring: hsl(20, 14.3%, 4.1%);
   --radius: 0.5rem;
   
-  /* Dime Time brand colors - Soft Purple Theme */
-  --dime-lilac: hsl(270, 30%, 88%);
-  --dime-purple: hsl(260, 35%, 80%);
-  --dime-lavender: hsl(280, 25%, 92%);
-  --dime-accent: hsl(250, 30%, 75%);
+  /* Dime Time brand colors - Updated Purple Theme */
+  --dime-primary: hsl(234, 100%, 77%);
+  --dime-purple: hsl(234, 100%, 77%);
+  --dime-lilac: hsl(234, 80%, 85%);
+  --dime-lavender: hsl(234, 60%, 90%);
+  --dime-accent: hsl(234, 90%, 70%);
   --dime-background: hsl(234, 100%, 77%);
   --slate-50: hsl(210, 40%, 98%);
   --slate-600: hsl(0, 0%, 0%);
@@ -46,7 +47,7 @@
   --card-foreground: hsl(0, 0%, 98%);
   --border: hsl(240, 3.7%, 15.9%);
   --input: hsl(240, 3.7%, 15.9%);
-  --primary: hsl(260, 35%, 80%);
+  --primary: hsl(234, 100%, 77%);
   --primary-foreground: hsl(211, 100%, 99%);
   --secondary: hsl(240, 3.7%, 15.9%);
   --secondary-foreground: hsl(0, 0%, 98%);
@@ -117,6 +118,18 @@
   
   .bg-dime-background {
     background-color: var(--dime-background);
+  }
+  
+  .bg-dime-primary {
+    background-color: var(--dime-primary);
+  }
+  
+  .text-dime-primary {
+    color: var(--dime-primary);
+  }
+  
+  .border-dime-primary {
+    border-color: var(--dime-primary);
   }
   
   .border-dime-purple {
