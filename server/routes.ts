@@ -747,12 +747,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
       else if (parseInt(duration) >= 30) apy = "10.00000000"; // 30+ days = 10% APY
 
       // Create staking record
+      const endDate = new Date(Date.now() + parseInt(duration) * 24 * 60 * 60 * 1000);
       const staking = await storage.createDttStaking({
         userId,
         amount: amount,
         duration: parseInt(duration),
         apy: apy,
-        rewardsAccrued: "0.00000000",
+        endDate: endDate,
+        rewardsEarned: "0.00000000",
         status: "active",
       });
 

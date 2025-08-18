@@ -148,12 +148,12 @@ export class MemStorage implements IStorage {
     // Initialize DTT token info
     this.dttTokenInfoData = {
       id: "dtt-info",
-      currentPrice: 0.2847,
-      priceChange24h: 12.45,
-      marketCap: 28470000,
-      volume24h: 2847000,
-      totalSupply: "100000000.00000000",
-      circulatingSupply: "75000000.00000000",
+      currentPrice: "0.284700",
+      priceChange24h: "12.45",
+      marketCap: "28470000.00",
+      volume24h: "2847000.00",
+      totalSupply: "100000000",
+      circulatingSupply: "75000000",
       lastUpdated: new Date(),
     };
     
@@ -711,9 +711,11 @@ export class MemStorage implements IStorage {
         userId: demoUser.id,
         action: "round_up",
         amount: "0.10000000",
-        description: "Round-up reward from Starbucks purchase",
+        transactionId: null,
+        paymentId: null,
         transactionHash: null,
         status: "completed",
+        metadata: JSON.stringify({ description: "Round-up reward from Starbucks purchase" }),
         createdAt: new Date(Date.now() - 86400000), // 1 day ago
       },
       {
@@ -721,19 +723,23 @@ export class MemStorage implements IStorage {
         userId: demoUser.id,
         action: "debt_payment",
         amount: "12.50000000",
-        description: "Debt payment reward: $250 payment to Chase Freedom",
+        transactionId: null,
+        paymentId: null,
         transactionHash: null,
         status: "completed",
+        metadata: JSON.stringify({ description: "Debt payment reward: $250 payment to Chase Freedom" }),
         createdAt: new Date(Date.now() - 172800000), // 2 days ago
       },
       {
         id: "dtt-reward-3",
         userId: demoUser.id,
         action: "milestone",
-        amount: "50.00000000", 
-        description: "Milestone reward: 25% debt reduction achieved",
+        amount: "50.00000000",
+        transactionId: null,
+        paymentId: null,
         transactionHash: null,
         status: "completed",
+        metadata: JSON.stringify({ description: "Milestone reward: 25% debt reduction achieved" }),
         createdAt: new Date(Date.now() - 432000000), // 5 days ago
       },
       {
@@ -741,9 +747,11 @@ export class MemStorage implements IStorage {
         userId: demoUser.id,
         action: "round_up",
         amount: "0.15000000",
-        description: "Round-up reward from Shell Gas purchase",
+        transactionId: null,
+        paymentId: null,
         transactionHash: null,
         status: "completed",
+        metadata: JSON.stringify({ description: "Round-up reward from Shell Gas purchase" }),
         createdAt: new Date(Date.now() - 518400000), // 6 days ago
       },
       {
@@ -751,9 +759,11 @@ export class MemStorage implements IStorage {
         userId: demoUser.id,
         action: "daily_login",
         amount: "1.00000000",
-        description: "Daily login bonus",
+        transactionId: null,
+        paymentId: null,
         transactionHash: null,
         status: "completed",
+        metadata: JSON.stringify({ description: "Daily login bonus" }),
         createdAt: new Date(Date.now() - 604800000), // 7 days ago
       },
     ];
@@ -767,7 +777,7 @@ export class MemStorage implements IStorage {
         amount: "125.00000000",
         duration: 90,
         apy: "15.50000000",
-        rewardsAccrued: "4.25680000",
+        rewardsEarned: "4.25680000",
         status: "active",
         startDate: new Date(Date.now() - 2592000000), // 30 days ago
         endDate: new Date(Date.now() + 5184000000), // 60 days from now
@@ -1104,321 +1114,36 @@ export class MemStorage implements IStorage {
       return settings;
     }
   }
-}
 
-export class DatabaseStorage implements IStorage {
-  async getUser(id: string): Promise<User | undefined> {
-    const [user] = await db.select().from(users).where(eq(users.id, id));
-    return user || undefined;
-  }
-
-  async getUserByUsername(username: string): Promise<User | undefined> {
-    const [user] = await db.select().from(users).where(eq(users.username, username));
-    return user || undefined;
-  }
-
-  async createUser(insertUser: InsertUser): Promise<User> {
-    const [user] = await db
-      .insert(users)
-      .values(insertUser)
-      .returning();
-    return user;
-  }
-
-  async getDebtsByUserId(userId: string): Promise<Debt[]> {
-    return await db.select().from(debts).where(eq(debts.userId, userId));
-  }
-
-  async getDebt(id: string): Promise<Debt | undefined> {
-    const [debt] = await db.select().from(debts).where(eq(debts.id, id));
-    return debt || undefined;
-  }
-
-  async createDebt(insertDebt: InsertDebt): Promise<Debt> {
-    const [debt] = await db
-      .insert(debts)
-      .values(insertDebt)
-      .returning();
-    return debt;
-  }
-
-  async updateDebt(id: string, updates: Partial<Debt>): Promise<Debt | undefined> {
-    const [debt] = await db
-      .update(debts)
-      .set(updates)
-      .where(eq(debts.id, id))
-      .returning();
-    return debt || undefined;
-  }
-
-  async getTransactionsByUserId(userId: string, limit?: number): Promise<Transaction[]> {
-    const query = db.select().from(transactions)
-      .where(eq(transactions.userId, userId))
-      .orderBy(desc(transactions.date));
-    
-    if (limit) {
-      return await query.limit(limit);
-    }
-    return await query;
-  }
-
-  async createTransaction(insertTransaction: InsertTransaction): Promise<Transaction> {
-    const [transaction] = await db
-      .insert(transactions)
-      .values(insertTransaction)
-      .returning();
-    return transaction;
-  }
-
-  async getPaymentsByUserId(userId: string): Promise<Payment[]> {
-    return await db.select().from(payments)
-      .where(eq(payments.userId, userId))
-      .orderBy(desc(payments.date));
-  }
-
-  async getPaymentsByDebtId(debtId: string): Promise<Payment[]> {
-    return await db.select().from(payments)
-      .where(eq(payments.debtId, debtId))
-      .orderBy(desc(payments.date));
-  }
-
-  async createPayment(insertPayment: InsertPayment): Promise<Payment> {
-    const [payment] = await db
-      .insert(payments)
-      .values(insertPayment)
-      .returning();
-    return payment;
-  }
-
-  async makeAcceleratedPayment(userId: string, debtId: string, amount: string): Promise<{ payment: Payment; updatedDebt: Debt }> {
-    const debt = await this.getDebt(debtId);
-    if (!debt || debt.userId !== userId) {
-      throw new Error('Debt not found or unauthorized');
-    }
-
-    // Create the payment record
-    const payment = await this.createPayment({
-      userId,
-      debtId,
-      amount,
-      source: 'manual',
-    });
-
-    // Update the debt balance
-    const currentBalance = parseFloat(debt.currentBalance);
-    const paymentAmount = parseFloat(amount);
-    const newBalance = Math.max(0, currentBalance - paymentAmount);
-
-    const updatedDebt = await this.updateDebt(debtId, {
-      currentBalance: newBalance.toFixed(2),
-    });
-
-    if (!updatedDebt) {
-      throw new Error('Failed to update debt balance');
-    }
-
-    return { payment, updatedDebt };
-  }
-
-  async getRoundUpSettings(userId: string): Promise<RoundUpSettings | undefined> {
-    const [settings] = await db.select().from(roundUpSettings).where(eq(roundUpSettings.userId, userId));
-    return settings || undefined;
-  }
-
-  async createOrUpdateRoundUpSettings(settings: InsertRoundUpSettings): Promise<RoundUpSettings> {
-    const existing = await this.getRoundUpSettings(settings.userId);
-    
-    if (existing) {
-      const [updated] = await db
-        .update(roundUpSettings)
-        .set(settings)
-        .where(eq(roundUpSettings.userId, settings.userId))
-        .returning();
-      return updated;
-    } else {
-      const [newSettings] = await db
-        .insert(roundUpSettings)
-        .values(settings)
-        .returning();
-      return newSettings;
-    }
-  }
-
-  async getCryptoPurchasesByUserId(userId: string): Promise<CryptoPurchase[]> {
-    return await db.select().from(cryptoPurchases)
-      .where(eq(cryptoPurchases.userId, userId))
-      .orderBy(desc(cryptoPurchases.createdAt));
-  }
-
-  async createCryptoPurchase(insertPurchase: InsertCryptoPurchase): Promise<CryptoPurchase> {
-    const [purchase] = await db
-      .insert(cryptoPurchases)
-      .values(insertPurchase)
-      .returning();
-    return purchase;
-  }
-
-  async updateCryptoPurchaseStatus(id: string, status: string, coinbaseOrderId?: string): Promise<CryptoPurchase | undefined> {
-    const updateData: any = { status };
-    if (coinbaseOrderId) {
-      updateData.coinbaseOrderId = coinbaseOrderId;
-    }
-    
-    const [updated] = await db
-      .update(cryptoPurchases)
-      .set(updateData)
-      .where(eq(cryptoPurchases.id, id))
-      .returning();
-    return updated || undefined;
-  }
-
-  async getBankAccountsByUserId(userId: string): Promise<BankAccount[]> {
-    return await db.select().from(bankAccounts)
-      .where(eq(bankAccounts.userId, userId))
-      .orderBy(desc(bankAccounts.createdAt));
-  }
-
-  async createBankAccount(account: InsertBankAccount): Promise<BankAccount> {
-    const [bankAccount] = await db
-      .insert(bankAccounts)
-      .values(account)
-      .returning();
-    return bankAccount;
-  }
-
-  async getBankAccountByPlaidItemId(itemId: string): Promise<BankAccount | undefined> {
-    const [account] = await db.select().from(bankAccounts)
-      .where(eq(bankAccounts.plaidItemId, itemId));
-    return account || undefined;
-  }
-
-  async updateBankAccountStatus(id: string, isActive: boolean): Promise<BankAccount | undefined> {
-    const [updated] = await db
-      .update(bankAccounts)
-      .set({ isActive })
-      .where(eq(bankAccounts.id, id))
-      .returning();
-    return updated || undefined;
-  }
-
-  async createUserSession(session: InsertUserSession): Promise<UserSession> {
-    const [userSession] = await db
-      .insert(userSessions)
-      .values(session)
-      .returning();
-    return userSession;
-  }
-
-  async getUserSessionByToken(token: string): Promise<UserSession | undefined> {
-    const [session] = await db.select().from(userSessions)
-      .where(eq(userSessions.sessionToken, token));
-    return session || undefined;
-  }
-
-  async updateSessionActivity(id: string): Promise<UserSession | undefined> {
-    const [updated] = await db
-      .update(userSessions)
-      .set({ lastActivity: new Date() })
-      .where(eq(userSessions.id, id))
-      .returning();
-    return updated || undefined;
-  }
-
-  async deactivateUserSessions(userId: string, deviceType?: string): Promise<void> {
-    if (deviceType) {
-      await db.update(userSessions)
-        .set({ isActive: false })
-        .where(and(eq(userSessions.userId, userId), eq(userSessions.deviceType, deviceType)));
-    } else {
-      await db.update(userSessions)
-        .set({ isActive: false })
-        .where(eq(userSessions.userId, userId));
-    }
-  }
-
-  // Notification methods
-  async createNotification(insertNotification: InsertNotification): Promise<Notification> {
-    const [notification] = await db
-      .insert(notifications)
-      .values(insertNotification)
-      .returning();
-    return notification;
-  }
-
-  async getNotificationsByUserId(userId: string, limit?: number): Promise<Notification[]> {
-    const query = db.select().from(notifications)
-      .where(eq(notifications.userId, userId))
-      .orderBy(desc(notifications.createdAt));
-    
-    if (limit) {
-      return await query.limit(limit);
-    }
-    return await query;
-  }
-
-  async updateNotificationStatus(id: string, status: string, sentAt?: Date, deliveredAt?: Date): Promise<Notification | undefined> {
-    const updateData: any = { status };
-    if (sentAt) updateData.sentAt = sentAt;
-    if (deliveredAt) updateData.deliveredAt = deliveredAt;
-    
-    const [updated] = await db
-      .update(notifications)
-      .set(updateData)
-      .where(eq(notifications.id, id))
-      .returning();
-    return updated || undefined;
-  }
-
-  async getNotificationSettings(userId: string): Promise<NotificationSettings | undefined> {
-    const [settings] = await db.select().from(notificationSettings)
-      .where(eq(notificationSettings.userId, userId));
-    return settings || undefined;
-  }
-
-  async createOrUpdateNotificationSettings(insertSettings: InsertNotificationSettings): Promise<NotificationSettings> {
-    const existingSettings = await this.getNotificationSettings(insertSettings.userId);
-    
-    if (existingSettings) {
-      const [updated] = await db
-        .update(notificationSettings)
-        .set({ ...insertSettings, updatedAt: new Date() })
-        .where(eq(notificationSettings.userId, insertSettings.userId))
-        .returning();
-      return updated;
-    } else {
-      const [settings] = await db
-        .insert(notificationSettings)
-        .values(insertSettings)
-        .returning();
-      return settings;
-    }
-  }
-
-  // DTT Token methods implementation using in-memory storage
+  // DTT Token methods
   async getDttHoldings(userId: string): Promise<DttHoldings | undefined> {
     return this.dttHoldingsMap.get(userId);
   }
 
-  async createOrUpdateDttHoldings(insertHoldings: InsertDttHoldings): Promise<DttHoldings> {
-    const existingHoldings = this.dttHoldingsMap.get(insertHoldings.userId);
+  async createOrUpdateDttHoldings(holdings: InsertDttHoldings): Promise<DttHoldings> {
+    const existing = this.dttHoldingsMap.get(holdings.userId);
     
-    if (existingHoldings) {
-      const updated: DttHoldings = { 
-        ...existingHoldings, 
-        ...insertHoldings, 
-        lastActivity: new Date() 
-      };
-      this.dttHoldingsMap.set(insertHoldings.userId, updated);
-      return updated;
-    } else {
-      const holdings: DttHoldings = {
-        id: randomUUID(),
-        ...insertHoldings,
-        createdAt: new Date(),
+    if (existing) {
+      const updated: DttHoldings = {
+        ...existing,
+        ...holdings,
         lastActivity: new Date(),
       };
-      this.dttHoldingsMap.set(insertHoldings.userId, holdings);
-      return holdings;
+      this.dttHoldingsMap.set(holdings.userId, updated);
+      return updated;
+    } else {
+      const id = randomUUID();
+      const newHoldings: DttHoldings = {
+        ...holdings,
+        id,
+        balance: holdings.balance || "0.00000000",
+        stakedAmount: holdings.stakedAmount || "0.00000000",
+        totalEarned: holdings.totalEarned || "0.00000000",
+        lastActivity: new Date(),
+        createdAt: new Date(),
+      };
+      this.dttHoldingsMap.set(holdings.userId, newHoldings);
+      return newHoldings;
     }
   }
 
@@ -1429,11 +1154,10 @@ export class DatabaseStorage implements IStorage {
     const updated: DttHoldings = {
       ...existing,
       balance,
+      stakedAmount: stakedAmount || existing.stakedAmount,
+      totalEarned: totalEarned || existing.totalEarned,
       lastActivity: new Date(),
-      ...(stakedAmount !== undefined && { stakedAmount }),
-      ...(totalEarned !== undefined && { totalEarned }),
     };
-    
     this.dttHoldingsMap.set(userId, updated);
     return updated;
   }
@@ -1444,32 +1168,20 @@ export class DatabaseStorage implements IStorage {
       .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
   }
 
-  async createDttReward(insertReward: InsertDttRewards): Promise<DttRewards> {
-    const reward: DttRewards = {
-      id: randomUUID(),
-      ...insertReward,
-      createdAt: new Date(),
+  async createDttReward(reward: InsertDttRewards): Promise<DttRewards> {
+    const id = randomUUID();
+    const newReward: DttRewards = {
+      ...reward,
+      id,
       status: "completed",
+      transactionId: reward.transactionId || null,
+      paymentId: reward.paymentId || null,
+      transactionHash: reward.transactionHash || null,
+      metadata: reward.metadata || null,
+      createdAt: new Date(),
     };
-    
-    this.dttRewardsMap.set(reward.id, reward);
-    
-    // Update user's total earned DTT
-    const currentHoldings = this.dttHoldingsMap.get(insertReward.userId);
-    if (currentHoldings) {
-      const newBalance = (parseFloat(currentHoldings.balance) + parseFloat(insertReward.amount)).toFixed(8);
-      const newTotalEarned = (parseFloat(currentHoldings.totalEarned) + parseFloat(insertReward.amount)).toFixed(8);
-      await this.updateDttBalance(insertReward.userId, newBalance, undefined, newTotalEarned);
-    } else {
-      await this.createOrUpdateDttHoldings({
-        userId: insertReward.userId,
-        balance: insertReward.amount,
-        stakedAmount: "0.00000000",
-        totalEarned: insertReward.amount,
-      });
-    }
-    
-    return reward;
+    this.dttRewardsMap.set(id, newReward);
+    return newReward;
   }
 
   async getDttStakingByUserId(userId: string): Promise<DttStaking[]> {
@@ -1478,37 +1190,33 @@ export class DatabaseStorage implements IStorage {
       .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
   }
 
-  async createDttStaking(insertStaking: InsertDttStaking): Promise<DttStaking> {
-    const endDate = new Date();
-    endDate.setDate(endDate.getDate() + insertStaking.duration);
+  async createDttStaking(staking: InsertDttStaking): Promise<DttStaking> {
+    const id = randomUUID();
+    const startDate = new Date();
+    const endDate = new Date(startDate.getTime() + (staking.duration * 24 * 60 * 60 * 1000));
     
-    const staking: DttStaking = {
-      id: randomUUID(),
-      ...insertStaking,
+    const newStaking: DttStaking = {
+      ...staking,
+      id,
+      startDate,
       endDate,
-      startDate: new Date(),
+      status: staking.status || "active",
+      rewardsEarned: staking.rewardsEarned || "0.00000000",
       lastRewardCalculation: new Date(),
       createdAt: new Date(),
     };
-    
-    this.dttStakingMap.set(staking.id, staking);
-    
-    // Update user's staked amount
-    const currentHoldings = this.dttHoldingsMap.get(insertStaking.userId);
-    if (currentHoldings) {
-      const newBalance = (parseFloat(currentHoldings.balance) - parseFloat(insertStaking.amount)).toFixed(8);
-      const newStakedAmount = (parseFloat(currentHoldings.stakedAmount) + parseFloat(insertStaking.amount)).toFixed(8);
-      await this.updateDttBalance(insertStaking.userId, newBalance, newStakedAmount);
-    }
-    
-    return staking;
+    this.dttStakingMap.set(id, newStaking);
+    return newStaking;
   }
 
   async updateDttStakingStatus(id: string, status: string): Promise<DttStaking | undefined> {
     const staking = this.dttStakingMap.get(id);
     if (!staking) return undefined;
     
-    const updated = { ...staking, status };
+    const updated: DttStaking = {
+      ...staking,
+      status,
+    };
     this.dttStakingMap.set(id, updated);
     return updated;
   }
@@ -1517,16 +1225,23 @@ export class DatabaseStorage implements IStorage {
     return this.dttTokenInfoData;
   }
 
-  async updateDttTokenInfo(insertInfo: InsertDttTokenInfo): Promise<DttTokenInfo> {
+  async updateDttTokenInfo(info: InsertDttTokenInfo): Promise<DttTokenInfo> {
     const updated: DttTokenInfo = {
       id: "dtt-info",
-      ...insertInfo,
+      currentPrice: info.currentPrice || "0.250000",
+      marketCap: info.marketCap || "2500000.00",
+      volume24h: info.volume24h || "125000.00",
+      priceChange24h: info.priceChange24h || "5.25",
+      totalSupply: info.totalSupply || "10000000",
+      circulatingSupply: info.circulatingSupply || "2500000",
       lastUpdated: new Date(),
     };
-    
     this.dttTokenInfoData = updated;
     return updated;
   }
 }
+
+// DatabaseStorage class removed due to incomplete implementation
+// Using MemStorage for development as specified in replit.md
 
 export const storage = new MemStorage();
