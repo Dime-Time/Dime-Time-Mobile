@@ -19,6 +19,14 @@ import {
   type InsertNotification,
   type NotificationSettings,
   type InsertNotificationSettings,
+  type DttHoldings,
+  type InsertDttHoldings,
+  type DttRewards,
+  type InsertDttRewards,
+  type DttStaking,
+  type InsertDttStaking,
+  type DttTokenInfo,
+  type InsertDttTokenInfo,
   users, 
   debts, 
   transactions, 
@@ -28,7 +36,11 @@ import {
   bankAccounts, 
   userSessions,
   notifications,
-  notificationSettings
+  notificationSettings,
+  dttHoldings,
+  dttRewards,
+  dttStaking,
+  dttTokenInfo
 } from "@shared/schema";
 import { randomUUID } from "crypto";
 import { db } from "./db";
@@ -73,6 +85,21 @@ export interface IStorage {
 
   // User session methods
   createUserSession(session: InsertUserSession): Promise<UserSession>;
+
+  // DTT Token methods
+  getDttHoldings(userId: string): Promise<DttHoldings | undefined>;
+  createOrUpdateDttHoldings(holdings: InsertDttHoldings): Promise<DttHoldings>;
+  updateDttBalance(userId: string, balance: string, stakedAmount?: string, totalEarned?: string): Promise<DttHoldings | undefined>;
+  
+  getDttRewardsByUserId(userId: string): Promise<DttRewards[]>;
+  createDttReward(reward: InsertDttRewards): Promise<DttRewards>;
+  
+  getDttStakingByUserId(userId: string): Promise<DttStaking[]>;
+  createDttStaking(staking: InsertDttStaking): Promise<DttStaking>;
+  updateDttStakingStatus(id: string, status: string): Promise<DttStaking | undefined>;
+  
+  getDttTokenInfo(): Promise<DttTokenInfo | undefined>;
+  updateDttTokenInfo(info: InsertDttTokenInfo): Promise<DttTokenInfo>;
   getUserSessionByToken(token: string): Promise<UserSession | undefined>;
   updateSessionActivity(id: string): Promise<UserSession | undefined>;
   deactivateUserSessions(userId: string, deviceType?: string): Promise<void>;
@@ -98,6 +125,10 @@ export class MemStorage implements IStorage {
   private userSessions: Map<string, UserSession>;
   private notifications: Map<string, Notification>;
   private notificationSettingsMap: Map<string, NotificationSettings>;
+  private dttHoldingsMap: Map<string, DttHoldings>;
+  private dttRewardsMap: Map<string, DttRewards>;
+  private dttStakingMap: Map<string, DttStaking>;
+  private dttTokenInfoData: DttTokenInfo | undefined;
 
   constructor() {
     this.users = new Map();
@@ -110,6 +141,21 @@ export class MemStorage implements IStorage {
     this.userSessions = new Map();
     this.notifications = new Map();
     this.notificationSettingsMap = new Map();
+    this.dttHoldingsMap = new Map();
+    this.dttRewardsMap = new Map();
+    this.dttStakingMap = new Map();
+    
+    // Initialize DTT token info
+    this.dttTokenInfoData = {
+      id: "dtt-info",
+      currentPrice: 0.2847,
+      priceChange24h: 12.45,
+      marketCap: 28470000,
+      volume24h: 2847000,
+      totalSupply: "100000000.00000000",
+      circulatingSupply: "75000000.00000000",
+      lastUpdated: new Date(),
+    };
     
     // Initialize with demo data
     this.initializeDemoData();
@@ -645,6 +691,91 @@ export class MemStorage implements IStorage {
       },
     ];
     demoPayments.forEach(payment => this.payments.set(payment.id, payment));
+
+    // Create demo DTT holdings
+    const demoDttHoldings: DttHoldings = {
+      id: randomUUID(),
+      userId: demoUser.id,
+      balance: "247.85620000",
+      stakedAmount: "125.00000000",
+      totalEarned: "372.85620000",
+      createdAt: new Date("2024-01-01"),
+      lastActivity: new Date(),
+    };
+    this.dttHoldingsMap.set(demoUser.id, demoDttHoldings);
+
+    // Create demo DTT rewards history
+    const demoDttRewards: DttRewards[] = [
+      {
+        id: "dtt-reward-1",
+        userId: demoUser.id,
+        action: "round_up",
+        amount: "0.10000000",
+        description: "Round-up reward from Starbucks purchase",
+        transactionHash: null,
+        status: "completed",
+        createdAt: new Date(Date.now() - 86400000), // 1 day ago
+      },
+      {
+        id: "dtt-reward-2", 
+        userId: demoUser.id,
+        action: "debt_payment",
+        amount: "12.50000000",
+        description: "Debt payment reward: $250 payment to Chase Freedom",
+        transactionHash: null,
+        status: "completed",
+        createdAt: new Date(Date.now() - 172800000), // 2 days ago
+      },
+      {
+        id: "dtt-reward-3",
+        userId: demoUser.id,
+        action: "milestone",
+        amount: "50.00000000", 
+        description: "Milestone reward: 25% debt reduction achieved",
+        transactionHash: null,
+        status: "completed",
+        createdAt: new Date(Date.now() - 432000000), // 5 days ago
+      },
+      {
+        id: "dtt-reward-4",
+        userId: demoUser.id,
+        action: "round_up",
+        amount: "0.15000000",
+        description: "Round-up reward from Shell Gas purchase",
+        transactionHash: null,
+        status: "completed",
+        createdAt: new Date(Date.now() - 518400000), // 6 days ago
+      },
+      {
+        id: "dtt-reward-5",
+        userId: demoUser.id,
+        action: "daily_login",
+        amount: "1.00000000",
+        description: "Daily login bonus",
+        transactionHash: null,
+        status: "completed",
+        createdAt: new Date(Date.now() - 604800000), // 7 days ago
+      },
+    ];
+    demoDttRewards.forEach(reward => this.dttRewardsMap.set(reward.id, reward));
+
+    // Create demo DTT staking
+    const demoDttStaking: DttStaking[] = [
+      {
+        id: "dtt-stake-1",
+        userId: demoUser.id,
+        amount: "125.00000000",
+        duration: 90,
+        apy: "15.50000000",
+        rewardsAccrued: "4.25680000",
+        status: "active",
+        startDate: new Date(Date.now() - 2592000000), // 30 days ago
+        endDate: new Date(Date.now() + 5184000000), // 60 days from now
+        lastRewardCalculation: new Date(),
+        createdAt: new Date(Date.now() - 2592000000),
+      },
+    ];
+    demoDttStaking.forEach(stake => this.dttStakingMap.set(stake.id, stake));
   }
 
   async getUser(id: string): Promise<User | undefined> {
@@ -1261,6 +1392,140 @@ export class DatabaseStorage implements IStorage {
         .returning();
       return settings;
     }
+  }
+
+  // DTT Token methods implementation using in-memory storage
+  async getDttHoldings(userId: string): Promise<DttHoldings | undefined> {
+    return this.dttHoldingsMap.get(userId);
+  }
+
+  async createOrUpdateDttHoldings(insertHoldings: InsertDttHoldings): Promise<DttHoldings> {
+    const existingHoldings = this.dttHoldingsMap.get(insertHoldings.userId);
+    
+    if (existingHoldings) {
+      const updated: DttHoldings = { 
+        ...existingHoldings, 
+        ...insertHoldings, 
+        lastActivity: new Date() 
+      };
+      this.dttHoldingsMap.set(insertHoldings.userId, updated);
+      return updated;
+    } else {
+      const holdings: DttHoldings = {
+        id: randomUUID(),
+        ...insertHoldings,
+        createdAt: new Date(),
+        lastActivity: new Date(),
+      };
+      this.dttHoldingsMap.set(insertHoldings.userId, holdings);
+      return holdings;
+    }
+  }
+
+  async updateDttBalance(userId: string, balance: string, stakedAmount?: string, totalEarned?: string): Promise<DttHoldings | undefined> {
+    const existing = this.dttHoldingsMap.get(userId);
+    if (!existing) return undefined;
+    
+    const updated: DttHoldings = {
+      ...existing,
+      balance,
+      lastActivity: new Date(),
+      ...(stakedAmount !== undefined && { stakedAmount }),
+      ...(totalEarned !== undefined && { totalEarned }),
+    };
+    
+    this.dttHoldingsMap.set(userId, updated);
+    return updated;
+  }
+
+  async getDttRewardsByUserId(userId: string): Promise<DttRewards[]> {
+    return Array.from(this.dttRewardsMap.values())
+      .filter(reward => reward.userId === userId)
+      .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+  }
+
+  async createDttReward(insertReward: InsertDttRewards): Promise<DttRewards> {
+    const reward: DttRewards = {
+      id: randomUUID(),
+      ...insertReward,
+      createdAt: new Date(),
+      status: "completed",
+    };
+    
+    this.dttRewardsMap.set(reward.id, reward);
+    
+    // Update user's total earned DTT
+    const currentHoldings = this.dttHoldingsMap.get(insertReward.userId);
+    if (currentHoldings) {
+      const newBalance = (parseFloat(currentHoldings.balance) + parseFloat(insertReward.amount)).toFixed(8);
+      const newTotalEarned = (parseFloat(currentHoldings.totalEarned) + parseFloat(insertReward.amount)).toFixed(8);
+      await this.updateDttBalance(insertReward.userId, newBalance, undefined, newTotalEarned);
+    } else {
+      await this.createOrUpdateDttHoldings({
+        userId: insertReward.userId,
+        balance: insertReward.amount,
+        stakedAmount: "0.00000000",
+        totalEarned: insertReward.amount,
+      });
+    }
+    
+    return reward;
+  }
+
+  async getDttStakingByUserId(userId: string): Promise<DttStaking[]> {
+    return Array.from(this.dttStakingMap.values())
+      .filter(stake => stake.userId === userId)
+      .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+  }
+
+  async createDttStaking(insertStaking: InsertDttStaking): Promise<DttStaking> {
+    const endDate = new Date();
+    endDate.setDate(endDate.getDate() + insertStaking.duration);
+    
+    const staking: DttStaking = {
+      id: randomUUID(),
+      ...insertStaking,
+      endDate,
+      startDate: new Date(),
+      lastRewardCalculation: new Date(),
+      createdAt: new Date(),
+    };
+    
+    this.dttStakingMap.set(staking.id, staking);
+    
+    // Update user's staked amount
+    const currentHoldings = this.dttHoldingsMap.get(insertStaking.userId);
+    if (currentHoldings) {
+      const newBalance = (parseFloat(currentHoldings.balance) - parseFloat(insertStaking.amount)).toFixed(8);
+      const newStakedAmount = (parseFloat(currentHoldings.stakedAmount) + parseFloat(insertStaking.amount)).toFixed(8);
+      await this.updateDttBalance(insertStaking.userId, newBalance, newStakedAmount);
+    }
+    
+    return staking;
+  }
+
+  async updateDttStakingStatus(id: string, status: string): Promise<DttStaking | undefined> {
+    const staking = this.dttStakingMap.get(id);
+    if (!staking) return undefined;
+    
+    const updated = { ...staking, status };
+    this.dttStakingMap.set(id, updated);
+    return updated;
+  }
+
+  async getDttTokenInfo(): Promise<DttTokenInfo | undefined> {
+    return this.dttTokenInfoData;
+  }
+
+  async updateDttTokenInfo(insertInfo: InsertDttTokenInfo): Promise<DttTokenInfo> {
+    const updated: DttTokenInfo = {
+      id: "dtt-info",
+      ...insertInfo,
+      lastUpdated: new Date(),
+    };
+    
+    this.dttTokenInfoData = updated;
+    return updated;
   }
 }
 

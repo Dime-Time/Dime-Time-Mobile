@@ -123,6 +123,58 @@ export const insertRoundUpSettingsSchema = createInsertSchema(roundUpSettings).o
   id: true,
 });
 
+// DTT Token Holdings
+export const dttHoldings = pgTable("dtt_holdings", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull().references(() => users.id),
+  balance: decimal("balance", { precision: 18, scale: 8 }).notNull().default("0.00000000"),
+  stakedAmount: decimal("staked_amount", { precision: 18, scale: 8 }).notNull().default("0.00000000"),
+  totalEarned: decimal("total_earned", { precision: 18, scale: 8 }).notNull().default("0.00000000"),
+  lastActivity: timestamp("last_activity").defaultNow().notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+// DTT Token Rewards
+export const dttRewards = pgTable("dtt_rewards", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull().references(() => users.id),
+  transactionId: varchar("transaction_id").references(() => transactions.id),
+  paymentId: varchar("payment_id").references(() => payments.id),
+  action: text("action").notNull(), // 'round_up', 'debt_payment', 'milestone', 'daily_login', 'referral'
+  amount: decimal("amount", { precision: 18, scale: 8 }).notNull(),
+  transactionHash: text("transaction_hash"), // For future blockchain integration
+  status: text("status").default('completed').notNull(),
+  metadata: text("metadata"), // JSON string for additional data
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+// DTT Token Staking
+export const dttStaking = pgTable("dtt_staking", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull().references(() => users.id),
+  amount: decimal("amount", { precision: 18, scale: 8 }).notNull(),
+  duration: integer("duration").notNull(), // days
+  apy: decimal("apy", { precision: 5, scale: 2 }).notNull(), // annual percentage yield
+  startDate: timestamp("start_date").defaultNow().notNull(),
+  endDate: timestamp("end_date").notNull(),
+  status: text("status").default('active').notNull(), // active, completed, withdrawn
+  rewardsEarned: decimal("rewards_earned", { precision: 18, scale: 8 }).default("0.00000000").notNull(),
+  lastRewardCalculation: timestamp("last_reward_calculation"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+// DTT Token Info (singleton for market data)
+export const dttTokenInfo = pgTable("dtt_token_info", {
+  id: varchar("id").primaryKey().default("dtt-info"),
+  currentPrice: decimal("current_price", { precision: 10, scale: 6 }).notNull().default("0.250000"),
+  marketCap: decimal("market_cap", { precision: 15, scale: 2 }).notNull().default("2500000.00"),
+  volume24h: decimal("volume_24h", { precision: 12, scale: 2 }).notNull().default("125000.00"),
+  priceChange24h: decimal("price_change_24h", { precision: 5, scale: 2 }).notNull().default("5.25"),
+  totalSupply: decimal("total_supply", { precision: 20, scale: 0 }).notNull().default("10000000"),
+  circulatingSupply: decimal("circulating_supply", { precision: 20, scale: 0 }).notNull().default("2500000"),
+  lastUpdated: timestamp("last_updated").defaultNow().notNull(),
+});
+
 // Sweep Account for JP Morgan Chase integration
 export const sweepAccounts = pgTable("sweep_accounts", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
@@ -212,47 +264,45 @@ export const insertUserSessionSchema = createInsertSchema(userSessions).omit({
   lastActivity: true,
 });
 
-// Types
+// DTT Token Insert Schemas
+export const insertDttHoldingsSchema = createInsertSchema(dttHoldings).omit({
+  id: true,
+  createdAt: true,
+  lastActivity: true,
+});
+
+export const insertDttRewardsSchema = createInsertSchema(dttRewards).omit({
+  id: true,
+  createdAt: true,
+  status: true,
+});
+
+export const insertDttStakingSchema = createInsertSchema(dttStaking).omit({
+  id: true,
+  createdAt: true,
+  startDate: true,
+  lastRewardCalculation: true,
+});
+
+export const insertDttTokenInfoSchema = createInsertSchema(dttTokenInfo).omit({
+  lastUpdated: true,
+});
+
+// DTT Token Types
+export type DttHoldings = typeof dttHoldings.$inferSelect;
+export type InsertDttHoldings = z.infer<typeof insertDttHoldingsSchema>;
+
+export type DttRewards = typeof dttRewards.$inferSelect;
+export type InsertDttRewards = z.infer<typeof insertDttRewardsSchema>;
+
+export type DttStaking = typeof dttStaking.$inferSelect;
+export type InsertDttStaking = z.infer<typeof insertDttStakingSchema>;
+
+export type DttTokenInfo = typeof dttTokenInfo.$inferSelect;
+export type InsertDttTokenInfo = z.infer<typeof insertDttTokenInfoSchema>;
+
+// Types  
 export type User = typeof users.$inferSelect;
-
-// Dime Time Token (DTT) tables
-export const dimeTokenRewards = pgTable("dime_token_rewards", {
-  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
-  userId: varchar("user_id").notNull().references(() => users.id),
-  action: varchar("action").notNull(), // 'round_up', 'debt_payment', 'referral', etc.
-  amount: varchar("amount").notNull(), // DTT amount as string for precision
-  transactionHash: varchar("transaction_hash"),
-  createdAt: timestamp("created_at").defaultNow(),
-});
-
-export const dimeTokenBalances = pgTable("dime_token_balances", {
-  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
-  userId: varchar("user_id").notNull().references(() => users.id).unique(),
-  balance: varchar("balance").notNull().default('0'), // DTT balance
-  stakedAmount: varchar("staked_amount").notNull().default('0'), // Currently staked DTT
-  totalEarned: varchar("total_earned").notNull().default('0'), // Lifetime DTT earned
-  updatedAt: timestamp("updated_at").defaultNow(),
-});
-
-export const dimeTokenStaking = pgTable("dime_token_staking", {
-  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
-  userId: varchar("user_id").notNull().references(() => users.id),
-  stakedAmount: varchar("staked_amount").notNull(),
-  stakingDuration: integer("staking_duration").notNull(), // days
-  apy: varchar("apy").notNull(), // annual percentage yield as string
-  rewardsAccrued: varchar("rewards_accrued").notNull().default('0'),
-  startDate: timestamp("start_date").defaultNow(),
-  maturityDate: timestamp("maturity_date").notNull(),
-  status: varchar("status").notNull().default('active'), // 'active', 'matured', 'withdrawn'
-  createdAt: timestamp("created_at").defaultNow(),
-});
-
-export type DimeTokenReward = typeof dimeTokenRewards.$inferSelect;
-export type InsertDimeTokenReward = typeof dimeTokenRewards.$inferInsert;
-export type DimeTokenBalance = typeof dimeTokenBalances.$inferSelect;
-export type InsertDimeTokenBalance = typeof dimeTokenBalances.$inferInsert;
-export type DimeTokenStaking = typeof dimeTokenStaking.$inferSelect;
-export type InsertDimeTokenStaking = typeof dimeTokenStaking.$inferInsert;
 export type InsertUser = z.infer<typeof insertUserSchema>;
 
 export type Debt = typeof debts.$inferSelect;

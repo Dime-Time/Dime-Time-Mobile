@@ -621,8 +621,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         amountUsd: amount,
         cryptoAmount: '0', // Will be updated when transaction completes
         purchasePrice: amount,
-        coinbaseOrderId: (transaction as any).id || '',
-        status: 'pending'
+        coinbaseOrderId: (transaction as any).id || ''
       });
 
       res.json({ success: true, transaction });
@@ -670,7 +669,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Dime Time Token (DTT) API Routes
   app.get('/api/dime-token/info', async (req: Request, res: Response) => {
     try {
-      const tokenInfo = dimeTokenService.getTokenInfo();
+      const tokenInfo = await storage.getDttTokenInfo();
+      if (!tokenInfo) {
+        return res.status(404).json({ message: 'Token information not found' });
+      }
       res.json(tokenInfo);
     } catch (error) {
       console.error('Error fetching token info:', error);
@@ -681,13 +683,22 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get('/api/dime-token/balance', async (req: Request, res: Response) => {
     try {
       const userId = "demo-user-1";
-      // Mock balance data - in production would be from database
-      const balance = {
-        balance: '1250.75',
-        stakedAmount: '500.00',
-        totalEarned: '89.25'
-      };
-      res.json(balance);
+      const holdings = await storage.getDttHoldings(userId);
+      
+      if (!holdings) {
+        // Return default empty balance if user has no holdings yet
+        return res.json({
+          balance: '0.00000000',
+          stakedAmount: '0.00000000',
+          totalEarned: '0.00000000'
+        });
+      }
+      
+      res.json({
+        balance: holdings.balance,
+        stakedAmount: holdings.stakedAmount,
+        totalEarned: holdings.totalEarned
+      });
     } catch (error) {
       console.error('Error fetching token balance:', error);
       res.status(500).json({ message: 'Failed to fetch token balance' });
@@ -697,31 +708,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get('/api/dime-token/rewards', async (req: Request, res: Response) => {
     try {
       const userId = "demo-user-1";
-      // Mock rewards data - in production would be from database
-      const rewards = [
-        {
-          id: 'reward-1',
-          action: 'round_up',
-          amount: '2.5',
-          transactionHash: '0x' + Math.random().toString(16).substr(2, 64),
-          createdAt: new Date(Date.now() - 86400000).toISOString() // Yesterday
-        },
-        {
-          id: 'reward-2',
-          action: 'debt_payment',
-          amount: '15.0',
-          transactionHash: '0x' + Math.random().toString(16).substr(2, 64),
-          createdAt: new Date(Date.now() - 172800000).toISOString() // 2 days ago
-        },
-        {
-          id: 'reward-3',
-          action: 'milestone',
-          amount: '50.0',
-          transactionHash: '0x' + Math.random().toString(16).substr(2, 64),
-          createdAt: new Date(Date.now() - 604800000).toISOString() // 1 week ago
-        }
-      ];
-      res.json(rewards);
+      const rewards = await storage.getDttRewardsByUserId(userId);
+      
+      // Transform to match frontend interface
+      const formattedRewards = rewards.map(reward => ({
+        id: reward.id,
+        action: reward.action,
+        amount: reward.amount,
+        transactionHash: reward.transactionHash || '',
+        createdAt: reward.createdAt.toISOString()
+      }));
+      
+      res.json(formattedRewards);
     } catch (error) {
       console.error('Error fetching rewards:', error);
       res.status(500).json({ message: 'Failed to fetch token rewards' });
@@ -737,26 +735,30 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: 'Valid amount and duration required' });
       }
 
-      const stakingRewards = dimeTokenService.calculateStakingRewards(
-        parseFloat(amount), 
-        parseInt(duration)
-      );
+      // Check if user has sufficient balance
+      const holdings = await storage.getDttHoldings(userId);
+      if (!holdings || parseFloat(holdings.balance) < parseFloat(amount)) {
+        return res.status(400).json({ message: 'Insufficient DTT balance for staking' });
+      }
 
-      const stakeData = {
-        id: `stake-${Date.now()}`,
+      // Calculate APY based on duration
+      let apy = "5.00000000"; // Base 5% APY
+      if (parseInt(duration) >= 90) apy = "15.50000000"; // 90+ days = 15.5% APY
+      else if (parseInt(duration) >= 30) apy = "10.00000000"; // 30+ days = 10% APY
+
+      // Create staking record
+      const staking = await storage.createDttStaking({
         userId,
-        stakedAmount: amount,
-        stakingDuration: parseInt(duration),
-        apy: stakingRewards.apy.toString(),
-        expectedRewards: stakingRewards.totalRewards.toString(),
-        startDate: new Date().toISOString(),
-        maturityDate: new Date(Date.now() + parseInt(duration) * 24 * 60 * 60 * 1000).toISOString(),
-        status: 'active'
-      };
+        amount: amount,
+        duration: parseInt(duration),
+        apy: apy,
+        rewardsAccrued: "0.00000000",
+        status: "active",
+      });
 
       res.json({
-        ...stakeData,
-        message: `Successfully staked ${amount} DTT for ${duration} days at ${(stakingRewards.apy * 100).toFixed(1)}% APY`
+        ...staking,
+        message: `Successfully staked ${amount} DTT for ${duration} days at ${parseFloat(apy).toFixed(1)}% APY`
       });
     } catch (error) {
       console.error('Error staking tokens:', error);

@@ -69,13 +69,7 @@ export default function DimeToken() {
   // Stake tokens mutation
   const stakeMutation = useMutation({
     mutationFn: async (data: { amount: string; duration: number }) => {
-      return apiRequest('/api/dime-token/stake', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
+      return apiRequest('/api/dime-token/stake', 'POST', data);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/dime-token/balance'] });
@@ -105,8 +99,8 @@ export default function DimeToken() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
         <div>
-          <h1 className="text-3xl font-bold text-slate-900 mb-2">Dime Time Token (DTT)</h1>
-          <p className="text-slate-600">Your native cryptocurrency that rewards financial progress</p>
+          <h1 className="text-3xl font-bold text-white mb-2">Dime Time Token (DTT)</h1>
+          <p className="text-white/80">Your native cryptocurrency that rewards financial progress</p>
         </div>
         <Badge variant="secondary" className="bg-dime-purple/10 text-dime-purple border-dime-purple/20">
           Native Token
@@ -129,9 +123,9 @@ export default function DimeToken() {
             <CardContent>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                 <div>
-                  <p className="text-sm text-slate-500 mb-1">Current Price</p>
+                  <p className="text-sm text-white/60 mb-1">Current Price</p>
                   <div className="flex items-center gap-2">
-                    <p className="text-2xl font-bold">${tokenInfo?.currentPrice.toFixed(4)}</p>
+                    <p className="text-2xl font-bold text-white">${tokenInfo?.currentPrice.toFixed(4)}</p>
                     <div className={`flex items-center gap-1 ${priceChangeColor}`}>
                       <PriceIcon className="w-4 h-4" />
                       <span className="text-sm font-medium">
@@ -142,18 +136,18 @@ export default function DimeToken() {
                 </div>
                 
                 <div>
-                  <p className="text-sm text-slate-500 mb-1">Market Cap</p>
-                  <p className="text-xl font-semibold">{formatCurrency(tokenInfo?.marketCap ?? 0)}</p>
+                  <p className="text-sm text-white/60 mb-1">Market Cap</p>
+                  <p className="text-xl font-semibold text-white">{formatCurrency(tokenInfo?.marketCap ?? 0)}</p>
                 </div>
                 
                 <div>
-                  <p className="text-sm text-slate-500 mb-1">24h Volume</p>
-                  <p className="text-xl font-semibold">{formatCurrency(tokenInfo?.volume24h ?? 0)}</p>
+                  <p className="text-sm text-white/60 mb-1">24h Volume</p>
+                  <p className="text-xl font-semibold text-white">{formatCurrency(tokenInfo?.volume24h ?? 0)}</p>
                 </div>
                 
                 <div>
-                  <p className="text-sm text-slate-500 mb-1">Total Supply</p>
-                  <p className="text-xl font-semibold">
+                  <p className="text-sm text-white/60 mb-1">Total Supply</p>
+                  <p className="text-xl font-semibold text-white">
                     {parseInt(tokenInfo?.totalSupply ?? '0').toLocaleString()} DTT
                   </p>
                 </div>
@@ -185,11 +179,11 @@ export default function DimeToken() {
                           <Coins className="w-4 h-4 text-blue-600" />
                         </div>
                         <div>
-                          <h4 className="font-medium">Round-up Rewards</h4>
-                          <p className="text-sm text-slate-500">0.1 DTT per round-up</p>
+                          <h4 className="font-medium text-white">Round-up Rewards</h4>
+                          <p className="text-sm text-white/60">0.1 DTT per round-up</p>
                         </div>
                       </div>
-                      <p className="text-xs text-slate-600">Earn tokens every time you round up spare change</p>
+                      <p className="text-xs text-white/50">Earn tokens every time you round up spare change</p>
                     </div>
 
                     <div className="p-4 border rounded-lg">
@@ -198,11 +192,11 @@ export default function DimeToken() {
                           <TrendingUp className="w-4 h-4 text-green-600" />
                         </div>
                         <div>
-                          <h4 className="font-medium">Debt Payment Rewards</h4>
-                          <p className="text-sm text-slate-500">0.05 DTT per $1 paid</p>
+                          <h4 className="font-medium text-white">Debt Payment Rewards</h4>
+                          <p className="text-sm text-white/60">0.05 DTT per $1 paid</p>
                         </div>
                       </div>
-                      <p className="text-xs text-slate-600">Get rewarded for every debt payment made</p>
+                      <p className="text-xs text-white/50">Get rewarded for every debt payment made</p>
                     </div>
 
                     <div className="p-4 border rounded-lg">
@@ -211,11 +205,11 @@ export default function DimeToken() {
                           <Award className="w-4 h-4 text-purple-600" />
                         </div>
                         <div>
-                          <h4 className="font-medium">Milestone Rewards</h4>
-                          <p className="text-sm text-slate-500">50 DTT per milestone</p>
+                          <h4 className="font-medium text-white">Milestone Rewards</h4>
+                          <p className="text-sm text-white/60">50 DTT per milestone</p>
                         </div>
                       </div>
-                      <p className="text-xs text-slate-600">Bonus tokens for reaching debt reduction goals</p>
+                      <p className="text-xs text-white/50">Bonus tokens for reaching debt reduction goals</p>
                     </div>
 
                     <div className="p-4 border rounded-lg">
@@ -224,11 +218,11 @@ export default function DimeToken() {
                           <Calendar className="w-4 h-4 text-orange-600" />
                         </div>
                         <div>
-                          <h4 className="font-medium">Daily Login</h4>
-                          <p className="text-sm text-slate-500">1 DTT per day</p>
+                          <h4 className="font-medium text-white">Daily Login</h4>
+                          <p className="text-sm text-white/60">1 DTT per day</p>
                         </div>
                       </div>
-                      <p className="text-xs text-slate-600">Consistent engagement rewards</p>
+                      <p className="text-xs text-white/50">Consistent engagement rewards</p>
                     </div>
                   </div>
                 </CardContent>
