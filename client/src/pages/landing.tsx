@@ -2,16 +2,29 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowRight, Shield, TrendingUp, CreditCard, Smartphone } from "lucide-react";
 import { LogoWithText } from "@/components/logo";
+import marketingHeroImage from "@assets/48615C93-5C3F-4147-8D8E-2D3E8F5C8B67_1755699806741.png";
 
 export default function Landing() {
   return (
     <div className="min-h-screen" style={{ backgroundColor: 'var(--dime-background)' }}>
       {/* Hero Section */}
       <div className="container mx-auto px-4 py-16 text-center">
-        <div className="max-w-4xl mx-auto">
-          <div className="mb-8 flex justify-center">
-            <LogoWithText size={150} />
+        <div className="max-w-6xl mx-auto">
+          {/* Marketing Hero Image with Official Logo */}
+          <div className="mb-12 relative">
+            <div className="relative max-w-2xl mx-auto">
+              <img 
+                src={marketingHeroImage} 
+                alt="Dime Time Professional Lions Marketing" 
+                className="w-full h-auto rounded-lg shadow-2xl"
+              />
+              {/* Official Logo Overlay */}
+              <div className="absolute top-8 left-1/2 transform -translate-x-1/2">
+                <LogoWithText size={120} />
+              </div>
+            </div>
           </div>
+          
           <h1 className="text-5xl font-bold text-white mb-6">
             Turn Spare Change into 
             <span className="text-white"> Debt Freedom</span>
