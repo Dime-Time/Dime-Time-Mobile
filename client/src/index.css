@@ -31,6 +31,7 @@
   --dime-lavender: hsl(243, 64%, 88%);
   --dime-accent: hsl(243, 79%, 72%);
   --dime-background: hsl(243, 84%, 76%);
+  --dime-dark: hsl(243, 84%, 45%);
   --slate-50: hsl(210, 40%, 98%);
   --slate-600: hsl(0, 0%, 0%);
   --slate-900: hsl(0, 0%, 0%);
@@ -70,9 +71,15 @@
     background-color: var(--dime-background);
   }
 
-  /* Force all text to be white */
+  /* Force all text to be white with dark purple outline */
   * {
     color: white !important;
+    text-shadow: 
+      -1px -1px 0 #5a56a8,
+      1px -1px 0 #5a56a8,
+      -1px 1px 0 #5a56a8,
+      1px 1px 0 #5a56a8,
+      0 0 2px #5a56a8;
   }
   
   /* Ensure all backgrounds use the lavender color */
