@@ -3,59 +3,59 @@
 @tailwind utilities;
 
 :root {
-  --background: hsl(234, 100%, 77%);
+  --background: hsl(243, 84%, 76%);
   --foreground: hsl(0, 0%, 100%);
-  --muted: hsl(234, 80%, 85%);
+  --muted: hsl(243, 74%, 82%);
   --muted-foreground: hsl(0, 0%, 100%);
-  --popover: hsl(234, 100%, 77%);
+  --popover: hsl(243, 84%, 76%);
   --popover-foreground: hsl(0, 0%, 100%);
-  --card: hsl(234, 100%, 77%);
+  --card: hsl(243, 84%, 76%);
   --card-foreground: hsl(0, 0%, 100%);
-  --border: hsl(234, 60%, 90%);
-  --input: hsl(234, 80%, 85%);
-  --primary: hsl(234, 100%, 77%);
+  --border: hsl(243, 64%, 88%);
+  --input: hsl(243, 74%, 82%);
+  --primary: hsl(243, 84%, 76%);
   --primary-foreground: hsl(0, 0%, 100%);
-  --secondary: hsl(234, 80%, 85%);
+  --secondary: hsl(243, 74%, 82%);
   --secondary-foreground: hsl(0, 0%, 100%);
-  --accent: hsl(234, 60%, 90%);
+  --accent: hsl(243, 64%, 88%);
   --accent-foreground: hsl(0, 0%, 100%);
   --destructive: hsl(0, 84.2%, 60.2%);
   --destructive-foreground: hsl(0, 0%, 100%);
-  --ring: hsl(234, 60%, 90%);
+  --ring: hsl(243, 64%, 88%);
   --radius: 0.5rem;
   
-  /* Dime Time brand colors - Updated Purple Theme */
-  --dime-primary: hsl(234, 100%, 77%);
-  --dime-purple: hsl(234, 100%, 77%);
-  --dime-lilac: hsl(234, 80%, 85%);
-  --dime-lavender: hsl(234, 60%, 90%);
-  --dime-accent: hsl(234, 90%, 70%);
-  --dime-background: hsl(234, 100%, 77%);
+  /* Dime Time brand colors - Updated with #918EF4 */
+  --dime-primary: hsl(243, 84%, 76%);
+  --dime-purple: hsl(243, 84%, 76%);
+  --dime-lilac: hsl(243, 74%, 82%);
+  --dime-lavender: hsl(243, 64%, 88%);
+  --dime-accent: hsl(243, 79%, 72%);
+  --dime-background: hsl(243, 84%, 76%);
   --slate-50: hsl(210, 40%, 98%);
   --slate-600: hsl(0, 0%, 0%);
   --slate-900: hsl(0, 0%, 0%);
 }
 
 .dark {
-  --background: hsl(234, 100%, 77%);
+  --background: hsl(243, 84%, 76%);
   --foreground: hsl(0, 0%, 100%);
-  --muted: hsl(234, 80%, 85%);
+  --muted: hsl(243, 74%, 82%);
   --muted-foreground: hsl(0, 0%, 100%);
-  --popover: hsl(234, 100%, 77%);
+  --popover: hsl(243, 84%, 76%);
   --popover-foreground: hsl(0, 0%, 100%);
-  --card: hsl(234, 100%, 77%);
+  --card: hsl(243, 84%, 76%);
   --card-foreground: hsl(0, 0%, 100%);
-  --border: hsl(234, 60%, 90%);
-  --input: hsl(234, 80%, 85%);
-  --primary: hsl(234, 100%, 77%);
+  --border: hsl(243, 64%, 88%);
+  --input: hsl(243, 74%, 82%);
+  --primary: hsl(243, 84%, 76%);
   --primary-foreground: hsl(0, 0%, 100%);
-  --secondary: hsl(234, 80%, 85%);
+  --secondary: hsl(243, 74%, 82%);
   --secondary-foreground: hsl(0, 0%, 100%);
-  --accent: hsl(234, 60%, 90%);
+  --accent: hsl(243, 64%, 88%);
   --accent-foreground: hsl(0, 0%, 100%);
   --destructive: hsl(0, 62.8%, 30.6%);
   --destructive-foreground: hsl(0, 0%, 100%);
-  --ring: hsl(234, 60%, 90%);
+  --ring: hsl(243, 64%, 88%);
   --radius: 0.5rem;
 }
 
