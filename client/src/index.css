@@ -91,8 +91,8 @@
             drop-shadow(0 0 2px #5a56a8) !important;
   }
 
-  /* Dark shadow for images including logos */
-  img {
+  /* Dark shadow for images including logos - exclude clean logo images */
+  img:not(.logo-image-clean) {
     filter: drop-shadow(-1px -1px 0 #5a56a8) 
             drop-shadow(1px -1px 0 #5a56a8) 
             drop-shadow(-1px 1px 0 #5a56a8) 
@@ -133,9 +133,14 @@
             drop-shadow(0 0 2px #5a56a8) !important;
   }
 
-  /* Clean logos without shadow */
-  .logo-clean, .logo-with-text-clean, .logo-image-clean {
+  /* Clean logos without shadow - override all shadow rules */
+  .logo-clean, .logo-with-text-clean, .logo-image-clean,
+  .logo-clean img, .logo-with-text-clean img, .logo-image-clean img,
+  .logo-clean svg, .logo-with-text-clean svg, .logo-image-clean svg {
     filter: none !important;
+    text-shadow: none !important;
+    box-shadow: none !important;
+    drop-shadow: none !important;
   }
 
   /* Enhanced dark shadow for white text elements */
