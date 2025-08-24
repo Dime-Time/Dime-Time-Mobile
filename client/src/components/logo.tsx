@@ -7,20 +7,15 @@ interface LogoProps {
 
 export function Logo({ className = "", size = 32 }: LogoProps) {
   return (
-    <div className={`relative logo ${className}`} style={{ width: size, height: size }}>
+    <div className={`relative logo-clean ${className}`} style={{ width: size, height: size }}>
       <img 
         src={logoImage} 
         alt="Dime Time Official Logo" 
         width={size} 
         height={size}
-        className="object-contain logo-image"
+        className="object-contain logo-image-clean"
         style={{ 
-          filter: `brightness(1.1) contrast(1.2) 
-                   drop-shadow(-1px -1px 0 #5a56a8) 
-                   drop-shadow(1px -1px 0 #5a56a8) 
-                   drop-shadow(-1px 1px 0 #5a56a8) 
-                   drop-shadow(1px 1px 0 #5a56a8) 
-                   drop-shadow(0 0 2px #5a56a8)`,
+          filter: 'brightness(1.1) contrast(1.2)',
           backgroundColor: 'transparent'
         }}
       />
@@ -31,21 +26,16 @@ export function Logo({ className = "", size = 32 }: LogoProps) {
 // Version with DIME TIME text for standalone use - using official logo design
 export function LogoWithText({ className = "", size = 120 }: LogoProps) {
   return (
-    <div className={`flex flex-col items-center logo-with-text ${className}`} style={{ width: size * 1.2 }}>
+    <div className={`flex flex-col items-center logo-with-text-clean ${className}`} style={{ width: size * 1.2 }}>
       <div style={{ width: size, height: size }}>
         <img 
           src={logoImage} 
           alt="Dime Time Official Logo" 
           width={size} 
           height={size}
-          className="object-contain logo-image"
+          className="object-contain logo-image-clean"
           style={{ 
-            filter: `brightness(1.1) contrast(1.2) 
-                     drop-shadow(-1px -1px 0 #5a56a8) 
-                     drop-shadow(1px -1px 0 #5a56a8) 
-                     drop-shadow(-1px 1px 0 #5a56a8) 
-                     drop-shadow(1px 1px 0 #5a56a8) 
-                     drop-shadow(0 0 2px #5a56a8)`,
+            filter: 'brightness(1.1) contrast(1.2)',
             backgroundColor: 'transparent'
           }}
         />
