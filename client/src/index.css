@@ -81,6 +81,96 @@
       1px 1px 0 #5a56a8,
       0 0 2px #5a56a8;
   }
+
+  /* Dark shadow for all SVG elements (logos, icons) */
+  svg {
+    filter: drop-shadow(-1px -1px 0 #5a56a8) 
+            drop-shadow(1px -1px 0 #5a56a8) 
+            drop-shadow(-1px 1px 0 #5a56a8) 
+            drop-shadow(1px 1px 0 #5a56a8) 
+            drop-shadow(0 0 2px #5a56a8) !important;
+  }
+
+  /* Dark shadow for images including logos */
+  img {
+    filter: drop-shadow(-1px -1px 0 #5a56a8) 
+            drop-shadow(1px -1px 0 #5a56a8) 
+            drop-shadow(-1px 1px 0 #5a56a8) 
+            drop-shadow(1px 1px 0 #5a56a8) 
+            drop-shadow(0 0 2px #5a56a8) !important;
+  }
+
+  /* Dark shadow for buttons and interactive elements */
+  button, .button, [role="button"] {
+    text-shadow: 
+      -1px -1px 0 #5a56a8,
+      1px -1px 0 #5a56a8,
+      -1px 1px 0 #5a56a8,
+      1px 1px 0 #5a56a8,
+      0 0 2px #5a56a8 !important;
+  }
+
+  /* Dark shadow for all white paths in SVGs */
+  svg path[fill="white"], 
+  svg path[fill="#ffffff"], 
+  svg path[fill="#FFFFFF"],
+  svg path[stroke="white"],
+  svg path[stroke="#ffffff"],
+  svg path[stroke="#FFFFFF"] {
+    filter: drop-shadow(-1px -1px 0 #5a56a8) 
+            drop-shadow(1px -1px 0 #5a56a8) 
+            drop-shadow(-1px 1px 0 #5a56a8) 
+            drop-shadow(1px 1px 0 #5a56a8) 
+            drop-shadow(0 0 2px #5a56a8) !important;
+  }
+
+  /* Dark shadow for logos specifically */
+  .logo, [class*="logo"], [id*="logo"] {
+    filter: drop-shadow(-1px -1px 0 #5a56a8) 
+            drop-shadow(1px -1px 0 #5a56a8) 
+            drop-shadow(-1px 1px 0 #5a56a8) 
+            drop-shadow(1px 1px 0 #5a56a8) 
+            drop-shadow(0 0 2px #5a56a8) !important;
+  }
+
+  /* Enhanced dark shadow for white text elements */
+  .text-white, [class*="text-white"] {
+    text-shadow: 
+      -1px -1px 0 #5a56a8,
+      1px -1px 0 #5a56a8,
+      -1px 1px 0 #5a56a8,
+      1px 1px 0 #5a56a8,
+      0 0 3px #5a56a8 !important;
+  }
+
+  /* Dark shadow for icons */
+  .lucide, [class*="lucide"] {
+    filter: drop-shadow(-1px -1px 0 #5a56a8) 
+            drop-shadow(1px -1px 0 #5a56a8) 
+            drop-shadow(-1px 1px 0 #5a56a8) 
+            drop-shadow(1px 1px 0 #5a56a8) 
+            drop-shadow(0 0 2px #5a56a8) !important;
+  }
+
+  /* Dark shadow for navigation elements */
+  nav, .nav, [role="navigation"] {
+    text-shadow: 
+      -1px -1px 0 #5a56a8,
+      1px -1px 0 #5a56a8,
+      -1px 1px 0 #5a56a8,
+      1px 1px 0 #5a56a8,
+      0 0 2px #5a56a8 !important;
+  }
+
+  /* Dark shadow for headings */
+  h1, h2, h3, h4, h5, h6 {
+    text-shadow: 
+      -1px -1px 0 #5a56a8,
+      1px -1px 0 #5a56a8,
+      -1px 1px 0 #5a56a8,
+      1px 1px 0 #5a56a8,
+      0 0 3px #5a56a8 !important;
+  }
   
   /* Ensure all backgrounds use the lavender color */
   body, html, #root {

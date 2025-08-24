@@ -7,15 +7,20 @@ interface LogoProps {
 
 export function Logo({ className = "", size = 32 }: LogoProps) {
   return (
-    <div className={`relative ${className}`} style={{ width: size, height: size }}>
+    <div className={`relative logo ${className}`} style={{ width: size, height: size }}>
       <img 
         src={logoImage} 
         alt="Dime Time Official Logo" 
         width={size} 
         height={size}
-        className="object-contain drop-shadow-sm"
+        className="object-contain logo-image"
         style={{ 
-          filter: 'brightness(1.1) contrast(1.2)',
+          filter: `brightness(1.1) contrast(1.2) 
+                   drop-shadow(-1px -1px 0 #5a56a8) 
+                   drop-shadow(1px -1px 0 #5a56a8) 
+                   drop-shadow(-1px 1px 0 #5a56a8) 
+                   drop-shadow(1px 1px 0 #5a56a8) 
+                   drop-shadow(0 0 2px #5a56a8)`,
           backgroundColor: 'transparent'
         }}
       />
@@ -26,26 +31,36 @@ export function Logo({ className = "", size = 32 }: LogoProps) {
 // Version with DIME TIME text for standalone use - using official logo design
 export function LogoWithText({ className = "", size = 120 }: LogoProps) {
   return (
-    <div className={`flex flex-col items-center ${className}`} style={{ width: size * 1.2 }}>
+    <div className={`flex flex-col items-center logo-with-text ${className}`} style={{ width: size * 1.2 }}>
       <div style={{ width: size, height: size }}>
         <img 
           src={logoImage} 
           alt="Dime Time Official Logo" 
           width={size} 
           height={size}
-          className="object-contain drop-shadow-lg"
+          className="object-contain logo-image"
           style={{ 
-            filter: 'brightness(1.1) contrast(1.2)',
+            filter: `brightness(1.1) contrast(1.2) 
+                     drop-shadow(-1px -1px 0 #5a56a8) 
+                     drop-shadow(1px -1px 0 #5a56a8) 
+                     drop-shadow(-1px 1px 0 #5a56a8) 
+                     drop-shadow(1px 1px 0 #5a56a8) 
+                     drop-shadow(0 0 2px #5a56a8)`,
             backgroundColor: 'transparent'
           }}
         />
       </div>
       <div className="mt-2">
         <span 
-          className="font-bold text-white tracking-wide"
+          className="font-bold text-white tracking-wide logo-text"
           style={{ 
             fontSize: size * 0.12,
-            letterSpacing: '2px'
+            letterSpacing: '2px',
+            textShadow: `-1px -1px 0 #5a56a8,
+                         1px -1px 0 #5a56a8,
+                         -1px 1px 0 #5a56a8,
+                         1px 1px 0 #5a56a8,
+                         0 0 2px #5a56a8`
           }}
         >
           DIME TIME
