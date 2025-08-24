@@ -133,6 +133,15 @@
             drop-shadow(0 0 2px #5a56a8) !important;
   }
 
+  /* Shadowed logos with enhanced dark outline */
+  .logo-with-shadow, .logo-with-text-shadowed, .logo-image-shadowed {
+    filter: drop-shadow(-2px -2px 0 #5a56a8) 
+            drop-shadow(2px -2px 0 #5a56a8) 
+            drop-shadow(-2px 2px 0 #5a56a8) 
+            drop-shadow(2px 2px 0 #5a56a8) 
+            drop-shadow(0 0 3px #5a56a8) !important;
+  }
+
   /* Clean logos without shadow - override all shadow rules */
   .logo-clean, .logo-with-text-clean, .logo-image-clean,
   .logo-clean img, .logo-with-text-clean img, .logo-image-clean img,
