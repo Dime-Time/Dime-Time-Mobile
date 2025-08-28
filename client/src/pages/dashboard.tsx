@@ -17,6 +17,7 @@ import {
   ArrowUp
 } from "lucide-react";
 import type { Transaction, Debt } from "@shared/schema";
+import transparentLogoImage from "@assets/D22C55D0-9527-4CE7-863F-F9327653E73E_1756052612472.png";
 
 interface DashboardSummary {
   totalDebt: string;
@@ -93,6 +94,19 @@ export default function Dashboard() {
 
   return (
     <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-20 md:pb-8">
+      {/* Logo in upper left corner */}
+      <div className="absolute top-4 left-4">
+        <img 
+          src={transparentLogoImage} 
+          alt="Dime Time Logo" 
+          className="w-12 h-12 object-contain"
+          style={{ 
+            filter: `brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%)`,
+            backgroundColor: 'transparent'
+          }}
+        />
+      </div>
+      
       {/* Welcome Section */}
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-slate-900 mb-2">
