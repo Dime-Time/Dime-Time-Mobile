@@ -110,7 +110,7 @@ export default function Dashboard() {
       {/* Welcome Section */}
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-slate-900 mb-2">
-          Welcome back, <span className="text-dime-purple">{user.firstName}</span>!
+          Welcome back, <span className="text-dime-purple">{user?.firstName || 'User'}</span>!
         </h1>
         <p className="text-slate-600">
           You've saved <span className="font-semibold text-dime-accent">{formatCurrency(summary.thisMonthRoundUps)}</span> in round-ups this month 
