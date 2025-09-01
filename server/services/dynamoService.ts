@@ -45,13 +45,37 @@ export class DynamoService {
       throw new Error('DynamoDB service not configured. Please provide AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY environment variables.');
     }
 
+    // Convert Date objects to ISO strings for DynamoDB compatibility
+    const serializedItem = this.serializeDates(item);
+
     const command = new PutCommand({
       TableName: tableName,
-      Item: item,
+      Item: serializedItem,
     });
 
     await this.client.send(command);
     return item;
+  }
+
+  // Helper method to convert Date objects to ISO strings
+  private serializeDates(obj: any): any {
+    if (obj instanceof Date) {
+      return obj.toISOString();
+    }
+    
+    if (Array.isArray(obj)) {
+      return obj.map(item => this.serializeDates(item));
+    }
+    
+    if (obj !== null && typeof obj === 'object') {
+      const serialized: any = {};
+      for (const [key, value] of Object.entries(obj)) {
+        serialized[key] = this.serializeDates(value);
+      }
+      return serialized;
+    }
+    
+    return obj;
   }
 
   async getItem(tableName: string, key: any): Promise<any> {
