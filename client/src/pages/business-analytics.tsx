@@ -360,43 +360,168 @@ export default function BusinessAnalytics() {
           </CardContent>
         </Card>
 
-        {/* Next Steps */}
+        {/* App Store Launch Timeline Comparison */}
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <ArrowRight className="w-5 h-5 text-dime-purple" />
-              Immediate Next Steps
+              <Calendar className="w-5 h-5 text-dime-purple" />
+              App Store Launch Timeline - Two Approaches
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-3">
-                <div className="flex items-center gap-3 p-3 bg-red-100 rounded-lg">
-                  <div className="w-2 h-2 bg-red-500 rounded-full"></div>
-                  <span className="font-medium text-slate-900">Axos Bank Setup (Tuesday)</span>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              
+              {/* Fast Track Approach */}
+              <div>
+                <div className="flex items-center gap-2 mb-4">
+                  <div className="w-8 h-8 bg-dime-accent/10 rounded-lg flex items-center justify-center">
+                    <Zap className="w-4 h-4 text-dime-accent" />
+                  </div>
+                  <h3 className="text-lg font-semibold text-slate-900">Fast Track: Individual Account</h3>
+                  <Badge variant="secondary" className="bg-dime-accent/10 text-dime-accent border-dime-accent/20">
+                    Recommended
+                  </Badge>
                 </div>
-                <div className="flex items-center gap-3 p-3 bg-dime-purple/10 rounded-lg">
-                  <div className="w-2 h-2 bg-dime-purple rounded-full"></div>
-                  <span className="font-medium text-slate-900">Apple Developer Account ($99)</span>
-                </div>
-                <div className="flex items-center gap-3 p-3 bg-dime-accent/10 rounded-lg">
-                  <div className="w-2 h-2 bg-slate-400 rounded-full"></div>
-                  <span className="font-medium text-slate-900">AI Animal Video Creation</span>
+                
+                <div className="space-y-4">
+                  <div className="p-3 bg-dime-accent/5 rounded-lg border-l-4 border-dime-accent">
+                    <div className="flex items-center justify-between mb-1">
+                      <span className="font-medium text-slate-900">Week 1 (This Week)</span>
+                      <span className="text-sm text-dime-accent font-medium">$99</span>
+                    </div>
+                    <ul className="text-sm text-slate-600 space-y-1">
+                      <li>• Apply for Individual Developer Account</li>
+                      <li>• Axos Bank setup call (Tuesday)</li>
+                      <li>• Start AI animal video creation</li>
+                    </ul>
+                  </div>
+                  
+                  <div className="p-3 bg-slate-50 rounded-lg">
+                    <div className="flex items-center justify-between mb-1">
+                      <span className="font-medium text-slate-900">Week 2-3</span>
+                      <span className="text-sm text-slate-600">Setup</span>
+                    </div>
+                    <ul className="text-sm text-slate-600 space-y-1">
+                      <li>• Account approved within 24-48 hours</li>
+                      <li>• Upload app to App Store Connect</li>
+                      <li>• Submit for TestFlight beta testing</li>
+                    </ul>
+                  </div>
+                  
+                  <div className="p-3 bg-dime-purple/5 rounded-lg border-l-4 border-dime-purple">
+                    <div className="flex items-center justify-between mb-1">
+                      <span className="font-medium text-slate-900">Week 4 (Launch)</span>
+                      <span className="text-sm text-dime-purple font-medium">Go Live</span>
+                    </div>
+                    <ul className="text-sm text-slate-600 space-y-1">
+                      <li>• App Store review (2-7 days)</li>
+                      <li>• Launch TikTok marketing campaign</li>
+                      <li>• Begin user acquisition</li>
+                    </ul>
+                  </div>
+                  
+                  <div className="p-3 bg-dime-lilac/10 rounded-lg">
+                    <h4 className="font-semibold text-slate-900 text-sm mb-1">Pros</h4>
+                    <ul className="text-sm text-slate-600 space-y-1">
+                      <li>✓ Fastest path to market (4 weeks)</li>
+                      <li>✓ No DUNS number required</li>
+                      <li>✓ Immediate beta testing capability</li>
+                      <li>✓ Can start marketing immediately</li>
+                    </ul>
+                    <h4 className="font-semibold text-slate-900 text-sm mb-1 mt-2">Cons</h4>
+                    <ul className="text-sm text-slate-600 space-y-1">
+                      <li>• Shows personal name instead of "Dime Time"</li>
+                      <li>• Need to transfer later to business account</li>
+                    </ul>
+                  </div>
                 </div>
               </div>
               
-              <div className="space-y-3">
-                <div className="flex items-center gap-3 p-3 bg-dime-lilac/10 rounded-lg">
-                  <div className="w-2 h-2 bg-slate-400 rounded-full"></div>
-                  <span className="font-medium text-slate-900">Series A Pitch Deck ($15-25M)</span>
+              {/* Business Account Approach */}
+              <div>
+                <div className="flex items-center gap-2 mb-4">
+                  <div className="w-8 h-8 bg-dime-purple/10 rounded-lg flex items-center justify-center">
+                    <Target className="w-4 h-4 text-dime-purple" />
+                  </div>
+                  <h3 className="text-lg font-semibold text-slate-900">Business Account Path</h3>
+                  <Badge variant="outline" className="border-slate-300 text-slate-600">
+                    Longer Term
+                  </Badge>
                 </div>
-                <div className="flex items-center gap-3 p-3 bg-slate-50 rounded-lg">
-                  <div className="w-2 h-2 bg-slate-400 rounded-full"></div>
-                  <span className="font-medium text-slate-900">Team Building & Hiring</span>
+                
+                <div className="space-y-4">
+                  <div className="p-3 bg-yellow-50 rounded-lg border-l-4 border-yellow-400">
+                    <div className="flex items-center justify-between mb-1">
+                      <span className="font-medium text-slate-900">Month 1-2</span>
+                      <span className="text-sm text-yellow-600 font-medium">DUNS Fix</span>
+                    </div>
+                    <ul className="text-sm text-slate-600 space-y-1">
+                      <li>• Contact Dun & Bradstreet for appeal</li>
+                      <li>• Gather additional business documentation</li>
+                      <li>• Establish trade references</li>
+                    </ul>
+                  </div>
+                  
+                  <div className="p-3 bg-slate-50 rounded-lg">
+                    <div className="flex items-center justify-between mb-1">
+                      <span className="font-medium text-slate-900">Month 3-6</span>
+                      <span className="text-sm text-slate-600">Credit Building</span>
+                    </div>
+                    <ul className="text-sm text-slate-600 space-y-1">
+                      <li>• Build business credit history</li>
+                      <li>• Wait for DUNS reapproval</li>
+                      <li>• Continue operating on individual account</li>
+                    </ul>
+                  </div>
+                  
+                  <div className="p-3 bg-dime-purple/5 rounded-lg border-l-4 border-dime-purple">
+                    <div className="flex items-center justify-between mb-1">
+                      <span className="font-medium text-slate-900">Month 6+ (Transfer)</span>
+                      <span className="text-sm text-dime-purple font-medium">$299</span>
+                    </div>
+                    <ul className="text-sm text-slate-600 space-y-1">
+                      <li>• Apply for Business Developer Account</li>
+                      <li>• Transfer app to business account</li>
+                      <li>• Rebrand as "Dime Time" company</li>
+                    </ul>
+                  </div>
+                  
+                  <div className="p-3 bg-red-50 rounded-lg">
+                    <h4 className="font-semibold text-slate-900 text-sm mb-1">Pros</h4>
+                    <ul className="text-sm text-slate-600 space-y-1">
+                      <li>✓ Professional business branding</li>
+                      <li>✓ Corporate developer benefits</li>
+                      <li>✓ Better for investor presentations</li>
+                    </ul>
+                    <h4 className="font-semibold text-slate-900 text-sm mb-1 mt-2">Cons</h4>
+                    <ul className="text-sm text-slate-600 space-y-1">
+                      <li>• 6+ month delay to launch</li>
+                      <li>• DUNS approval uncertainty</li>
+                      <li>• Missed early market opportunity</li>
+                      <li>• Higher cost ($299 vs $99)</li>
+                    </ul>
+                  </div>
                 </div>
-                <div className="flex items-center gap-3 p-3 bg-slate-50 rounded-lg">
-                  <div className="w-2 h-2 bg-slate-400 rounded-full"></div>
-                  <span className="font-medium text-slate-900">Marketing Campaign Launch</span>
+              </div>
+            </div>
+            
+            <div className="mt-8 p-4 bg-dime-accent/10 rounded-lg">
+              <h4 className="font-semibold text-slate-900 mb-2">💡 Recommended Strategy</h4>
+              <p className="text-slate-600 mb-3">
+                Start with <strong>Individual Account</strong> to launch quickly, then upgrade to Business Account once DUNS issues are resolved. This hybrid approach gets you to market fast while building toward professional branding.
+              </p>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+                <div className="p-3 bg-white rounded-lg">
+                  <p className="text-lg font-bold text-dime-accent">4 weeks</p>
+                  <p className="text-sm text-slate-600">to App Store launch</p>
+                </div>
+                <div className="p-3 bg-white rounded-lg">
+                  <p className="text-lg font-bold text-dime-purple">6-12 months</p>
+                  <p className="text-sm text-slate-600">to business rebrand</p>
+                </div>
+                <div className="p-3 bg-white rounded-lg">
+                  <p className="text-lg font-bold text-slate-900">$0</p>
+                  <p className="text-sm text-slate-600">revenue lost waiting</p>
                 </div>
               </div>
             </div>
