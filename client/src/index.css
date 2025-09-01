@@ -148,11 +148,50 @@
       0 0 2px #8B7ED8 !important;
   }
 
-  /* Navigation bar override */
+  /* Navigation bar override - REMOVE COVERING ELEMENTS */
   nav, .nav, [role="navigation"], .navbar, .header {
     background-color: #918EF4 !important;
     color: white !important;
     border-color: #8B7ED8 !important;
+    position: relative !important;
+    z-index: 9999 !important;
+    top: 0 !important;
+    height: auto !important;
+    min-height: 64px !important;
+  }
+
+  /* Remove any overlays or bars covering navigation */
+  nav::before, nav::after, .nav::before, .nav::after,
+  [role="navigation"]::before, [role="navigation"]::after {
+    display: none !important;
+    content: none !important;
+  }
+
+  /* Ensure navigation buttons and icons are fully visible */
+  nav .flex, nav button, nav svg, nav .w-5, nav .h-5,
+  .nav .flex, .nav button, .nav svg, .nav .w-5, .nav .h-5 {
+    position: relative !important;
+    z-index: 10000 !important;
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+
+  /* Force navigation container to be properly sized */
+  nav .max-w-7xl, nav .mx-auto, nav .px-4, nav .sm\\:px-6, nav .lg\\:px-8 {
+    width: 100% !important;
+    max-width: 1280px !important;
+    margin: 0 auto !important;
+    padding: 0 1rem !important;
+  }
+
+  /* Ensure navigation items container is visible */
+  nav .justify-between, nav .items-center, nav .h-16 {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    height: 64px !important;
+    width: 100% !important;
   }
 
   /* Navigation icons and top website icons */
@@ -181,6 +220,27 @@
     color: white !important;
     fill: white !important;
     stroke: white !important;
+    position: relative !important;
+    z-index: 10001 !important;
+    display: inline-block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+
+  /* Emergency fix for any covering elements */
+  * {
+    overflow: visible !important;
+  }
+  
+  /* Remove any pseudo-elements that might be covering the nav */
+  *::before, *::after {
+    z-index: 1 !important;
+  }
+  
+  /* Specifically fix navigation area pseudo-elements */
+  nav *::before, nav *::after, .nav *::before, .nav *::after {
+    display: none !important;
+    content: none !important;
   }
 
   
