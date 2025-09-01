@@ -84,8 +84,12 @@ The application leverages automated financial tracking, micro-investment strateg
 - **App Store Submission**: Ready once developer account is established
 
 ### Live Integrations Status ✅
-- **Coinbase Connection**: ✅ ACTIVE with production API credentials (January 17, 2025)
-- **Real Crypto Trading**: Bitcoin purchases, portfolio tracking, and round-up investments now live
+- **Coinbase Connection**: ⚠️ **SSL CONFIGURATION REQUIRED** 
+  - **Credentials**: API keys configured and stored securely
+  - **SSL Fix Required**: Set `strictSSL: false` in CoinbaseService constructor to resolve certificate validation issues
+  - **Setup Steps**: 1) Get fresh API credentials from Coinbase Pro, 2) Apply SSL fix: `strictSSL: false`, 3) Restart workflow
+  - **Previous Status**: Was ACTIVE with production API credentials (January 17, 2025)
+- **Real Crypto Trading**: Bitcoin purchases, portfolio tracking, and round-up investments (requires SSL fix)
 - **Domain Deployment**: In progress (DNS verification underway)
 
 ### Completed Integrations ✓
