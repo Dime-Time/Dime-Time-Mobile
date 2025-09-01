@@ -71,6 +71,9 @@
     background-color: #B8ADF8 !important;
     padding-bottom: 70px !important;
     margin: 0 !important;
+    overflow-x: hidden !important;
+    width: 100vw !important;
+    max-width: 100vw !important;
   }
 
   /* Ensure page content doesn't overlap with footer */
@@ -79,9 +82,18 @@
     padding-bottom: 70px !important;
   }
   
-  /* Ensure all pages and main containers have the lighter background */
+  /* Ensure all pages and main containers have the lighter background and no horizontal scroll */
   html, body, #root, main, .min-h-screen {
     background-color: #B8ADF8 !important;
+    overflow-x: hidden !important;
+    width: 100vw !important;
+    max-width: 100vw !important;
+  }
+  
+  /* Prevent any element from causing horizontal scroll */
+  * {
+    max-width: 100vw !important;
+    box-sizing: border-box !important;
   }
 
   /* All text white with darker lilac outline */
@@ -218,11 +230,55 @@
   }
 
   /* Force navigation container to be properly sized */
-  nav .max-w-7xl, nav .mx-auto, nav .px-4, nav .sm\\:px-6, nav .lg\\:px-8 {
+  nav .max-w-7xl, nav .mx-auto, nav .px-4, nav .sm\\:px-6, nav .lg\\:px-8,
+  nav .w-full {
     width: 100% !important;
-    max-width: 1280px !important;
+    max-width: 100vw !important;
     margin: 0 auto !important;
-    padding: 0 1rem !important;
+    padding: 0 0.5rem !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Mobile Navigation Improvements */
+  @media (max-width: 768px) {
+    /* Fix navigation layout on mobile */
+    nav {
+      padding: 0 !important;
+      width: 100vw !important;
+      max-width: 100vw !important;
+      box-sizing: border-box !important;
+      overflow: hidden !important;
+    }
+    
+    nav .w-full {
+      width: 100% !important;
+      max-width: 100% !important;
+      padding: 0 8px !important;
+    }
+    
+    /* Make mobile buttons properly touchable */
+    .md\\:hidden, button.md\\:hidden {
+      min-width: 44px !important;
+      min-height: 44px !important;
+      padding: 10px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      touch-action: manipulation !important;
+      background: transparent !important;
+      border: none !important;
+      cursor: pointer !important;
+    }
+    
+    /* Fix mobile header layout */
+    .flex.justify-between.items-center.h-16 {
+      width: 100% !important;
+      overflow: hidden !important;
+    }
+    
+    .flex-shrink-0 {
+      flex-shrink: 0 !important;
+    }
   }
 
   /* Ensure navigation items container is visible */

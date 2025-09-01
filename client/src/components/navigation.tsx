@@ -35,16 +35,18 @@ export function Navigation() {
     <>
       {/* Desktop Navigation */}
       <nav className="shadow-sm border-b border-white/20 sticky top-0 z-1" style={{ backgroundColor: 'var(--dime-background)' }}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="w-full mx-auto px-2 sm:px-4">
           <div className="flex justify-between items-center h-16">
-            <div className="flex items-center justify-center space-x-3">
+            {/* Left side - Logo and Title */}
+            <div className="flex items-center space-x-2 flex-shrink-0">
               <div className="mt-1">
-                <Logo size={32} />
+                <Logo size={28} />
               </div>
-              <span className="text-xl font-black text-white z-50 relative">Dime Time</span>
+              <span className="text-lg md:text-xl font-black text-white z-50 relative">Dime Time</span>
             </div>
             
-            <div className="hidden md:flex items-center space-x-6">
+            {/* Center - Desktop Navigation (hidden on mobile) */}
+            <div className="hidden md:flex items-center space-x-6 flex-1 justify-center">
               {navItems.map((item) => (
                 <Link
                   key={item.href}
@@ -60,34 +62,47 @@ export function Navigation() {
               ))}
             </div>
 
-            <div className="flex items-center space-x-3">
-              <Link href="/notifications">
-                <Button variant="ghost" size="icon" className="text-white/70 hover:text-white relative">
+            {/* Right side - Icons */}
+            <div className="flex items-center space-x-1 md:space-x-3 flex-shrink-0">
+              {/* Desktop Icons */}
+              <div className="hidden md:flex items-center space-x-3">
+                <Link href="/notifications">
+                  <Button variant="ghost" size="icon" className="text-white/70 hover:text-white relative">
+                    <Bell className="w-5 h-5" />
+                    <div className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full flex items-center justify-center">
+                      <span className="text-xs text-white font-bold">3</span>
+                    </div>
+                  </Button>
+                </Link>
+                <Link href="/settings">
+                  <Button variant="ghost" size="icon" className="text-white/70 hover:text-white">
+                    <Settings className="w-5 h-5" />
+                  </Button>
+                </Link>
+                <Link href="/qr">
+                  <Button variant="ghost" size="icon" className="text-white/70 hover:text-white">
+                    <QrCode className="w-5 h-5" />
+                  </Button>
+                </Link>
+                <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
+                  <User className="w-4 h-4 text-white" />
+                </div>
+              </div>
+              
+              {/* Mobile - Just notifications and menu */}
+              <Link href="/notifications" className="md:hidden">
+                <Button variant="ghost" size="icon" className="text-white/70 hover:text-white relative w-10 h-10">
                   <Bell className="w-5 h-5" />
                   <div className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full flex items-center justify-center">
                     <span className="text-xs text-white font-bold">3</span>
                   </div>
                 </Button>
               </Link>
-              <Link href="/settings">
-                <Button variant="ghost" size="icon" className="text-white/70 hover:text-white">
-                  <Settings className="w-5 h-5" />
-                </Button>
-              </Link>
-              <Link href="/qr">
-                <Button variant="ghost" size="icon" className="text-white/70 hover:text-white">
-                  <QrCode className="w-5 h-5" />
-                </Button>
-              </Link>
-
-              <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
-                <User className="w-4 h-4 text-white" />
-              </div>
               
               {/* Mobile menu trigger */}
               <Sheet>
                 <SheetTrigger asChild>
-                  <Button variant="ghost" size="icon" className="md:hidden">
+                  <Button variant="ghost" size="icon" className="md:hidden w-10 h-10 text-white">
                     <Menu className="w-6 h-6" />
                   </Button>
                 </SheetTrigger>
