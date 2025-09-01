@@ -34,17 +34,17 @@ export function Navigation() {
   return (
     <>
       {/* Desktop Navigation */}
-      <nav className="shadow-sm border-b border-white/20 sticky top-0 z-50" style={{ backgroundColor: 'var(--dime-background)' }}>
+      <nav className="shadow-sm border-b border-white/20 sticky top-0 z-10" style={{ backgroundColor: 'var(--dime-background)' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center justify-center space-x-3">
               <div className="mt-1">
                 <Logo size={32} />
               </div>
-              <span className="text-xl font-black text-white">Dime Time</span>
+              <span className="text-xl font-black text-white z-50 relative">Dime Time</span>
             </div>
             
-            <div className="hidden md:flex items-center space-x-8">
+            <div className="hidden md:flex items-center space-x-6">
               {navItems.map((item) => (
                 <Link
                   key={item.href}
@@ -60,7 +60,7 @@ export function Navigation() {
               ))}
             </div>
 
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-3">
               <Link href="/notifications">
                 <Button variant="ghost" size="icon" className="text-white/70 hover:text-white relative">
                   <Bell className="w-5 h-5" />

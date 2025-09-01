@@ -107,11 +107,18 @@ export default function Dashboard() {
         />
       </div>
       
+      {/* Dime Time Header - At Very Top */}
+      <div className="mb-4 pt-2">
+        <h1 className="text-4xl font-black text-white mb-6 text-center z-50 relative">
+          Dime Time
+        </h1>
+      </div>
+
       {/* Welcome Section */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-slate-900 mb-2">
-          Welcome back, <span className="text-dime-purple">{user?.firstName || 'User'}</span>!
-        </h1>
+        <h2 className="text-3xl font-bold text-white mb-2">
+          Welcome back, <span className="text-white/90">{user?.firstName || 'User'}</span>!
+        </h2>
         <p className="text-slate-600">
           You've saved <span className="font-semibold text-dime-accent">{formatCurrency(summary.thisMonthRoundUps)}</span> in round-ups this month 
           and paid down <span className="font-semibold text-dime-purple">{formatCurrency(summary.thisMonthPayments)}</span> in debt.

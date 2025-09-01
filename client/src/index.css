@@ -156,16 +156,22 @@
       0 0 2px #8B7ED8 !important;
   }
 
-  /* Top Navigation bar override */
+  /* Top Navigation bar override - Lower z-index so content goes over it */
   nav.sticky, .nav.sticky, nav:first-child {
     background-color: #918EF4 !important;
     color: white !important;
     border-color: #8B7ED8 !important;
     position: sticky !important;
-    z-index: 9999 !important;
+    z-index: 10 !important;
     top: 0 !important;
     height: auto !important;
     min-height: 64px !important;
+  }
+
+  /* Dime Time text should always be on top */
+  .text-xl.font-black {
+    z-index: 50 !important;
+    position: relative !important;
   }
 
   /* Bottom Footer Navigation */
