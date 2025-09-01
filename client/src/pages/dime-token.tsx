@@ -390,7 +390,7 @@ export default function DimeToken() {
                   <p className="font-bold">${Number(tokenInfo?.currentPrice ?? 0).toFixed(4)}</p>
                   <p className={`text-xs ${priceChangeColor}`}>
                     {(tokenInfo?.priceChange24h ?? 0) >= 0 ? '+' : ''}
-                    {tokenInfo?.priceChange24h.toFixed(2)}%
+                    {Number(tokenInfo?.priceChange24h ?? 0).toFixed(2)}%
                   </p>
                 </div>
               </div>
@@ -401,7 +401,7 @@ export default function DimeToken() {
                   <p className="font-bold">{((tokenInfo?.currentPrice ?? 0) / 95000).toFixed(8)}</p>
                   <p className={`text-xs ${priceChangeColor}`}>
                     {(tokenInfo?.priceChange24h ?? 0) >= 0 ? '+' : ''}
-                    {tokenInfo?.priceChange24h.toFixed(2)}%
+                    {Number(tokenInfo?.priceChange24h ?? 0).toFixed(2)}%
                   </p>
                 </div>
               </div>
@@ -412,7 +412,7 @@ export default function DimeToken() {
                   <p className="font-bold">{((tokenInfo?.currentPrice ?? 0) / 3500).toFixed(6)}</p>
                   <p className={`text-xs ${priceChangeColor}`}>
                     {(tokenInfo?.priceChange24h ?? 0) >= 0 ? '+' : ''}
-                    {tokenInfo?.priceChange24h.toFixed(2)}%
+                    {Number(tokenInfo?.priceChange24h ?? 0).toFixed(2)}%
                   </p>
                 </div>
               </div>
