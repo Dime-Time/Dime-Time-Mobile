@@ -123,7 +123,7 @@ export default function BusinessAnalytics() {
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="p-6 bg-slate-50 rounded-lg">
+              <div className="p-6 bg-dime-purple/5 rounded-lg border border-dime-purple/10">
                 <div className="flex items-center gap-2 mb-4">
                   <div className="w-8 h-8 bg-dime-purple/10 rounded-lg flex items-center justify-center">
                     <Calendar className="w-4 h-4 text-dime-purple" />
@@ -141,7 +141,7 @@ export default function BusinessAnalytics() {
                 </div>
               </div>
               
-              <div className="p-6 bg-slate-50 rounded-lg">
+              <div className="p-6 bg-dime-accent/5 rounded-lg border border-dime-accent/10">
                 <div className="flex items-center gap-2 mb-4">
                   <div className="w-8 h-8 bg-dime-accent/10 rounded-lg flex items-center justify-center">
                     <TrendingUp className="w-4 h-4 text-dime-accent" />
@@ -159,7 +159,7 @@ export default function BusinessAnalytics() {
                 </div>
               </div>
               
-              <div className="p-6 bg-slate-50 rounded-lg">
+              <div className="p-6 bg-dime-lilac/5 rounded-lg border border-dime-lilac/10">
                 <div className="flex items-center gap-2 mb-4">
                   <div className="w-8 h-8 bg-dime-lilac/10 rounded-lg flex items-center justify-center">
                     <Target className="w-4 h-4 text-dime-lilac" />
@@ -352,7 +352,7 @@ export default function BusinessAnalytics() {
                 <p className="text-sm text-slate-600">3-year growth plan</p>
               </div>
               
-              <div className="p-4 bg-slate-50 rounded-lg">
+              <div className="p-4 bg-dime-purple/5 rounded-lg border border-dime-purple/10">
                 <h4 className="font-semibold text-slate-900 mb-1">Team Scale</h4>
                 <p className="text-xl font-bold text-slate-900">50+</p>
                 <p className="text-sm text-slate-600">employees by Year 2</p>
@@ -396,7 +396,7 @@ export default function BusinessAnalytics() {
                     </ul>
                   </div>
                   
-                  <div className="p-4 bg-slate-50 rounded-lg">
+                  <div className="p-4 bg-dime-accent/5 rounded-lg border border-dime-accent/10">
                     <h4 className="font-semibold text-slate-900 mb-2">Revenue Model</h4>
                     <p className="text-sm text-slate-600 mb-2">
                       Interest rate arbitrage: Borrow at 5%, lend at 10%
@@ -535,7 +535,7 @@ export default function BusinessAnalytics() {
                     </ul>
                   </div>
                   
-                  <div className="p-3 bg-slate-50 rounded-lg">
+                  <div className="p-3 bg-dime-lilac/5 rounded-lg border border-dime-lilac/10">
                     <div className="flex items-center justify-between mb-1">
                       <span className="font-medium text-slate-900">Week 2-3</span>
                       <span className="text-sm text-slate-600">Setup</span>
@@ -602,7 +602,7 @@ export default function BusinessAnalytics() {
                     </ul>
                   </div>
                   
-                  <div className="p-3 bg-slate-50 rounded-lg">
+                  <div className="p-3 bg-dime-purple/5 rounded-lg border border-dime-purple/10">
                     <div className="flex items-center justify-between mb-1">
                       <span className="font-medium text-slate-900">Month 3-6</span>
                       <span className="text-sm text-slate-600">Credit Building</span>
@@ -626,7 +626,7 @@ export default function BusinessAnalytics() {
                     </ul>
                   </div>
                   
-                  <div className="p-3 bg-red-50 rounded-lg">
+                  <div className="p-3 bg-dime-accent/10 rounded-lg border border-dime-accent/20">
                     <h4 className="font-semibold text-slate-900 text-sm mb-1">Pros</h4>
                     <ul className="text-sm text-slate-600 space-y-1">
                       <li>✓ Professional business branding</li>
@@ -651,15 +651,15 @@ export default function BusinessAnalytics() {
                 Start with <strong>Individual Account</strong> to launch quickly, then upgrade to Business Account once DUNS issues are resolved. This hybrid approach gets you to market fast while building toward professional branding.
               </p>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
-                <div className="p-3 bg-white rounded-lg">
+                <div className="p-3 bg-dime-accent/10 rounded-lg border border-dime-accent/20">
                   <p className="text-lg font-bold text-dime-accent">4 weeks</p>
                   <p className="text-sm text-slate-600">to App Store launch</p>
                 </div>
-                <div className="p-3 bg-white rounded-lg">
+                <div className="p-3 bg-dime-purple/10 rounded-lg border border-dime-purple/20">
                   <p className="text-lg font-bold text-dime-purple">6-12 months</p>
                   <p className="text-sm text-slate-600">to business rebrand</p>
                 </div>
-                <div className="p-3 bg-white rounded-lg">
+                <div className="p-3 bg-dime-lilac/10 rounded-lg border border-dime-lilac/20">
                   <p className="text-lg font-bold text-slate-900">$0</p>
                   <p className="text-sm text-slate-600">revenue lost waiting</p>
                 </div>
