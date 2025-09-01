@@ -17,6 +17,7 @@ import Notifications from "@/pages/notifications";
 import Legal from "@/pages/legal";
 import Signup from "@/pages/signup";
 import DimeToken from "@/pages/dime-token";
+import BusinessAnalytics from "@/pages/business-analytics";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -34,6 +35,7 @@ function Router() {
       <Route path="/legal" component={Legal} />
       <Route path="/signup" component={Signup} />
       <Route path="/dime-token" component={DimeToken} />
+      <Route path="/business-analytics" component={BusinessAnalytics} />
       <Route component={NotFound} />
     </Switch>
   );

@@ -10,7 +10,8 @@ import {
   Coins,
   QrCode,
   Bell,
-  Settings
+  Settings,
+  BarChart3
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -27,6 +28,7 @@ export function Navigation() {
     { href: "/dime-token", label: "DTT", icon: Coins },
     { href: "/banking", label: "Banking", icon: CreditCard },
     { href: "/insights", label: "Insights", icon: TrendingUp },
+    { href: "/business-analytics", label: "Analytics", icon: BarChart3 },
   ];
 
   return (
