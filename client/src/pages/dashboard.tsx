@@ -93,7 +93,7 @@ export default function Dashboard() {
   }
 
   return (
-    <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-20 md:pb-8">
+    <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-20 md:pb-8 relative" style={{ zIndex: 100 }}>
       {/* Logo in upper left corner */}
       <div className="absolute top-4 left-4">
         <img 
@@ -108,8 +108,8 @@ export default function Dashboard() {
       </div>
       
       {/* Dime Time Header - At Very Top */}
-      <div className="mb-4 pt-2">
-        <h1 className="text-4xl font-black text-white mb-6 text-center z-50 relative">
+      <div className="mb-4 pt-2 relative z-50" style={{ zIndex: 100 }}>
+        <h1 className="text-4xl font-black text-white mb-6 text-center relative" style={{ zIndex: 100 }}>
           Dime Time
         </h1>
       </div>

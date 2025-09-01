@@ -156,21 +156,22 @@
       0 0 2px #8B7ED8 !important;
   }
 
-  /* Top Navigation bar override - Lower z-index so content goes over it */
-  nav.sticky, .nav.sticky, nav:first-child {
-    background-color: #918EF4 !important;
-    color: white !important;
-    border-color: #8B7ED8 !important;
+  /* Top Navigation bar - Low z-index so content goes over it */
+  nav.sticky {
+    z-index: 1 !important;
     position: sticky !important;
-    z-index: 10 !important;
     top: 0 !important;
-    height: auto !important;
-    min-height: 64px !important;
   }
 
-  /* Dime Time text should always be on top */
-  .text-xl.font-black {
-    z-index: 50 !important;
+  /* All header content should be above navigation */
+  h1, h2, .text-4xl, .text-xl.font-black, main {
+    z-index: 100 !important;
+    position: relative !important;
+  }
+
+  /* Page content always above navigation */
+  main, .max-w-7xl {
+    z-index: 100 !important;
     position: relative !important;
   }
 
@@ -189,17 +190,28 @@
   }
 
   /* Remove any overlays or bars covering navigation */
+  /* COMPLETELY REMOVE all pseudo-elements and bars/overlays */
   nav::before, nav::after, .nav::before, .nav::after,
-  [role="navigation"]::before, [role="navigation"]::after {
+  [role="navigation"]::before, [role="navigation"]::after,
+  header::before, header::after, .header::before, .header::after,
+  .sticky::before, .sticky::after,
+  div::before, div::after {
     display: none !important;
     content: none !important;
+    background: none !important;
+    position: static !important;
+    width: 0 !important;
+    height: 0 !important;
+    z-index: -999 !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
   }
 
   /* Ensure navigation buttons and icons are fully visible */
   nav .flex, nav button, nav svg, nav .w-5, nav .h-5,
   .nav .flex, .nav button, .nav svg, .nav .w-5, .nav .h-5 {
     position: relative !important;
-    z-index: 10000 !important;
+    z-index: 1 !important;
     display: flex !important;
     visibility: visible !important;
     opacity: 1 !important;
