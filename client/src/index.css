@@ -3,19 +3,19 @@
 @tailwind utilities;
 
 :root {
-  --background: hsl(251, 70%, 83%);
+  --background: hsl(243, 84%, 76%);
   --foreground: hsl(0, 0%, 100%);
-  --muted: hsl(243, 84%, 76%);
+  --muted: hsl(243, 74%, 82%);
   --muted-foreground: hsl(0, 0%, 100%);
   --popover: hsl(243, 84%, 76%);
   --popover-foreground: hsl(0, 0%, 100%);
   --card: hsl(243, 84%, 76%);
   --card-foreground: hsl(0, 0%, 100%);
   --border: hsl(243, 64%, 88%);
-  --input: hsl(243, 84%, 76%);
+  --input: hsl(243, 74%, 82%);
   --primary: hsl(243, 84%, 76%);
   --primary-foreground: hsl(0, 0%, 100%);
-  --secondary: hsl(243, 84%, 76%);
+  --secondary: hsl(243, 74%, 82%);
   --secondary-foreground: hsl(0, 0%, 100%);
   --accent: hsl(243, 64%, 88%);
   --accent-foreground: hsl(0, 0%, 100%);
@@ -24,13 +24,13 @@
   --ring: hsl(243, 64%, 88%);
   --radius: 0.5rem;
   
-  /* Dime Time brand colors - Updated with inverted scheme */
+  /* Dime Time brand colors - Updated with #918EF4 */
   --dime-primary: hsl(243, 84%, 76%);
   --dime-purple: hsl(243, 84%, 76%);
   --dime-lilac: hsl(243, 74%, 82%);
   --dime-lavender: hsl(243, 64%, 88%);
   --dime-accent: hsl(243, 79%, 72%);
-  --dime-background: hsl(251, 70%, 83%);
+  --dime-background: hsl(243, 84%, 76%);
   --dime-dark: hsl(243, 84%, 45%);
   --slate-50: hsl(210, 40%, 98%);
   --slate-600: hsl(0, 0%, 0%);
@@ -38,19 +38,19 @@
 }
 
 .dark {
-  --background: hsl(251, 70%, 83%);
+  --background: hsl(243, 84%, 76%);
   --foreground: hsl(0, 0%, 100%);
-  --muted: hsl(243, 84%, 76%);
+  --muted: hsl(243, 74%, 82%);
   --muted-foreground: hsl(0, 0%, 100%);
   --popover: hsl(243, 84%, 76%);
   --popover-foreground: hsl(0, 0%, 100%);
   --card: hsl(243, 84%, 76%);
   --card-foreground: hsl(0, 0%, 100%);
   --border: hsl(243, 64%, 88%);
-  --input: hsl(243, 84%, 76%);
+  --input: hsl(243, 74%, 82%);
   --primary: hsl(243, 84%, 76%);
   --primary-foreground: hsl(0, 0%, 100%);
-  --secondary: hsl(243, 84%, 76%);
+  --secondary: hsl(243, 74%, 82%);
   --secondary-foreground: hsl(0, 0%, 100%);
   --accent: hsl(243, 64%, 88%);
   --accent-foreground: hsl(0, 0%, 100%);
@@ -68,277 +68,128 @@
   body {
     @apply font-sans antialiased text-foreground;
     font-family: 'Inter', system-ui, sans-serif;
-    background-color: #B8ADF8 !important;
-    padding-bottom: 70px !important;
-    margin: 0 !important;
-    overflow-x: hidden !important;
-    width: 100vw !important;
-    max-width: 100vw !important;
+    background-color: var(--dime-background);
   }
 
-  /* Ensure page content doesn't overlap with footer */
-  .min-h-screen {
-    min-height: calc(100vh - 70px) !important;
-    padding-bottom: 70px !important;
-  }
-  
-  /* Ensure all pages and main containers have the lighter background and no horizontal scroll */
-  html, body, #root, main, .min-h-screen {
-    background-color: #B8ADF8 !important;
-    overflow-x: hidden !important;
-    width: 100vw !important;
-    max-width: 100vw !important;
-  }
-  
-  /* Prevent any element from causing horizontal scroll */
-  * {
-    max-width: 100vw !important;
-    box-sizing: border-box !important;
-  }
-
-  /* All text white with darker lilac outline */
+  /* Force all text to be white with dark purple outline */
   * {
     color: white !important;
     text-shadow: 
-      -1px -1px 0 #8B7ED8,
-      1px -1px 0 #8B7ED8,
-      -1px 1px 0 #8B7ED8,
-      1px 1px 0 #8B7ED8,
-      0 0 2px #8B7ED8 !important;
+      -1px -1px 0 #5a56a8,
+      1px -1px 0 #5a56a8,
+      -1px 1px 0 #5a56a8,
+      1px 1px 0 #5a56a8,
+      0 0 2px #5a56a8;
   }
 
-  /* Information boxes and cards - official Dime Time color */
-  .card, .bg-card, [class*="card"], [class*="bg-card"],
-  .rounded, .border, [class*="rounded"], [class*="border"],
-  .p-4, .p-6, .p-8, [class*="p-"], [class*="m-"],
-  .panel, .widget, .block, .component,
-  .bg-white, .bg-slate-50, .bg-slate-100, .bg-gray-50, .bg-gray-100 {
-    background-color: #918EF4 !important;
-    color: white !important;
-    border-color: #8B7ED8 !important;
+  /* Dark shadow for all SVG elements (logos, icons) */
+  svg {
+    filter: drop-shadow(-1px -1px 0 #5a56a8) 
+            drop-shadow(1px -1px 0 #5a56a8) 
+            drop-shadow(-1px 1px 0 #5a56a8) 
+            drop-shadow(1px 1px 0 #5a56a8) 
+            drop-shadow(0 0 2px #5a56a8) !important;
   }
 
-  /* Buttons and interactive elements - official Dime Time color */
-  button, .button, [role="button"], .btn,
-  [class*="btn-"], [class*="button-"] {
-    background-color: #918EF4 !important;
-    color: white !important;
-    border-color: #8B7ED8 !important;
+  /* Dark shadow for images including logos - exclude clean logo images */
+  img:not(.logo-image-clean) {
+    filter: drop-shadow(-1px -1px 0 #5a56a8) 
+            drop-shadow(1px -1px 0 #5a56a8) 
+            drop-shadow(-1px 1px 0 #5a56a8) 
+            drop-shadow(1px 1px 0 #5a56a8) 
+            drop-shadow(0 0 2px #5a56a8) !important;
+  }
+
+  /* Dark shadow for buttons and interactive elements */
+  button, .button, [role="button"] {
     text-shadow: 
-      -1px -1px 0 #8B7ED8,
-      1px -1px 0 #8B7ED8,
-      -1px 1px 0 #8B7ED8,
-      1px 1px 0 #8B7ED8,
-      0 0 2px #8B7ED8 !important;
+      -1px -1px 0 #5a56a8,
+      1px -1px 0 #5a56a8,
+      -1px 1px 0 #5a56a8,
+      1px 1px 0 #5a56a8,
+      0 0 2px #5a56a8 !important;
   }
 
-  /* Input fields and form elements - official Dime Time color */
-  input, textarea, select, .input, .form-control,
-  [class*="input-"], [class*="form-"] {
-    background-color: #918EF4 !important;
-    color: white !important;
-    border-color: #8B7ED8 !important;
+  /* Dark shadow for all white paths in SVGs */
+  svg path[fill="white"], 
+  svg path[fill="#ffffff"], 
+  svg path[fill="#FFFFFF"],
+  svg path[stroke="white"],
+  svg path[stroke="#ffffff"],
+  svg path[stroke="#FFFFFF"] {
+    filter: drop-shadow(-1px -1px 0 #5a56a8) 
+            drop-shadow(1px -1px 0 #5a56a8) 
+            drop-shadow(-1px 1px 0 #5a56a8) 
+            drop-shadow(1px 1px 0 #5a56a8) 
+            drop-shadow(0 0 2px #5a56a8) !important;
   }
 
-  /* Tables and lists - official Dime Time color */
-  table, tr, td, th, .table, .list, .item,
-  [class*="table-"], [class*="list-"], [class*="item-"] {
-    background-color: #918EF4 !important;
-    color: white !important;
-    border-color: #8B7ED8 !important;
+  /* Dark shadow for logos specifically - excluding clean logo classes */
+  .logo:not(.logo-clean), [class*="logo"]:not([class*="logo-clean"]), [id*="logo"]:not([id*="logo-clean"]) {
+    filter: drop-shadow(-1px -1px 0 #5a56a8) 
+            drop-shadow(1px -1px 0 #5a56a8) 
+            drop-shadow(-1px 1px 0 #5a56a8) 
+            drop-shadow(1px 1px 0 #5a56a8) 
+            drop-shadow(0 0 2px #5a56a8) !important;
   }
 
-  /* Analytics page specific styling */
-  .business-analytics-page, .analytics-page, [class*="analytics"],
-  .chart-container, .metric-card, .kpi-card, .revenue-card {
-    background-color: #918EF4 !important;
-    color: white !important;
-    border-color: #8B7ED8 !important;
+  /* Shadowed logos with enhanced dark outline */
+  .logo-with-shadow, .logo-with-text-shadowed, .logo-image-shadowed {
+    filter: drop-shadow(-2px -2px 0 #5a56a8) 
+            drop-shadow(2px -2px 0 #5a56a8) 
+            drop-shadow(-2px 2px 0 #5a56a8) 
+            drop-shadow(2px 2px 0 #5a56a8) 
+            drop-shadow(0 0 3px #5a56a8) !important;
   }
 
-  /* Override all slate colors on analytics page */
-  .text-slate-900, .text-slate-600, .text-slate-700, .text-slate-800,
-  [class*="text-slate-"] {
-    color: white !important;
+  /* Clean logos without shadow - override all shadow rules */
+  .logo-clean, .logo-with-text-clean, .logo-image-clean,
+  .logo-clean img, .logo-with-text-clean img, .logo-image-clean img,
+  .logo-clean svg, .logo-with-text-clean svg, .logo-image-clean svg {
+    filter: none !important;
+    text-shadow: none !important;
+    box-shadow: none !important;
+    drop-shadow: none !important;
+  }
+
+  /* Enhanced dark shadow for white text elements */
+  .text-white, [class*="text-white"] {
     text-shadow: 
-      -1px -1px 0 #8B7ED8,
-      1px -1px 0 #8B7ED8,
-      -1px 1px 0 #8B7ED8,
-      1px 1px 0 #8B7ED8,
-      0 0 2px #8B7ED8 !important;
+      -1px -1px 0 #5a56a8,
+      1px -1px 0 #5a56a8,
+      -1px 1px 0 #5a56a8,
+      1px 1px 0 #5a56a8,
+      0 0 3px #5a56a8 !important;
   }
 
-  /* Top Navigation bar - Low z-index so content goes over it */
-  nav.sticky {
-    z-index: 1 !important;
-    position: sticky !important;
-    top: 0 !important;
+  /* Dark shadow for icons */
+  .lucide, [class*="lucide"] {
+    filter: drop-shadow(-1px -1px 0 #5a56a8) 
+            drop-shadow(1px -1px 0 #5a56a8) 
+            drop-shadow(-1px 1px 0 #5a56a8) 
+            drop-shadow(1px 1px 0 #5a56a8) 
+            drop-shadow(0 0 2px #5a56a8) !important;
   }
 
-  /* All header content should be above navigation */
-  h1, h2, .text-4xl, .text-xl.font-black, main {
-    z-index: 100 !important;
-    position: relative !important;
+  /* Dark shadow for navigation elements */
+  nav, .nav, [role="navigation"] {
+    text-shadow: 
+      -1px -1px 0 #5a56a8,
+      1px -1px 0 #5a56a8,
+      -1px 1px 0 #5a56a8,
+      1px 1px 0 #5a56a8,
+      0 0 2px #5a56a8 !important;
   }
 
-  /* Page content always above navigation */
-  main, .max-w-7xl {
-    z-index: 100 !important;
-    position: relative !important;
+  /* Dark shadow for headings */
+  h1, h2, h3, h4, h5, h6 {
+    text-shadow: 
+      -1px -1px 0 #5a56a8,
+      1px -1px 0 #5a56a8,
+      -1px 1px 0 #5a56a8,
+      1px 1px 0 #5a56a8,
+      0 0 3px #5a56a8 !important;
   }
-
-  /* Bottom Footer Navigation */
-  nav.fixed, nav:last-child {
-    background-color: #918EF4 !important;
-    color: white !important;
-    border-color: #8B7ED8 !important;
-    position: fixed !important;
-    bottom: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    z-index: 9999 !important;
-    height: auto !important;
-    min-height: 60px !important;
-  }
-
-  /* Remove any overlays or bars covering navigation */
-  /* COMPLETELY REMOVE all pseudo-elements and bars/overlays */
-  nav::before, nav::after, .nav::before, .nav::after,
-  [role="navigation"]::before, [role="navigation"]::after,
-  header::before, header::after, .header::before, .header::after,
-  .sticky::before, .sticky::after,
-  div::before, div::after {
-    display: none !important;
-    content: none !important;
-    background: none !important;
-    position: static !important;
-    width: 0 !important;
-    height: 0 !important;
-    z-index: -999 !important;
-    opacity: 0 !important;
-    visibility: hidden !important;
-  }
-
-  /* Ensure navigation buttons and icons are fully visible */
-  nav .flex, nav button, nav svg, nav .w-5, nav .h-5,
-  .nav .flex, .nav button, .nav svg, .nav .w-5, .nav .h-5 {
-    position: relative !important;
-    z-index: 1 !important;
-    display: flex !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-  }
-
-  /* Force navigation container to be properly sized */
-  nav .max-w-7xl, nav .mx-auto, nav .px-4, nav .sm\\:px-6, nav .lg\\:px-8,
-  nav .w-full {
-    width: 100% !important;
-    max-width: 100vw !important;
-    margin: 0 auto !important;
-    padding: 0 0.5rem !important;
-    box-sizing: border-box !important;
-  }
-
-  /* Mobile Navigation Improvements */
-  @media (max-width: 768px) {
-    /* Fix navigation layout on mobile */
-    nav {
-      padding: 0 !important;
-      width: 100vw !important;
-      max-width: 100vw !important;
-      box-sizing: border-box !important;
-      overflow: hidden !important;
-    }
-    
-    nav .w-full {
-      width: 100% !important;
-      max-width: 100% !important;
-      padding: 0 8px !important;
-    }
-    
-    /* Make mobile buttons properly touchable */
-    .md\\:hidden, button.md\\:hidden {
-      min-width: 44px !important;
-      min-height: 44px !important;
-      padding: 10px !important;
-      display: flex !important;
-      align-items: center !important;
-      justify-content: center !important;
-      touch-action: manipulation !important;
-      background: transparent !important;
-      border: none !important;
-      cursor: pointer !important;
-    }
-    
-    /* Fix mobile header layout */
-    .flex.justify-between.items-center.h-16 {
-      width: 100% !important;
-      overflow: hidden !important;
-    }
-    
-    .flex-shrink-0 {
-      flex-shrink: 0 !important;
-    }
-  }
-
-  /* Ensure navigation items container is visible */
-  nav .justify-between, nav .items-center, nav .h-16 {
-    display: flex !important;
-    justify-content: space-between !important;
-    align-items: center !important;
-    height: 64px !important;
-    width: 100% !important;
-  }
-
-  /* Navigation icons and top website icons */
-  nav svg, .nav svg, [role="navigation"] svg,
-  .navigation svg, .navbar svg, .header svg,
-  .top-nav svg, .menu svg, [class*="nav"] svg,
-  [class*="header"] svg, [class*="menu"] svg {
-    filter: drop-shadow(-1px -1px 0 #8B7ED8) 
-            drop-shadow(1px -1px 0 #8B7ED8) 
-            drop-shadow(-1px 1px 0 #8B7ED8) 
-            drop-shadow(1px 1px 0 #8B7ED8) 
-            drop-shadow(0 0 2px #8B7ED8) !important;
-    color: white !important;
-    fill: white !important;
-    stroke: white !important;
-  }
-
-  /* All icons throughout the website */
-  .lucide, [class*="lucide"], .icon, [class*="icon"],
-  svg.w-4, svg.w-5, svg.w-6, svg.h-4, svg.h-5, svg.h-6 {
-    filter: drop-shadow(-1px -1px 0 #8B7ED8) 
-            drop-shadow(1px -1px 0 #8B7ED8) 
-            drop-shadow(-1px 1px 0 #8B7ED8) 
-            drop-shadow(1px 1px 0 #8B7ED8) 
-            drop-shadow(0 0 2px #8B7ED8) !important;
-    color: white !important;
-    fill: white !important;
-    stroke: white !important;
-    position: relative !important;
-    z-index: 10001 !important;
-    display: inline-block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-  }
-
-  /* Emergency fix for any covering elements */
-  * {
-    overflow: visible !important;
-  }
-  
-  /* Remove any pseudo-elements that might be covering the nav */
-  *::before, *::after {
-    z-index: 1 !important;
-  }
-  
-  /* Specifically fix navigation area pseudo-elements */
-  nav *::before, nav *::after, .nav *::before, .nav *::after {
-    display: none !important;
-    content: none !important;
-  }
-
   
   /* Ensure all backgrounds use the lavender color */
   body, html, #root {
@@ -470,4 +321,3 @@
     border-color: hsl(281, 83%, 79%, 0.2);
   }
 }
-
