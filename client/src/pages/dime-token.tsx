@@ -125,7 +125,7 @@ export default function DimeToken() {
                 <div>
                   <p className="text-sm text-white/60 mb-1">Current Price</p>
                   <div className="flex items-center gap-2">
-                    <p className="text-2xl font-bold text-white">${tokenInfo?.currentPrice.toFixed(4)}</p>
+                    <p className="text-2xl font-bold text-white">${Number(tokenInfo?.currentPrice ?? 0).toFixed(4)}</p>
                     <div className={`flex items-center gap-1 ${priceChangeColor}`}>
                       <PriceIcon className="w-4 h-4" />
                       <span className="text-sm font-medium">
@@ -387,7 +387,7 @@ export default function DimeToken() {
               <div className="flex justify-between items-center">
                 <span className="font-medium">DTT/USD</span>
                 <div className="text-right">
-                  <p className="font-bold">${tokenInfo?.currentPrice.toFixed(4)}</p>
+                  <p className="font-bold">${Number(tokenInfo?.currentPrice ?? 0).toFixed(4)}</p>
                   <p className={`text-xs ${priceChangeColor}`}>
                     {(tokenInfo?.priceChange24h ?? 0) >= 0 ? '+' : ''}
                     {tokenInfo?.priceChange24h.toFixed(2)}%
