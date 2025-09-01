@@ -159,8 +159,8 @@ export function Navigation() {
         </div>
       </nav>
 
-      {/* Mobile Bottom Navigation */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 border-t border-white/20 px-1 py-1 z-50" style={{ backgroundColor: 'var(--dime-background)' }}>
+      {/* Bottom Footer Navigation - Always Visible */}
+      <nav className="fixed bottom-0 left-0 right-0 border-t border-white/20 px-1 py-1 z-50" style={{ backgroundColor: 'var(--dime-background)' }}>
         <div className="flex justify-between items-center max-w-screen-xl mx-auto">
           {navItems.map((item) => {
             const Icon = item.icon;
@@ -168,17 +168,17 @@ export function Navigation() {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`flex flex-col items-center py-1 px-0.5 min-w-0 flex-1 transition-colors ${
+                className={`flex flex-col items-center py-2 px-1 min-w-0 flex-1 transition-colors ${
                   location === item.href
                     ? "text-white"
                     : "text-white/70"
                 }`}
                 style={{ maxWidth: `${100/navItems.length}%` }}
               >
-                <Icon className="w-4 h-4 mb-0.5" />
+                <Icon className="w-5 h-5 mb-1" />
                 <span 
                   className="text-center leading-none truncate w-full block" 
-                  style={{ fontSize: '9px', maxWidth: '100%', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+                  style={{ fontSize: '10px', maxWidth: '100%', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
                 >
                   {item.label}
                 </span>

@@ -69,6 +69,7 @@
     @apply font-sans antialiased text-foreground;
     font-family: 'Inter', system-ui, sans-serif;
     background-color: #B8ADF8 !important;
+    padding-bottom: 80px !important;
   }
   
   /* Ensure all pages and main containers have the lighter background */
