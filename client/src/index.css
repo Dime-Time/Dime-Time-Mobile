@@ -69,7 +69,14 @@
     @apply font-sans antialiased text-foreground;
     font-family: 'Inter', system-ui, sans-serif;
     background-color: #B8ADF8 !important;
-    padding-bottom: 80px !important;
+    padding-bottom: 70px !important;
+    margin: 0 !important;
+  }
+
+  /* Ensure page content doesn't overlap with footer */
+  .min-h-screen {
+    min-height: calc(100vh - 70px) !important;
+    padding-bottom: 70px !important;
   }
   
   /* Ensure all pages and main containers have the lighter background */
@@ -149,16 +156,30 @@
       0 0 2px #8B7ED8 !important;
   }
 
-  /* Navigation bar override - REMOVE COVERING ELEMENTS */
-  nav, .nav, [role="navigation"], .navbar, .header {
+  /* Top Navigation bar override */
+  nav.sticky, .nav.sticky, nav:first-child {
     background-color: #918EF4 !important;
     color: white !important;
     border-color: #8B7ED8 !important;
-    position: relative !important;
+    position: sticky !important;
     z-index: 9999 !important;
     top: 0 !important;
     height: auto !important;
     min-height: 64px !important;
+  }
+
+  /* Bottom Footer Navigation */
+  nav.fixed, nav:last-child {
+    background-color: #918EF4 !important;
+    color: white !important;
+    border-color: #8B7ED8 !important;
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 9999 !important;
+    height: auto !important;
+    min-height: 60px !important;
   }
 
   /* Remove any overlays or bars covering navigation */
