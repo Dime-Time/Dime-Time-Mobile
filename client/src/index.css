@@ -68,12 +68,12 @@
   body {
     @apply font-sans antialiased text-foreground;
     font-family: 'Inter', system-ui, sans-serif;
-    background-color: #918EF4 !important;
+    background-color: #B8ADF8 !important;
   }
   
-  /* Ensure all pages and main containers have the official brand background */
+  /* Ensure all pages and main containers have the lighter background */
   html, body, #root, main, .min-h-screen {
-    background-color: #918EF4 !important;
+    background-color: #B8ADF8 !important;
   }
 
   /* All text white with darker lilac outline */
@@ -87,21 +87,21 @@
       0 0 2px #8B7ED8 !important;
   }
 
-  /* Information boxes and cards - lighter than official color */
+  /* Information boxes and cards - official Dime Time color */
   .card, .bg-card, [class*="card"], [class*="bg-card"],
   .rounded, .border, [class*="rounded"], [class*="border"],
   .p-4, .p-6, .p-8, [class*="p-"], [class*="m-"],
   .panel, .widget, .block, .component,
   .bg-white, .bg-slate-50, .bg-slate-100, .bg-gray-50, .bg-gray-100 {
-    background-color: #B8ADF8 !important;
+    background-color: #918EF4 !important;
     color: white !important;
     border-color: #8B7ED8 !important;
   }
 
-  /* Buttons and interactive elements - lighter shade */
+  /* Buttons and interactive elements - official Dime Time color */
   button, .button, [role="button"], .btn,
   [class*="btn-"], [class*="button-"] {
-    background-color: #B8ADF8 !important;
+    background-color: #918EF4 !important;
     color: white !important;
     border-color: #8B7ED8 !important;
     text-shadow: 
@@ -112,18 +112,18 @@
       0 0 2px #8B7ED8 !important;
   }
 
-  /* Input fields and form elements - lighter shade */
+  /* Input fields and form elements - official Dime Time color */
   input, textarea, select, .input, .form-control,
   [class*="input-"], [class*="form-"] {
-    background-color: #B8ADF8 !important;
+    background-color: #918EF4 !important;
     color: white !important;
     border-color: #8B7ED8 !important;
   }
 
-  /* Tables and lists - lighter shade */
+  /* Tables and lists - official Dime Time color */
   table, tr, td, th, .table, .list, .item,
   [class*="table-"], [class*="list-"], [class*="item-"] {
-    background-color: #B8ADF8 !important;
+    background-color: #918EF4 !important;
     color: white !important;
     border-color: #8B7ED8 !important;
   }
