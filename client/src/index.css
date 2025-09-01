@@ -3,19 +3,19 @@
 @tailwind utilities;
 
 :root {
-  --background: hsl(243, 84%, 76%);
+  --background: hsl(251, 70%, 83%);
   --foreground: hsl(0, 0%, 100%);
-  --muted: hsl(243, 74%, 82%);
+  --muted: hsl(243, 84%, 76%);
   --muted-foreground: hsl(0, 0%, 100%);
   --popover: hsl(243, 84%, 76%);
   --popover-foreground: hsl(0, 0%, 100%);
   --card: hsl(243, 84%, 76%);
   --card-foreground: hsl(0, 0%, 100%);
   --border: hsl(243, 64%, 88%);
-  --input: hsl(243, 74%, 82%);
+  --input: hsl(243, 84%, 76%);
   --primary: hsl(243, 84%, 76%);
   --primary-foreground: hsl(0, 0%, 100%);
-  --secondary: hsl(243, 74%, 82%);
+  --secondary: hsl(243, 84%, 76%);
   --secondary-foreground: hsl(0, 0%, 100%);
   --accent: hsl(243, 64%, 88%);
   --accent-foreground: hsl(0, 0%, 100%);
@@ -24,13 +24,13 @@
   --ring: hsl(243, 64%, 88%);
   --radius: 0.5rem;
   
-  /* Dime Time brand colors - Updated with #918EF4 */
+  /* Dime Time brand colors - Updated with inverted scheme */
   --dime-primary: hsl(243, 84%, 76%);
   --dime-purple: hsl(243, 84%, 76%);
   --dime-lilac: hsl(243, 74%, 82%);
   --dime-lavender: hsl(243, 64%, 88%);
   --dime-accent: hsl(243, 79%, 72%);
-  --dime-background: hsl(243, 84%, 76%);
+  --dime-background: hsl(251, 70%, 83%);
   --dime-dark: hsl(243, 84%, 45%);
   --slate-50: hsl(210, 40%, 98%);
   --slate-600: hsl(0, 0%, 0%);
@@ -38,19 +38,19 @@
 }
 
 .dark {
-  --background: hsl(243, 84%, 76%);
+  --background: hsl(251, 70%, 83%);
   --foreground: hsl(0, 0%, 100%);
-  --muted: hsl(243, 74%, 82%);
+  --muted: hsl(243, 84%, 76%);
   --muted-foreground: hsl(0, 0%, 100%);
   --popover: hsl(243, 84%, 76%);
   --popover-foreground: hsl(0, 0%, 100%);
   --card: hsl(243, 84%, 76%);
   --card-foreground: hsl(0, 0%, 100%);
   --border: hsl(243, 64%, 88%);
-  --input: hsl(243, 74%, 82%);
+  --input: hsl(243, 84%, 76%);
   --primary: hsl(243, 84%, 76%);
   --primary-foreground: hsl(0, 0%, 100%);
-  --secondary: hsl(243, 74%, 82%);
+  --secondary: hsl(243, 84%, 76%);
   --secondary-foreground: hsl(0, 0%, 100%);
   --accent: hsl(243, 64%, 88%);
   --accent-foreground: hsl(0, 0%, 100%);
@@ -131,6 +131,25 @@
   /* Analytics page specific styling */
   .business-analytics-page, .analytics-page, [class*="analytics"],
   .chart-container, .metric-card, .kpi-card, .revenue-card {
+    background-color: #918EF4 !important;
+    color: white !important;
+    border-color: #8B7ED8 !important;
+  }
+
+  /* Override all slate colors on analytics page */
+  .text-slate-900, .text-slate-600, .text-slate-700, .text-slate-800,
+  [class*="text-slate-"] {
+    color: white !important;
+    text-shadow: 
+      -1px -1px 0 #8B7ED8,
+      1px -1px 0 #8B7ED8,
+      -1px 1px 0 #8B7ED8,
+      1px 1px 0 #8B7ED8,
+      0 0 2px #8B7ED8 !important;
+  }
+
+  /* Navigation bar override */
+  nav, .nav, [role="navigation"], .navbar, .header {
     background-color: #918EF4 !important;
     color: white !important;
     border-color: #8B7ED8 !important;
