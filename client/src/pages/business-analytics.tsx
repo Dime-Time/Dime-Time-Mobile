@@ -393,6 +393,7 @@ export default function BusinessAnalytics() {
                       <li>• Apply for Individual Developer Account</li>
                       <li>• Axos Bank setup call (Tuesday)</li>
                       <li>• Start AI animal video creation</li>
+                      <li>• Finalize legal agreements and user flow</li>
                     </ul>
                   </div>
                   
@@ -403,8 +404,9 @@ export default function BusinessAnalytics() {
                     </div>
                     <ul className="text-sm text-slate-600 space-y-1">
                       <li>• Account approved within 24-48 hours</li>
-                      <li>• Upload app to App Store Connect</li>
+                      <li>• Upload app with legal compliance</li>
                       <li>• Submit for TestFlight beta testing</li>
+                      <li>• Test user agreement flow</li>
                     </ul>
                   </div>
                   
