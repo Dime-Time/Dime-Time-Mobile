@@ -68,46 +68,51 @@
   body {
     @apply font-sans antialiased text-foreground;
     font-family: 'Inter', system-ui, sans-serif;
-    background-color: var(--dime-background);
+    background-color: #918EF4 !important;
+  }
+  
+  /* Ensure all pages and main containers have the official brand background */
+  html, body, #root, main, .min-h-screen {
+    background-color: #918EF4 !important;
   }
 
-  /* Force all text to be white with dark purple outline */
+  /* Force all text to be white with darker purple outline */
   * {
     color: white !important;
     text-shadow: 
-      -1px -1px 0 #5a56a8,
-      1px -1px 0 #5a56a8,
-      -1px 1px 0 #5a56a8,
-      1px 1px 0 #5a56a8,
-      0 0 2px #5a56a8;
+      -1px -1px 0 #8B7ED8,
+      1px -1px 0 #8B7ED8,
+      -1px 1px 0 #8B7ED8,
+      1px 1px 0 #8B7ED8,
+      0 0 2px #8B7ED8;
   }
 
   /* Dark shadow for all SVG elements (logos, icons) */
   svg {
-    filter: drop-shadow(-1px -1px 0 #5a56a8) 
-            drop-shadow(1px -1px 0 #5a56a8) 
-            drop-shadow(-1px 1px 0 #5a56a8) 
-            drop-shadow(1px 1px 0 #5a56a8) 
-            drop-shadow(0 0 2px #5a56a8) !important;
+    filter: drop-shadow(-1px -1px 0 #8B7ED8) 
+            drop-shadow(1px -1px 0 #8B7ED8) 
+            drop-shadow(-1px 1px 0 #8B7ED8) 
+            drop-shadow(1px 1px 0 #8B7ED8) 
+            drop-shadow(0 0 2px #8B7ED8) !important;
   }
 
   /* Dark shadow for images including logos - exclude clean logo images */
   img:not(.logo-image-clean) {
-    filter: drop-shadow(-1px -1px 0 #5a56a8) 
-            drop-shadow(1px -1px 0 #5a56a8) 
-            drop-shadow(-1px 1px 0 #5a56a8) 
-            drop-shadow(1px 1px 0 #5a56a8) 
-            drop-shadow(0 0 2px #5a56a8) !important;
+    filter: drop-shadow(-1px -1px 0 #8B7ED8) 
+            drop-shadow(1px -1px 0 #8B7ED8) 
+            drop-shadow(-1px 1px 0 #8B7ED8) 
+            drop-shadow(1px 1px 0 #8B7ED8) 
+            drop-shadow(0 0 2px #8B7ED8) !important;
   }
 
   /* Dark shadow for buttons and interactive elements */
   button, .button, [role="button"] {
     text-shadow: 
-      -1px -1px 0 #5a56a8,
-      1px -1px 0 #5a56a8,
-      -1px 1px 0 #5a56a8,
-      1px 1px 0 #5a56a8,
-      0 0 2px #5a56a8 !important;
+      -1px -1px 0 #8B7ED8,
+      1px -1px 0 #8B7ED8,
+      -1px 1px 0 #8B7ED8,
+      1px 1px 0 #8B7ED8,
+      0 0 2px #8B7ED8 !important;
   }
 
   /* Dark shadow for all white paths in SVGs */
@@ -117,29 +122,29 @@
   svg path[stroke="white"],
   svg path[stroke="#ffffff"],
   svg path[stroke="#FFFFFF"] {
-    filter: drop-shadow(-1px -1px 0 #5a56a8) 
-            drop-shadow(1px -1px 0 #5a56a8) 
-            drop-shadow(-1px 1px 0 #5a56a8) 
-            drop-shadow(1px 1px 0 #5a56a8) 
-            drop-shadow(0 0 2px #5a56a8) !important;
+    filter: drop-shadow(-1px -1px 0 #8B7ED8) 
+            drop-shadow(1px -1px 0 #8B7ED8) 
+            drop-shadow(-1px 1px 0 #8B7ED8) 
+            drop-shadow(1px 1px 0 #8B7ED8) 
+            drop-shadow(0 0 2px #8B7ED8) !important;
   }
 
   /* Dark shadow for logos specifically - excluding clean logo classes */
   .logo:not(.logo-clean), [class*="logo"]:not([class*="logo-clean"]), [id*="logo"]:not([id*="logo-clean"]) {
-    filter: drop-shadow(-1px -1px 0 #5a56a8) 
-            drop-shadow(1px -1px 0 #5a56a8) 
-            drop-shadow(-1px 1px 0 #5a56a8) 
-            drop-shadow(1px 1px 0 #5a56a8) 
-            drop-shadow(0 0 2px #5a56a8) !important;
+    filter: drop-shadow(-1px -1px 0 #8B7ED8) 
+            drop-shadow(1px -1px 0 #8B7ED8) 
+            drop-shadow(-1px 1px 0 #8B7ED8) 
+            drop-shadow(1px 1px 0 #8B7ED8) 
+            drop-shadow(0 0 2px #8B7ED8) !important;
   }
 
   /* Shadowed logos with enhanced dark outline */
   .logo-with-shadow, .logo-with-text-shadowed, .logo-image-shadowed {
-    filter: drop-shadow(-2px -2px 0 #5a56a8) 
-            drop-shadow(2px -2px 0 #5a56a8) 
-            drop-shadow(-2px 2px 0 #5a56a8) 
-            drop-shadow(2px 2px 0 #5a56a8) 
-            drop-shadow(0 0 3px #5a56a8) !important;
+    filter: drop-shadow(-2px -2px 0 #8B7ED8) 
+            drop-shadow(2px -2px 0 #8B7ED8) 
+            drop-shadow(-2px 2px 0 #8B7ED8) 
+            drop-shadow(2px 2px 0 #8B7ED8) 
+            drop-shadow(0 0 3px #8B7ED8) !important;
   }
 
   /* Clean logos without shadow - override all shadow rules */
@@ -155,40 +160,40 @@
   /* Enhanced dark shadow for white text elements */
   .text-white, [class*="text-white"] {
     text-shadow: 
-      -1px -1px 0 #5a56a8,
-      1px -1px 0 #5a56a8,
-      -1px 1px 0 #5a56a8,
-      1px 1px 0 #5a56a8,
-      0 0 3px #5a56a8 !important;
+      -1px -1px 0 #8B7ED8,
+      1px -1px 0 #8B7ED8,
+      -1px 1px 0 #8B7ED8,
+      1px 1px 0 #8B7ED8,
+      0 0 3px #8B7ED8 !important;
   }
 
   /* Dark shadow for icons */
   .lucide, [class*="lucide"] {
-    filter: drop-shadow(-1px -1px 0 #5a56a8) 
-            drop-shadow(1px -1px 0 #5a56a8) 
-            drop-shadow(-1px 1px 0 #5a56a8) 
-            drop-shadow(1px 1px 0 #5a56a8) 
-            drop-shadow(0 0 2px #5a56a8) !important;
+    filter: drop-shadow(-1px -1px 0 #8B7ED8) 
+            drop-shadow(1px -1px 0 #8B7ED8) 
+            drop-shadow(-1px 1px 0 #8B7ED8) 
+            drop-shadow(1px 1px 0 #8B7ED8) 
+            drop-shadow(0 0 2px #8B7ED8) !important;
   }
 
   /* Dark shadow for navigation elements */
   nav, .nav, [role="navigation"] {
     text-shadow: 
-      -1px -1px 0 #5a56a8,
-      1px -1px 0 #5a56a8,
-      -1px 1px 0 #5a56a8,
-      1px 1px 0 #5a56a8,
-      0 0 2px #5a56a8 !important;
+      -1px -1px 0 #8B7ED8,
+      1px -1px 0 #8B7ED8,
+      -1px 1px 0 #8B7ED8,
+      1px 1px 0 #8B7ED8,
+      0 0 2px #8B7ED8 !important;
   }
 
   /* Dark shadow for headings */
   h1, h2, h3, h4, h5, h6 {
     text-shadow: 
-      -1px -1px 0 #5a56a8,
-      1px -1px 0 #5a56a8,
-      -1px 1px 0 #5a56a8,
-      1px 1px 0 #5a56a8,
-      0 0 3px #5a56a8 !important;
+      -1px -1px 0 #8B7ED8,
+      1px -1px 0 #8B7ED8,
+      -1px 1px 0 #8B7ED8,
+      1px 1px 0 #8B7ED8,
+      0 0 3px #8B7ED8 !important;
   }
   
   /* Ensure all backgrounds use the lavender color */
@@ -320,4 +325,97 @@
   .border-dime-lilac\/20 {
     border-color: hsl(281, 83%, 79%, 0.2);
   }
+}
+
+/* STREAMLINED BRANDING - ALL BACKGROUNDS AND COMPONENTS */
+/* Force ALL cards, containers, and components to use official brand colors */
+.card, .bg-card, [class*="card"], [class*="bg-card"],
+.container, .bg-background, [class*="bg-background"],
+.dashboard, .page, .section, .component,
+.rounded, .border, [class*="rounded"], [class*="border"],
+.p-4, .p-6, .p-8, [class*="p-"], [class*="m-"],
+.grid, .flex, [class*="grid"], [class*="flex"],
+.space-y, .gap, [class*="space-"], [class*="gap-"],
+.max-w, .w-full, [class*="max-w"], [class*="w-"],
+.backdrop, .panel, .widget, .block {
+  background-color: #918EF4 !important;
+  color: white !important;
+  border-color: #8B7ED8 !important;
+}
+
+/* Force ALL shadcn/ui components to use brand colors */
+[data-radix-root], [data-radix-portal], 
+.ui-card, .ui-container, .ui-panel,
+[class*="radix"], [class*="ui-"],
+.shadcn, [class*="shadcn"] {
+  background-color: #918EF4 !important;
+  color: white !important;
+  border-color: #8B7ED8 !important;
+}
+
+/* Override any background variations */
+.bg-slate-50, .bg-slate-100, .bg-slate-200, .bg-slate-300,
+.bg-gray-50, .bg-gray-100, .bg-gray-200, .bg-gray-300,
+.bg-white, .bg-zinc-50, .bg-zinc-100, .bg-zinc-200,
+[class*="bg-slate-"], [class*="bg-gray-"], [class*="bg-zinc-"] {
+  background-color: #918EF4 !important;
+  color: white !important;
+}
+
+/* Make sure ALL text is white */
+p, span, div, label, input, textarea, select, option,
+.text-foreground, .text-muted-foreground, .text-primary,
+.text-secondary, .text-accent, .text-destructive,
+[class*="text-"], .prose, .description {
+  color: white !important;
+  text-shadow: 
+    -1px -1px 0 #8B7ED8,
+    1px -1px 0 #8B7ED8,
+    -1px 1px 0 #8B7ED8,
+    1px 1px 0 #8B7ED8,
+    0 0 2px #8B7ED8 !important;
+}
+
+/* Special override for buttons to maintain brand consistency */
+.btn, .button, button, [role="button"],
+[class*="btn-"], [class*="button-"] {
+  background-color: #918EF4 !important;
+  color: white !important;
+  border-color: #8B7ED8 !important;
+}
+
+/* Override any hover states that might change colors */
+*:hover, *:focus, *:active {
+  background-color: #918EF4 !important;
+  color: white !important;
+}
+
+/* Page-specific overrides */
+.dashboard-page, .crypto-page, .finance-page, .payments-page,
+.legal-page, .banking-page, .business-analytics-page {
+  background-color: #918EF4 !important;
+  color: white !important;
+}
+
+/* Chart and data visualization components */
+.chart, .graph, .visualization, .recharts-wrapper,
+[class*="chart-"], [class*="graph-"], [class*="recharts-"] {
+  background-color: #918EF4 !important;
+  color: white !important;
+}
+
+/* Input fields and form elements */
+input, textarea, select, .input, .form-control,
+[class*="input-"], [class*="form-"] {
+  background-color: #918EF4 !important;
+  color: white !important;
+  border-color: #8B7ED8 !important;
+}
+
+/* Table and list elements */
+table, tr, td, th, .table, .list, .item,
+[class*="table-"], [class*="list-"], [class*="item-"] {
+  background-color: #918EF4 !important;
+  color: white !important;
+  border-color: #8B7ED8 !important;
 }
