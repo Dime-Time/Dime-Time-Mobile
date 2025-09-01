@@ -99,7 +99,7 @@ export default function Dashboard() {
         <img 
           src={transparentLogoImage} 
           alt="Dime Time Logo" 
-          className="w-12 h-12 object-contain"
+          className="w-12 h-12 object-contain logo-clean"
           style={{ 
             filter: `brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%)`,
             backgroundColor: 'transparent'
