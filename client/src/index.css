@@ -128,6 +128,42 @@
     border-color: #8B7ED8 !important;
   }
 
+  /* Analytics page specific styling */
+  .business-analytics-page, .analytics-page, [class*="analytics"],
+  .chart-container, .metric-card, .kpi-card, .revenue-card {
+    background-color: #918EF4 !important;
+    color: white !important;
+    border-color: #8B7ED8 !important;
+  }
+
+  /* Navigation icons and top website icons */
+  nav svg, .nav svg, [role="navigation"] svg,
+  .navigation svg, .navbar svg, .header svg,
+  .top-nav svg, .menu svg, [class*="nav"] svg,
+  [class*="header"] svg, [class*="menu"] svg {
+    filter: drop-shadow(-1px -1px 0 #8B7ED8) 
+            drop-shadow(1px -1px 0 #8B7ED8) 
+            drop-shadow(-1px 1px 0 #8B7ED8) 
+            drop-shadow(1px 1px 0 #8B7ED8) 
+            drop-shadow(0 0 2px #8B7ED8) !important;
+    color: white !important;
+    fill: white !important;
+    stroke: white !important;
+  }
+
+  /* All icons throughout the website */
+  .lucide, [class*="lucide"], .icon, [class*="icon"],
+  svg.w-4, svg.w-5, svg.w-6, svg.h-4, svg.h-5, svg.h-6 {
+    filter: drop-shadow(-1px -1px 0 #8B7ED8) 
+            drop-shadow(1px -1px 0 #8B7ED8) 
+            drop-shadow(-1px 1px 0 #8B7ED8) 
+            drop-shadow(1px 1px 0 #8B7ED8) 
+            drop-shadow(0 0 2px #8B7ED8) !important;
+    color: white !important;
+    fill: white !important;
+    stroke: white !important;
+  }
+
   
   /* Ensure all backgrounds use the lavender color */
   body, html, #root {
