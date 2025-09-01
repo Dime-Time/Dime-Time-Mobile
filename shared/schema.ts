@@ -97,6 +97,80 @@ export const userSessions = pgTable("user_sessions", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
+// Business Account Management for Axos Integration
+export const businessAccount = pgTable("business_account", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  bankName: text("bank_name").default('Axos Bank').notNull(),
+  accountId: text("account_id").notNull(), // Axos account ID
+  accountNumber: text("account_number").notNull(),
+  routingNumber: text("routing_number").notNull(),
+  accountType: text("account_type").default('business_checking').notNull(),
+  currentBalance: decimal("current_balance", { precision: 12, scale: 2 }).default('0.00').notNull(),
+  interestRate: decimal("interest_rate", { precision: 5, scale: 4 }).default('0.0400').notNull(), // 4% APY
+  isActive: boolean("is_active").default(true).notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+// Round-up Collections from Users to Business Account
+export const roundUpCollections = pgTable("round_up_collections", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull().references(() => users.id),
+  transactionId: varchar("transaction_id").references(() => transactions.id),
+  amount: decimal("amount", { precision: 10, scale: 2 }).notNull(),
+  userAccountId: text("user_account_id").notNull(), // User's bank account
+  userRoutingNumber: text("user_routing_number").notNull(),
+  businessAccountId: varchar("business_account_id").notNull().references(() => businessAccount.id),
+  axosTransferId: text("axos_transfer_id"), // Axos API transfer ID
+  status: text("status").default('pending').notNull(), // pending, completed, failed
+  collectionDate: timestamp("collection_date").defaultNow().notNull(),
+  effectiveDate: timestamp("effective_date"), // When funds are available
+  failureReason: text("failure_reason"),
+});
+
+// Weekly Bulk Distributions (Every Friday)
+export const weeklyDistributions = pgTable("weekly_distributions", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  distributionDate: timestamp("distribution_date").notNull(), // Friday date
+  totalAmount: decimal("total_amount", { precision: 12, scale: 2 }).notNull(),
+  paymentCount: integer("payment_count").notNull(),
+  businessAccountId: varchar("business_account_id").notNull().references(() => businessAccount.id),
+  axosBulkTransferId: text("axos_bulk_transfer_id"), // Axos bulk payment ID
+  status: text("status").default('scheduled').notNull(), // scheduled, processing, completed, failed
+  scheduledDate: timestamp("scheduled_date").notNull(),
+  completedDate: timestamp("completed_date"),
+  interestEarned: decimal("interest_earned", { precision: 10, scale: 2 }).default('0.00').notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+// Individual Debt Payments within Weekly Distributions
+export const distributionPayments = pgTable("distribution_payments", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  distributionId: varchar("distribution_id").notNull().references(() => weeklyDistributions.id),
+  userId: varchar("user_id").notNull().references(() => users.id),
+  debtId: varchar("debt_id").notNull().references(() => debts.id),
+  amount: decimal("amount", { precision: 10, scale: 2 }).notNull(),
+  debtAccountId: text("debt_account_id").notNull(), // Debt account number
+  debtRoutingNumber: text("debt_routing_number").notNull(),
+  axosTransferId: text("axos_transfer_id"), // Individual transfer ID
+  status: text("status").default('scheduled').notNull(), // scheduled, completed, failed
+  failureReason: text("failure_reason"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+// Interest Earnings Tracking (4% APY)
+export const interestEarnings = pgTable("interest_earnings", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  businessAccountId: varchar("business_account_id").notNull().references(() => businessAccount.id),
+  periodStart: timestamp("period_start").notNull(),
+  periodEnd: timestamp("period_end").notNull(),
+  averageBalance: decimal("average_balance", { precision: 12, scale: 2 }).notNull(),
+  interestRate: decimal("interest_rate", { precision: 5, scale: 4 }).notNull(),
+  interestEarned: decimal("interest_earned", { precision: 10, scale: 2 }).notNull(),
+  daysInPeriod: integer("days_in_period").notNull(),
+  calculatedDate: timestamp("calculated_date").defaultNow().notNull(),
+});
+
 // Insert schemas
 export const insertUserSchema = createInsertSchema(users).omit({
   id: true,
@@ -121,6 +195,33 @@ export const insertPaymentSchema = createInsertSchema(payments).omit({
 
 export const insertRoundUpSettingsSchema = createInsertSchema(roundUpSettings).omit({
   id: true,
+});
+
+// Axos Business Account integration insert schemas
+export const insertBusinessAccountSchema = createInsertSchema(businessAccount).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const insertRoundUpCollectionSchema = createInsertSchema(roundUpCollections).omit({
+  id: true,
+  collectionDate: true,
+});
+
+export const insertWeeklyDistributionSchema = createInsertSchema(weeklyDistributions).omit({
+  id: true,
+  createdAt: true,
+});
+
+export const insertDistributionPaymentSchema = createInsertSchema(distributionPayments).omit({
+  id: true,
+  createdAt: true,
+});
+
+export const insertInterestEarningsSchema = createInsertSchema(interestEarnings).omit({
+  id: true,
+  calculatedDate: true,
 });
 
 // DTT Token Holdings
@@ -325,6 +426,22 @@ export type InsertBankAccount = z.infer<typeof insertBankAccountSchema>;
 
 export type UserSession = typeof userSessions.$inferSelect;
 export type InsertUserSession = z.infer<typeof insertUserSessionSchema>;
+
+// Axos Business Account Types
+export type BusinessAccount = typeof businessAccount.$inferSelect;
+export type InsertBusinessAccount = z.infer<typeof insertBusinessAccountSchema>;
+
+export type RoundUpCollection = typeof roundUpCollections.$inferSelect;
+export type InsertRoundUpCollection = z.infer<typeof insertRoundUpCollectionSchema>;
+
+export type WeeklyDistribution = typeof weeklyDistributions.$inferSelect;
+export type InsertWeeklyDistribution = z.infer<typeof insertWeeklyDistributionSchema>;
+
+export type DistributionPayment = typeof distributionPayments.$inferSelect;
+export type InsertDistributionPayment = z.infer<typeof insertDistributionPaymentSchema>;
+
+export type InterestEarnings = typeof interestEarnings.$inferSelect;
+export type InsertInterestEarnings = z.infer<typeof insertInterestEarningsSchema>;
 
 // Notifications table
 export const notifications = pgTable("notifications", {

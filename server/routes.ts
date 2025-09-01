@@ -9,6 +9,8 @@ import { plaidService } from "./services/plaidService";
 import { coinbaseService } from "./services/coinbaseService";
 import { s3Service } from "./services/s3Service";
 import { dynamoService } from "./services/dynamoService";
+import { axosService } from "./services/axosService";
+import { registerAxosRoutes } from "./routes/axosRoutes";
 import multer from "multer";
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -951,6 +953,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(500).json({ message: "Failed to check AWS service status" });
     }
   });
+
+  // Register Axos Bank integration routes
+  registerAxosRoutes(app);
 
   const httpServer = createServer(app);
   return httpServer;
