@@ -11,7 +11,8 @@ class CoinbaseService {
           apiKey: process.env.COINBASE_API_KEY,
           apiSecret: process.env.COINBASE_API_SECRET,
           strictSSL: false, // Disable strict SSL to fix certificate validation issues
-          sandbox: process.env.NODE_ENV !== 'production', // Use sandbox for development
+          sandbox: false, // Use production API with your real keys from developers.coinbase.com
+          version: '2021-06-14', // Use stable API version
         });
         this.isConfigured = true;
       } else {
