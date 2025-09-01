@@ -327,52 +327,38 @@
   }
 }
 
-/* STREAMLINED BRANDING - LIGHTER CARDS ON OFFICIAL BACKGROUND */
-/* Main background stays official #918EF4, cards get lighter shade */
+/* STREAMLINED BRANDING - ALL BACKGROUNDS AND COMPONENTS */
+/* Force ALL cards, containers, and components to use official brand colors */
 .card, .bg-card, [class*="card"], [class*="bg-card"],
+.container, .bg-background, [class*="bg-background"],
+.dashboard, .page, .section, .component,
 .rounded, .border, [class*="rounded"], [class*="border"],
 .p-4, .p-6, .p-8, [class*="p-"], [class*="m-"],
-.panel, .widget, .block, .component {
-  background-color: #B8ADF8 !important;
-  color: white !important;
-  border-color: #8B7ED8 !important;
-}
-
-/* Keep main containers as official brand color */
-.container, .bg-background, [class*="bg-background"],
-.dashboard, .page, .section,
 .grid, .flex, [class*="grid"], [class*="flex"],
 .space-y, .gap, [class*="space-"], [class*="gap-"],
 .max-w, .w-full, [class*="max-w"], [class*="w-"],
-.backdrop {
+.backdrop, .panel, .widget, .block {
   background-color: #918EF4 !important;
   color: white !important;
   border-color: #8B7ED8 !important;
 }
 
-/* Force shadcn/ui components to use lighter shade for cards */
+/* Force ALL shadcn/ui components to use brand colors */
 [data-radix-root], [data-radix-portal], 
-.ui-card, .ui-panel,
+.ui-card, .ui-container, .ui-panel,
 [class*="radix"], [class*="ui-"],
 .shadcn, [class*="shadcn"] {
-  background-color: #B8ADF8 !important;
-  color: white !important;
-  border-color: #8B7ED8 !important;
-}
-
-/* Main UI containers stay official color */
-.ui-container {
   background-color: #918EF4 !important;
   color: white !important;
   border-color: #8B7ED8 !important;
 }
 
-/* Override background variations - lighter for cards */
+/* Override any background variations */
 .bg-slate-50, .bg-slate-100, .bg-slate-200, .bg-slate-300,
 .bg-gray-50, .bg-gray-100, .bg-gray-200, .bg-gray-300,
 .bg-white, .bg-zinc-50, .bg-zinc-100, .bg-zinc-200,
 [class*="bg-slate-"], [class*="bg-gray-"], [class*="bg-zinc-"] {
-  background-color: #B8ADF8 !important;
+  background-color: #918EF4 !important;
   color: white !important;
 }
 
@@ -390,10 +376,10 @@ p, span, div, label, input, textarea, select, option,
     0 0 2px #8B7ED8 !important;
 }
 
-/* Special override for buttons - lighter shade */
+/* Special override for buttons to maintain brand consistency */
 .btn, .button, button, [role="button"],
 [class*="btn-"], [class*="button-"] {
-  background-color: #B8ADF8 !important;
+  background-color: #918EF4 !important;
   color: white !important;
   border-color: #8B7ED8 !important;
 }
@@ -411,25 +397,25 @@ p, span, div, label, input, textarea, select, option,
   color: white !important;
 }
 
-/* Chart and data visualization components - lighter shade */
+/* Chart and data visualization components */
 .chart, .graph, .visualization, .recharts-wrapper,
 [class*="chart-"], [class*="graph-"], [class*="recharts-"] {
-  background-color: #B8ADF8 !important;
+  background-color: #918EF4 !important;
   color: white !important;
 }
 
-/* Input fields and form elements - lighter shade */
+/* Input fields and form elements */
 input, textarea, select, .input, .form-control,
 [class*="input-"], [class*="form-"] {
-  background-color: #B8ADF8 !important;
+  background-color: #918EF4 !important;
   color: white !important;
   border-color: #8B7ED8 !important;
 }
 
-/* Table and list elements - lighter shade */
+/* Table and list elements */
 table, tr, td, th, .table, .list, .item,
 [class*="table-"], [class*="list-"], [class*="item-"] {
-  background-color: #B8ADF8 !important;
+  background-color: #918EF4 !important;
   color: white !important;
   border-color: #8B7ED8 !important;
 }
