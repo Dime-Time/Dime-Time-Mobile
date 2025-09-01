@@ -12,7 +12,8 @@ import {
   Zap,
   Trophy,
   ArrowUp,
-  ArrowRight
+  ArrowRight,
+  CreditCard
 } from "lucide-react";
 
 export default function BusinessAnalytics() {
@@ -355,6 +356,143 @@ export default function BusinessAnalytics() {
                 <h4 className="font-semibold text-slate-900 mb-1">Team Scale</h4>
                 <p className="text-xl font-bold text-slate-900">50+</p>
                 <p className="text-sm text-slate-600">employees by Year 2</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Phase 2: Debt Consolidation Expansion */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <CreditCard className="w-5 h-5 text-dime-purple" />
+              Phase 2: Debt Consolidation Lending (Year 2-3)
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              
+              {/* Market Opportunity */}
+              <div>
+                <h3 className="text-lg font-semibold text-slate-900 mb-4">Market Opportunity</h3>
+                <div className="space-y-4">
+                  <div className="p-4 bg-dime-accent/10 rounded-lg">
+                    <h4 className="font-semibold text-slate-900 mb-2">Target Market</h4>
+                    <ul className="text-sm text-slate-600 space-y-1">
+                      <li>• 24.6M Americans with personal loans</li>
+                      <li>• $1T+ credit card debt at 20-30% APR</li>
+                      <li>• 48.7% of loans are for debt consolidation</li>
+                      <li>• Average consolidation: $15,000</li>
+                    </ul>
+                  </div>
+                  
+                  <div className="p-4 bg-dime-purple/10 rounded-lg">
+                    <h4 className="font-semibold text-slate-900 mb-2">Competitive Advantage</h4>
+                    <ul className="text-sm text-slate-600 space-y-1">
+                      <li>• 10% APR vs 15.95-23.43% competitors</li>
+                      <li>• Push notification targeting</li>
+                      <li>• Existing user trust & data</li>
+                      <li>• Integrated debt reduction platform</li>
+                    </ul>
+                  </div>
+                  
+                  <div className="p-4 bg-slate-50 rounded-lg">
+                    <h4 className="font-semibold text-slate-900 mb-2">Revenue Model</h4>
+                    <p className="text-sm text-slate-600 mb-2">
+                      Interest rate arbitrage: Borrow at 5%, lend at 10%
+                    </p>
+                    <div className="text-xs text-slate-500">
+                      Example: $750M loan portfolio = $37.5M annual profit
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Revenue Projections */}
+              <div>
+                <h3 className="text-lg font-semibold text-slate-900 mb-4">Revenue Projections</h3>
+                <div className="space-y-4">
+                  <div className="p-4 bg-green-50 rounded-lg border border-green-200">
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="font-semibold text-slate-900">Year 2: Pilot</span>
+                      <span className="text-sm text-green-600 font-medium">10K Users</span>
+                    </div>
+                    <div className="grid grid-cols-2 gap-4 text-sm">
+                      <div>
+                        <p className="text-slate-600">Loan Portfolio</p>
+                        <p className="font-bold text-slate-900">$150M</p>
+                      </div>
+                      <div>
+                        <p className="text-slate-600">Annual Profit</p>
+                        <p className="font-bold text-green-600">$7.5M</p>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="font-semibold text-slate-900">Year 3: Scale</span>
+                      <span className="text-sm text-blue-600 font-medium">50K Users</span>
+                    </div>
+                    <div className="grid grid-cols-2 gap-4 text-sm">
+                      <div>
+                        <p className="text-slate-600">Loan Portfolio</p>
+                        <p className="font-bold text-slate-900">$750M</p>
+                      </div>
+                      <div>
+                        <p className="text-slate-600">Annual Profit</p>
+                        <p className="font-bold text-blue-600">$37.5M</p>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="p-4 bg-dime-purple/10 rounded-lg border border-dime-purple/20">
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="font-semibold text-slate-900">Year 4: National</span>
+                      <span className="text-sm text-dime-purple font-medium">100K Users</span>
+                    </div>
+                    <div className="grid grid-cols-2 gap-4 text-sm">
+                      <div>
+                        <p className="text-slate-600">Loan Portfolio</p>
+                        <p className="font-bold text-slate-900">$1.5B</p>
+                      </div>
+                      <div>
+                        <p className="text-slate-600">Annual Profit</p>
+                        <p className="font-bold text-dime-purple">$75M</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div className="mt-8 p-4 bg-yellow-50 rounded-lg border border-yellow-200">
+              <h4 className="font-semibold text-slate-900 mb-2">⚠️ Implementation Requirements</h4>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                <div>
+                  <p className="font-medium text-slate-900">Regulatory</p>
+                  <ul className="text-slate-600 mt-1 space-y-1">
+                    <li>• Consumer lending licenses (40+ states)</li>
+                    <li>• 6-12 month approval process</li>
+                    <li>• $500K-1M compliance setup</li>
+                  </ul>
+                </div>
+                <div>
+                  <p className="font-medium text-slate-900">Capital</p>
+                  <ul className="text-slate-600 mt-1 space-y-1">
+                    <li>• $10-50M initial lending capital</li>
+                    <li>• Bank partnership for funding</li>
+                    <li>• Securitization for growth</li>
+                  </ul>
+                </div>
+                <div>
+                  <p className="font-medium text-slate-900">Timeline</p>
+                  <ul className="text-slate-600 mt-1 space-y-1">
+                    <li>• Year 2: Licensing & pilot launch</li>
+                    <li>• Year 3: Multi-state expansion</li>
+                    <li>• Year 4: National rollout</li>
+                  </ul>
+                </div>
               </div>
             </div>
           </CardContent>
