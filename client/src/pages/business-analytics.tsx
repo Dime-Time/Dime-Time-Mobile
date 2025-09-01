@@ -412,10 +412,10 @@ export default function BusinessAnalytics() {
               <div>
                 <h3 className="text-lg font-semibold text-slate-900 mb-4">Revenue Projections</h3>
                 <div className="space-y-4">
-                  <div className="p-4 bg-green-50 rounded-lg border border-green-200">
+                  <div className="p-4 bg-dime-accent/10 rounded-lg border border-dime-accent/20">
                     <div className="flex justify-between items-center mb-2">
                       <span className="font-semibold text-slate-900">Year 2: Pilot</span>
-                      <span className="text-sm text-green-600 font-medium">10K Users</span>
+                      <span className="text-sm text-dime-accent font-medium">10K Users</span>
                     </div>
                     <div className="grid grid-cols-2 gap-4 text-sm">
                       <div>
@@ -424,15 +424,15 @@ export default function BusinessAnalytics() {
                       </div>
                       <div>
                         <p className="text-slate-600">Annual Profit</p>
-                        <p className="font-bold text-green-600">$7.5M</p>
+                        <p className="font-bold text-dime-accent">$7.5M</p>
                       </div>
                     </div>
                   </div>
                   
-                  <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
+                  <div className="p-4 bg-dime-lilac/10 rounded-lg border border-dime-lilac/20">
                     <div className="flex justify-between items-center mb-2">
                       <span className="font-semibold text-slate-900">Year 3: Scale</span>
-                      <span className="text-sm text-blue-600 font-medium">50K Users</span>
+                      <span className="text-sm text-dime-lilac font-medium">50K Users</span>
                     </div>
                     <div className="grid grid-cols-2 gap-4 text-sm">
                       <div>
@@ -441,7 +441,7 @@ export default function BusinessAnalytics() {
                       </div>
                       <div>
                         <p className="text-slate-600">Annual Profit</p>
-                        <p className="font-bold text-blue-600">$37.5M</p>
+                        <p className="font-bold text-dime-lilac">$37.5M</p>
                       </div>
                     </div>
                   </div>
@@ -466,7 +466,7 @@ export default function BusinessAnalytics() {
               </div>
             </div>
             
-            <div className="mt-8 p-4 bg-yellow-50 rounded-lg border border-yellow-200">
+            <div className="mt-8 p-4 bg-dime-purple/10 rounded-lg border border-dime-purple/20">
               <h4 className="font-semibold text-slate-900 mb-2">⚠️ Implementation Requirements</h4>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
                 <div>
