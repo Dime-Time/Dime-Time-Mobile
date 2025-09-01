@@ -23,8 +23,8 @@ export default function BusinessAnalytics() {
         {/* Header */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-white mb-2">Business Analytics & Forecasting</h1>
-            <p className="text-white/80">Market analysis, revenue projections, and growth strategy for Dime Time</p>
+            <h1 className="text-3xl font-bold text-slate-900 mb-2">Business Analytics & Forecasting</h1>
+            <p className="text-slate-600">Market analysis, revenue projections, and growth strategy for Dime Time</p>
           </div>
           <Badge variant="secondary" className="bg-dime-purple/10 text-dime-purple border-dime-purple/20">
             Strategic Analysis
@@ -42,21 +42,21 @@ export default function BusinessAnalytics() {
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
-                <div className="p-4 bg-green-500/10 rounded-lg border border-green-500/20">
-                  <h3 className="font-semibold text-white mb-1">Subscription Revenue</h3>
-                  <p className="text-2xl font-bold text-green-500">$35.88</p>
-                  <p className="text-sm text-white/60">per user/year</p>
+                <div className="p-4 bg-dime-accent/10 rounded-lg">
+                  <h3 className="font-semibold text-slate-900 mb-1">Subscription Revenue</h3>
+                  <p className="text-2xl font-bold text-dime-accent">$35.88</p>
+                  <p className="text-sm text-slate-600">per user/year</p>
                 </div>
-                <div className="p-4 bg-blue-500/10 rounded-lg border border-blue-500/20">
-                  <h3 className="font-semibold text-white mb-1">Interest Revenue</h3>
-                  <p className="text-2xl font-bold text-blue-500">$52.00</p>
-                  <p className="text-sm text-white/60">per user/year (4% APY)</p>
+                <div className="p-4 bg-dime-purple/10 rounded-lg">
+                  <h3 className="font-semibold text-slate-900 mb-1">Interest Revenue</h3>
+                  <p className="text-2xl font-bold text-dime-purple">$52.00</p>
+                  <p className="text-sm text-slate-600">per user/year (4% APY)</p>
                 </div>
               </div>
-              <div className="p-4 bg-dime-purple/10 rounded-lg border border-dime-purple/20">
-                <h3 className="font-semibold text-white mb-1">Total Revenue Per User</h3>
-                <p className="text-3xl font-bold text-dime-purple">$87.88</p>
-                <p className="text-sm text-white/60">annual recurring revenue</p>
+              <div className="p-4 bg-dime-lilac/10 rounded-lg">
+                <h3 className="font-semibold text-slate-900 mb-1">Total Revenue Per User</h3>
+                <p className="text-3xl font-bold text-dime-lilac">$87.88</p>
+                <p className="text-sm text-slate-600">annual recurring revenue</p>
               </div>
             </CardContent>
           </Card>
@@ -70,15 +70,15 @@ export default function BusinessAnalytics() {
             </CardHeader>
             <CardContent className="space-y-3">
               <div>
-                <p className="text-sm text-white/60">Americans with Debt</p>
-                <p className="text-2xl font-bold text-white">77M</p>
+                <p className="text-sm text-slate-600">Americans with Debt</p>
+                <p className="text-2xl font-bold text-slate-900">77M</p>
               </div>
               <div>
-                <p className="text-sm text-white/60">Avg Debt Per Person</p>
-                <p className="text-xl font-semibold text-white">$6,200</p>
+                <p className="text-sm text-slate-600">Avg Debt Per Person</p>
+                <p className="text-xl font-semibold text-slate-900">$6,200</p>
               </div>
               <div>
-                <p className="text-sm text-white/60">Target Market</p>
+                <p className="text-sm text-slate-600">Target Market</p>
                 <p className="text-xl font-semibold text-dime-purple">20-40M</p>
               </div>
             </CardContent>
@@ -93,20 +93,20 @@ export default function BusinessAnalytics() {
             </CardHeader>
             <CardContent className="space-y-3">
               <div className="flex items-center justify-between">
-                <span className="text-sm text-white/60">Our APY</span>
-                <span className="font-bold text-green-500">4.0%</span>
+                <span className="text-sm text-slate-600">Our APY</span>
+                <span className="font-bold text-dime-accent">4.0%</span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-sm text-white/60">Competitors</span>
-                <span className="font-medium text-red-400">0.1%</span>
+                <span className="text-sm text-slate-600">Competitors</span>
+                <span className="font-medium text-red-600">0.1%</span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-sm text-white/60">Our Price</span>
-                <span className="font-bold text-green-500">$2.99/mo</span>
+                <span className="text-sm text-slate-600">Our Price</span>
+                <span className="font-bold text-dime-accent">$2.99/mo</span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-sm text-white/60">Competitors</span>
-                <span className="font-medium text-red-400">$5-10/mo</span>
+                <span className="text-sm text-slate-600">Competitors</span>
+                <span className="font-medium text-red-600">$5-10/mo</span>
               </div>
             </CardContent>
           </Card>
@@ -122,62 +122,68 @@ export default function BusinessAnalytics() {
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="p-6 bg-gradient-to-br from-blue-500/10 to-blue-600/10 rounded-lg border border-blue-500/20">
+              <div className="p-6 bg-slate-50 rounded-lg">
                 <div className="flex items-center gap-2 mb-4">
-                  <Calendar className="w-5 h-5 text-blue-500" />
-                  <h3 className="font-semibold text-white">Year 1: Foundation</h3>
+                  <div className="w-8 h-8 bg-dime-purple/10 rounded-lg flex items-center justify-center">
+                    <Calendar className="w-4 h-4 text-dime-purple" />
+                  </div>
+                  <h3 className="font-semibold text-slate-900">Year 1: Foundation</h3>
                 </div>
                 <div className="space-y-2">
-                  <p className="text-3xl font-bold text-blue-500">50K</p>
-                  <p className="text-sm text-white/60">users</p>
-                  <p className="text-xl font-semibold text-white">$4.4M</p>
-                  <p className="text-sm text-white/60">revenue</p>
+                  <p className="text-3xl font-bold text-dime-purple">50K</p>
+                  <p className="text-sm text-slate-600">users</p>
+                  <p className="text-xl font-semibold text-slate-900">$4.4M</p>
+                  <p className="text-sm text-slate-600">revenue</p>
                 </div>
-                <div className="mt-4 text-sm text-white/80">
+                <div className="mt-4 text-sm text-slate-600">
                   Launch, early adopters, product refinement
                 </div>
               </div>
               
-              <div className="p-6 bg-gradient-to-br from-purple-500/10 to-purple-600/10 rounded-lg border border-purple-500/20">
+              <div className="p-6 bg-slate-50 rounded-lg">
                 <div className="flex items-center gap-2 mb-4">
-                  <TrendingUp className="w-5 h-5 text-purple-500" />
-                  <h3 className="font-semibold text-white">Year 2: Scale</h3>
+                  <div className="w-8 h-8 bg-dime-accent/10 rounded-lg flex items-center justify-center">
+                    <TrendingUp className="w-4 h-4 text-dime-accent" />
+                  </div>
+                  <h3 className="font-semibold text-slate-900">Year 2: Scale</h3>
                 </div>
                 <div className="space-y-2">
-                  <p className="text-3xl font-bold text-purple-500">400K</p>
-                  <p className="text-sm text-white/60">users</p>
-                  <p className="text-xl font-semibold text-white">$35M</p>
-                  <p className="text-sm text-white/60">revenue</p>
+                  <p className="text-3xl font-bold text-dime-accent">400K</p>
+                  <p className="text-sm text-slate-600">users</p>
+                  <p className="text-xl font-semibold text-slate-900">$35M</p>
+                  <p className="text-sm text-slate-600">revenue</p>
                 </div>
-                <div className="mt-4 text-sm text-white/80">
+                <div className="mt-4 text-sm text-slate-600">
                   Aggressive marketing, geographic expansion
                 </div>
               </div>
               
-              <div className="p-6 bg-gradient-to-br from-green-500/10 to-green-600/10 rounded-lg border border-green-500/20">
+              <div className="p-6 bg-slate-50 rounded-lg">
                 <div className="flex items-center gap-2 mb-4">
-                  <Target className="w-5 h-5 text-green-500" />
-                  <h3 className="font-semibold text-white">Year 3: Dominance</h3>
+                  <div className="w-8 h-8 bg-dime-lilac/10 rounded-lg flex items-center justify-center">
+                    <Target className="w-4 h-4 text-dime-lilac" />
+                  </div>
+                  <h3 className="font-semibold text-slate-900">Year 3: Dominance</h3>
                 </div>
                 <div className="space-y-2">
-                  <p className="text-3xl font-bold text-green-500">1.14M</p>
-                  <p className="text-sm text-white/60">users</p>
-                  <p className="text-xl font-semibold text-white">$100M</p>
-                  <p className="text-sm text-white/60">revenue target</p>
+                  <p className="text-3xl font-bold text-dime-lilac">1.14M</p>
+                  <p className="text-sm text-slate-600">users</p>
+                  <p className="text-xl font-semibold text-slate-900">$100M</p>
+                  <p className="text-sm text-slate-600">revenue target</p>
                 </div>
-                <div className="mt-4 text-sm text-white/80">
+                <div className="mt-4 text-sm text-slate-600">
                   National coverage, enterprise partnerships
                 </div>
               </div>
             </div>
             
-            <div className="mt-6 p-4 bg-dime-purple/10 rounded-lg border border-dime-purple/20">
+            <div className="mt-6 p-4 bg-dime-purple/10 rounded-lg">
               <div className="flex items-center gap-2 mb-2">
                 <ArrowUp className="w-4 h-4 text-dime-purple" />
-                <span className="font-semibold text-white">Required Growth Rate</span>
+                <span className="font-semibold text-slate-900">Required Growth Rate</span>
               </div>
               <p className="text-2xl font-bold text-dime-purple">31,667</p>
-              <p className="text-sm text-white/60">new users per month average</p>
+              <p className="text-sm text-slate-600">new users per month average</p>
             </div>
           </CardContent>
         </Card>
@@ -194,25 +200,25 @@ export default function BusinessAnalytics() {
             <CardContent className="space-y-4">
               <div className="space-y-3">
                 <div className="flex justify-between items-center">
-                  <span className="text-white/60">Gross Revenue</span>
-                  <span className="text-xl font-bold text-green-500">$87.88M</span>
+                  <span className="text-slate-600">Gross Revenue</span>
+                  <span className="text-xl font-bold text-dime-accent">$87.88M</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-white/60">Operating Costs</span>
-                  <span className="text-xl font-semibold text-red-400">$13.7M</span>
+                  <span className="text-slate-600">Operating Costs</span>
+                  <span className="text-xl font-semibold text-red-600">$13.7M</span>
                 </div>
-                <div className="border-t border-white/20 pt-3">
+                <div className="border-t border-slate-200 pt-3">
                   <div className="flex justify-between items-center">
-                    <span className="font-semibold text-white">Net Profit</span>
-                    <span className="text-2xl font-bold text-green-500">$74.18M</span>
+                    <span className="font-semibold text-slate-900">Net Profit</span>
+                    <span className="text-2xl font-bold text-dime-accent">$74.18M</span>
                   </div>
                 </div>
               </div>
               
-              <div className="p-4 bg-green-500/10 rounded-lg border border-green-500/20">
+              <div className="p-4 bg-dime-accent/10 rounded-lg">
                 <div className="flex items-center justify-between">
-                  <span className="font-semibold text-white">Profit Margin</span>
-                  <span className="text-3xl font-bold text-green-500">84%</span>
+                  <span className="font-semibold text-slate-900">Profit Margin</span>
+                  <span className="text-3xl font-bold text-dime-accent">84%</span>
                 </div>
               </div>
             </CardContent>
@@ -227,33 +233,33 @@ export default function BusinessAnalytics() {
             </CardHeader>
             <CardContent className="space-y-4">
               <div>
-                <h4 className="font-semibold text-white mb-3">Round-up App Success</h4>
+                <h4 className="font-semibold text-slate-900 mb-3">Round-up App Success</h4>
                 <div className="space-y-2">
                   <div className="flex justify-between">
-                    <span className="text-white/60">Acorns</span>
-                    <span className="font-medium text-white">10M+ users</span>
+                    <span className="text-slate-600">Acorns</span>
+                    <span className="font-medium text-slate-900">10M+ users</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-white/60">Qapital</span>
-                    <span className="font-medium text-white">6M+ users</span>
+                    <span className="text-slate-600">Qapital</span>
+                    <span className="font-medium text-slate-900">6M+ users</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-white/60">Digit</span>
-                    <span className="font-medium text-white">7M+ users</span>
+                    <span className="text-slate-600">Digit</span>
+                    <span className="font-medium text-slate-900">7M+ users</span>
                   </div>
                 </div>
               </div>
               
               <div>
-                <h4 className="font-semibold text-white mb-3">Direct Competitors</h4>
+                <h4 className="font-semibold text-slate-900 mb-3">Direct Competitors</h4>
                 <div className="space-y-2">
                   <div className="flex justify-between">
-                    <span className="text-white/60">Tally (shutdown)</span>
-                    <span className="font-medium text-white">500K users</span>
+                    <span className="text-slate-600">Tally (shutdown)</span>
+                    <span className="font-medium text-slate-900">500K users</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-white/60">PocketGuard</span>
-                    <span className="font-medium text-white">3M users</span>
+                    <span className="text-slate-600">PocketGuard</span>
+                    <span className="font-medium text-slate-900">3M users</span>
                   </div>
                 </div>
               </div>
@@ -272,15 +278,15 @@ export default function BusinessAnalytics() {
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <h4 className="font-semibold text-white mb-3">Campaign Concept</h4>
-                <div className="p-4 bg-yellow-500/10 rounded-lg border border-yellow-500/20 mb-4">
-                  <p className="text-white font-medium">"AI-generated animals holding phones saying 'Get out of debt one dime at a time with Dime Time' + App Store download button"</p>
+                <h4 className="font-semibold text-slate-900 mb-3">Campaign Concept</h4>
+                <div className="p-4 bg-dime-lilac/10 rounded-lg mb-4">
+                  <p className="text-slate-900 font-medium">"AI-generated animals holding phones saying 'Get out of debt one dime at a time with Dime Time' + App Store download button"</p>
                 </div>
                 
                 <div className="space-y-3">
                   <div>
-                    <h5 className="font-medium text-white mb-1">Why This Works:</h5>
-                    <ul className="text-sm text-white/80 space-y-1">
+                    <h5 className="font-medium text-slate-900 mb-1">Why This Works:</h5>
+                    <ul className="text-sm text-slate-600 space-y-1">
                       <li>• AI animals trending on TikTok (high shareability)</li>
                       <li>• Simple, memorable hook: "One dime at a time"</li>
                       <li>• Direct CTA removes all friction</li>
@@ -291,26 +297,26 @@ export default function BusinessAnalytics() {
               </div>
               
               <div>
-                <h4 className="font-semibold text-white mb-3">Expected Performance</h4>
+                <h4 className="font-semibold text-slate-900 mb-3">Expected Performance</h4>
                 <div className="space-y-3">
                   <div className="flex justify-between">
-                    <span className="text-white/60">Conversion Rate</span>
-                    <span className="font-medium text-white">2-5%</span>
+                    <span className="text-slate-600">Conversion Rate</span>
+                    <span className="font-medium text-slate-900">2-5%</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-white/60">Cost Per User</span>
-                    <span className="font-medium text-green-500">$2-10</span>
+                    <span className="text-slate-600">Cost Per User</span>
+                    <span className="font-medium text-dime-accent">$2-10</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-white/60">Viral Potential</span>
-                    <span className="font-medium text-yellow-500">10M+ views</span>
+                    <span className="text-slate-600">Viral Potential</span>
+                    <span className="font-medium text-dime-purple">10M+ views</span>
                   </div>
                 </div>
                 
-                <div className="mt-4 p-4 bg-dime-purple/10 rounded-lg border border-dime-purple/20">
-                  <h5 className="font-semibold text-white mb-1">Q1 Projection</h5>
+                <div className="mt-4 p-4 bg-dime-purple/10 rounded-lg">
+                  <h5 className="font-semibold text-slate-900 mb-1">Q1 Projection</h5>
                   <p className="text-2xl font-bold text-dime-purple">50K+</p>
-                  <p className="text-sm text-white/60">users from TikTok campaign</p>
+                  <p className="text-sm text-slate-600">users from TikTok campaign</p>
                 </div>
               </div>
             </div>
@@ -327,28 +333,28 @@ export default function BusinessAnalytics() {
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-              <div className="p-4 bg-blue-500/10 rounded-lg border border-blue-500/20">
-                <h4 className="font-semibold text-white mb-1">User Acquisition Cost</h4>
-                <p className="text-xl font-bold text-blue-500">&lt; $25</p>
-                <p className="text-sm text-white/60">per user target</p>
+              <div className="p-4 bg-dime-purple/10 rounded-lg">
+                <h4 className="font-semibold text-slate-900 mb-1">User Acquisition Cost</h4>
+                <p className="text-xl font-bold text-dime-purple">&lt; $25</p>
+                <p className="text-sm text-slate-600">per user target</p>
               </div>
               
-              <div className="p-4 bg-green-500/10 rounded-lg border border-green-500/20">
-                <h4 className="font-semibold text-white mb-1">Retention Rate</h4>
-                <p className="text-xl font-bold text-green-500">85%+</p>
-                <p className="text-sm text-white/60">monthly retention</p>
+              <div className="p-4 bg-dime-accent/10 rounded-lg">
+                <h4 className="font-semibold text-slate-900 mb-1">Retention Rate</h4>
+                <p className="text-xl font-bold text-dime-accent">85%+</p>
+                <p className="text-sm text-slate-600">monthly retention</p>
               </div>
               
-              <div className="p-4 bg-purple-500/10 rounded-lg border border-purple-500/20">
-                <h4 className="font-semibold text-white mb-1">Funding Needed</h4>
-                <p className="text-xl font-bold text-purple-500">$15-25M</p>
-                <p className="text-sm text-white/60">3-year growth plan</p>
+              <div className="p-4 bg-dime-lilac/10 rounded-lg">
+                <h4 className="font-semibold text-slate-900 mb-1">Funding Needed</h4>
+                <p className="text-xl font-bold text-dime-lilac">$15-25M</p>
+                <p className="text-sm text-slate-600">3-year growth plan</p>
               </div>
               
-              <div className="p-4 bg-orange-500/10 rounded-lg border border-orange-500/20">
-                <h4 className="font-semibold text-white mb-1">Team Scale</h4>
-                <p className="text-xl font-bold text-orange-500">50+</p>
-                <p className="text-sm text-white/60">employees by Year 2</p>
+              <div className="p-4 bg-slate-50 rounded-lg">
+                <h4 className="font-semibold text-slate-900 mb-1">Team Scale</h4>
+                <p className="text-xl font-bold text-slate-900">50+</p>
+                <p className="text-sm text-slate-600">employees by Year 2</p>
               </div>
             </div>
           </CardContent>
@@ -365,32 +371,32 @@ export default function BusinessAnalytics() {
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-3">
-                <div className="flex items-center gap-3 p-3 bg-dime-purple/10 rounded-lg border border-dime-purple/20">
+                <div className="flex items-center gap-3 p-3 bg-red-100 rounded-lg">
                   <div className="w-2 h-2 bg-red-500 rounded-full"></div>
-                  <span className="font-medium text-white">Axos Bank Setup (Tuesday)</span>
+                  <span className="font-medium text-slate-900">Axos Bank Setup (Tuesday)</span>
                 </div>
-                <div className="flex items-center gap-3 p-3 bg-blue-500/10 rounded-lg border border-blue-500/20">
-                  <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
-                  <span className="font-medium text-white">Apple Developer Account ($99)</span>
+                <div className="flex items-center gap-3 p-3 bg-dime-purple/10 rounded-lg">
+                  <div className="w-2 h-2 bg-dime-purple rounded-full"></div>
+                  <span className="font-medium text-slate-900">Apple Developer Account ($99)</span>
                 </div>
-                <div className="flex items-center gap-3 p-3 bg-green-500/10 rounded-lg border border-green-500/20">
-                  <div className="w-2 h-2 bg-gray-500 rounded-full"></div>
-                  <span className="font-medium text-white">AI Animal Video Creation</span>
+                <div className="flex items-center gap-3 p-3 bg-dime-accent/10 rounded-lg">
+                  <div className="w-2 h-2 bg-slate-400 rounded-full"></div>
+                  <span className="font-medium text-slate-900">AI Animal Video Creation</span>
                 </div>
               </div>
               
               <div className="space-y-3">
-                <div className="flex items-center gap-3 p-3 bg-purple-500/10 rounded-lg border border-purple-500/20">
-                  <div className="w-2 h-2 bg-gray-500 rounded-full"></div>
-                  <span className="font-medium text-white">Series A Pitch Deck ($15-25M)</span>
+                <div className="flex items-center gap-3 p-3 bg-dime-lilac/10 rounded-lg">
+                  <div className="w-2 h-2 bg-slate-400 rounded-full"></div>
+                  <span className="font-medium text-slate-900">Series A Pitch Deck ($15-25M)</span>
                 </div>
-                <div className="flex items-center gap-3 p-3 bg-orange-500/10 rounded-lg border border-orange-500/20">
-                  <div className="w-2 h-2 bg-gray-500 rounded-full"></div>
-                  <span className="font-medium text-white">Team Building & Hiring</span>
+                <div className="flex items-center gap-3 p-3 bg-slate-50 rounded-lg">
+                  <div className="w-2 h-2 bg-slate-400 rounded-full"></div>
+                  <span className="font-medium text-slate-900">Team Building & Hiring</span>
                 </div>
-                <div className="flex items-center gap-3 p-3 bg-yellow-500/10 rounded-lg border border-yellow-500/20">
-                  <div className="w-2 h-2 bg-gray-500 rounded-full"></div>
-                  <span className="font-medium text-white">Marketing Campaign Launch</span>
+                <div className="flex items-center gap-3 p-3 bg-slate-50 rounded-lg">
+                  <div className="w-2 h-2 bg-slate-400 rounded-full"></div>
+                  <span className="font-medium text-slate-900">Marketing Campaign Launch</span>
                 </div>
               </div>
             </div>
