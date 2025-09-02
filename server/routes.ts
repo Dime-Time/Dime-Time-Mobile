@@ -14,6 +14,8 @@ import { registerAxosRoutes } from "./routes/axosRoutes";
 import { notificationRoutes } from "./routes/notificationRoutes";
 import { notificationService } from "./services/notificationService";
 import { notificationTriggers } from "./services/notificationTriggers";
+import { roundUpSplitService } from "./services/roundUpSplitService";
+import { calculateRoundUp } from "../client/src/lib/calculations";
 import multer from "multer";
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -59,21 +61,50 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/transactions", async (req: Request, res: Response) => {
     try {
       const userId = "demo-user-1";
+      
+      // Get user's round-up settings to calculate proper round-up with multiplier
+      const roundUpSettings = await storage.getRoundUpSettings(userId);
+      
+      // Calculate round-up with multiplier
+      const amount = parseFloat(req.body.amount);
+      const multiplier = roundUpSettings ? parseFloat(roundUpSettings.multiplier) : 1.0;
+      const totalRoundUp = calculateRoundUp(amount, multiplier);
+      
+      // Create transaction with calculated round-up
       const validatedData = insertTransactionSchema.parse({
         ...req.body,
         userId,
+        roundUpAmount: totalRoundUp.toFixed(2)
       });
       
       const transaction = await storage.createTransaction(validatedData);
       
-      // Trigger round-up notification
-      if (transaction.roundUpAmount && parseFloat(transaction.roundUpAmount) > 0) {
-        await notificationTriggers.onRoundUpCollected(
-          userId, 
-          transaction.id, 
-          parseFloat(transaction.roundUpAmount), 
-          transaction.merchant
-        );
+      // Process round-up split (crypto immediate + debt accumulation) if round-up > 0
+      if (totalRoundUp > 0 && roundUpSettings?.isEnabled) {
+        try {
+          console.log(`🔄 Processing split round-up: $${totalRoundUp.toFixed(2)}`);
+          
+          const splitResult = await roundUpSplitService.processRoundUpSplit(
+            userId,
+            transaction.id,
+            totalRoundUp,
+            roundUpSettings
+          );
+          
+          console.log(`✅ Split processing complete:`, splitResult);
+          
+          // Trigger round-up notification with split details
+          await notificationTriggers.onRoundUpCollected(
+            userId, 
+            transaction.id, 
+            totalRoundUp, 
+            transaction.merchant
+          );
+          
+        } catch (splitError) {
+          console.error('Error processing round-up split:', splitError);
+          // Transaction still succeeds even if split processing fails
+        }
       }
       
       res.status(201).json(transaction);

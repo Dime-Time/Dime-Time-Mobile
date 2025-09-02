@@ -1,6 +1,13 @@
-export function calculateRoundUp(amount: number): number {
+export function calculateRoundUp(amount: number, multiplier: number = 1.0): number {
   const roundedAmount = Math.ceil(amount);
-  return parseFloat((roundedAmount - amount).toFixed(2));
+  const baseRoundUp = roundedAmount - amount;
+  return parseFloat((baseRoundUp * multiplier).toFixed(2));
+}
+
+export function splitRoundUp(totalRoundUp: number, cryptoPercentage: number): { cryptoAmount: number; debtAmount: number } {
+  const cryptoAmount = parseFloat((totalRoundUp * (cryptoPercentage / 100)).toFixed(2));
+  const debtAmount = parseFloat((totalRoundUp - cryptoAmount).toFixed(2));
+  return { cryptoAmount, debtAmount };
 }
 
 export function formatCurrency(amount: string | number): string {
