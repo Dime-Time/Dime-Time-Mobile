@@ -181,6 +181,165 @@ export class NotificationService {
     return this.sendNotification(userId, template, { customMessage: message });
   }
 
+  // Advanced notification types for enhanced user engagement
+
+  async sendDebtTimelineNotification(userId: string, monthsReduced: number, debtFreeDate: string) {
+    const template: NotificationTemplate = {
+      title: "🎯 Debt Freedom Timeline Update!",
+      message: `Amazing! You're now ${monthsReduced} months closer to debt-free. At this pace, you'll be free by ${debtFreeDate}! 🎉`,
+      type: "debt_timeline",
+      channel: "push",
+      priority: "high"
+    };
+
+    return this.sendNotification(userId, template, { monthsReduced, debtFreeDate });
+  }
+
+  async sendInterestSavingsNotification(userId: string, amountSaved: string, realWorldComparison: string) {
+    const template: NotificationTemplate = {
+      title: "💰 Interest Savings Alert!",
+      message: `Your round-ups saved you $${amountSaved} in credit card interest this month! That's equivalent to ${realWorldComparison} 🛒`,
+      type: "interest_savings",
+      channel: "push",
+      priority: "high"
+    };
+
+    return this.sendNotification(userId, template, { amountSaved, realWorldComparison });
+  }
+
+  async sendCompetitiveSavingsNotification(userId: string, percentile: number, weeklyAmount: string) {
+    const template: NotificationTemplate = {
+      title: "🏆 You're Crushing It!",
+      message: `You've saved more than ${percentile}% of Dime Time users this week! Your $${weeklyAmount} in round-ups is 2x the average user!`,
+      type: "competitive_savings",
+      channel: "push",
+      priority: "medium"
+    };
+
+    return this.sendNotification(userId, template, { percentile, weeklyAmount });
+  }
+
+  async sendAxosEarningsNotification(userId: string, weeklyEarnings: string, totalEarnings: string, realWorldValue: string) {
+    const template: NotificationTemplate = {
+      title: "🏦 Your Money is Working!",
+      message: `Your round-ups earned $${weeklyEarnings} this week at 4% APY! Total earned: $${totalEarnings} - that's a ${realWorldValue}! 🎬`,
+      type: "axos_earnings",
+      channel: "push",
+      priority: "medium"
+    };
+
+    return this.sendNotification(userId, template, { weeklyEarnings, totalEarnings, realWorldValue });
+  }
+
+  async sendGoalProgressNotification(userId: string, amountNeeded: string, goalType: string, progressPercent: number) {
+    const urgency = progressPercent >= 90 ? "🔥" : progressPercent >= 75 ? "⚡" : "🎯";
+    const template: NotificationTemplate = {
+      title: `${urgency} Almost There!`,
+      message: `You're just $${amountNeeded} away from your $${goalType} goal! You're ${progressPercent}% of the way there!`,
+      type: "goal_progress",
+      channel: "push",
+      priority: "medium"
+    };
+
+    return this.sendNotification(userId, template, { amountNeeded, goalType, progressPercent });
+  }
+
+  async sendDebtAvalancheNotification(userId: string, recommendedDebt: string, potentialSavings: string) {
+    const template: NotificationTemplate = {
+      title: "💡 Smart Debt Strategy!",
+      message: `Pay your ${recommendedDebt} next - it'll save you $${potentialSavings} vs your other debts! Smart move! 🧠`,
+      type: "debt_avalanche",
+      channel: "push",
+      priority: "high"
+    };
+
+    return this.sendNotification(userId, template, { recommendedDebt, potentialSavings });
+  }
+
+  async sendDTTRewardsNotification(userId: string, tokensEarned: string, dollarValue: string, totalTokens: string) {
+    const template: NotificationTemplate = {
+      title: "🪙 DTT Rewards Earned!",
+      message: `You earned ${tokensEarned} DTT tokens this week! Your DTT rewards are worth $${dollarValue} and growing 📈 (Total: ${totalTokens} DTT)`,
+      type: "dtt_rewards",
+      channel: "push",
+      priority: "medium"
+    };
+
+    return this.sendNotification(userId, template, { tokensEarned, dollarValue, totalTokens });
+  }
+
+  async sendStreakMaintenanceNotification(userId: string, streakDays: number, nextAction: string) {
+    const template: NotificationTemplate = {
+      title: "🔥 Don't Break Your Streak!",
+      message: `You're on a ${streakDays}-day round-up streak! ${nextAction} to keep the momentum going! 💪`,
+      type: "streak_maintenance",
+      channel: "push",
+      priority: "high"
+    };
+
+    return this.sendNotification(userId, template, { streakDays, nextAction });
+  }
+
+  async sendMorningMotivationNotification(userId: string, dailyGoal: string, progressMessage: string) {
+    const template: NotificationTemplate = {
+      title: "☀️ Good Morning, Debt Crusher!",
+      message: `Today's goal: $${dailyGoal} in round-ups toward freedom! ${progressMessage} 🌟`,
+      type: "morning_motivation",
+      channel: "push",
+      priority: "low"
+    };
+
+    return this.sendNotification(userId, template, { dailyGoal, progressMessage });
+  }
+
+  async sendEveningCelebrationNotification(userId: string, dailyAmount: string, encouragementMessage: string) {
+    const template: NotificationTemplate = {
+      title: "🌙 Great Job Today!",
+      message: `You collected $${dailyAmount} today! ${encouragementMessage} Sweet dreams of debt freedom! ✨`,
+      type: "evening_celebration",
+      channel: "push",
+      priority: "low"
+    };
+
+    return this.sendNotification(userId, template, { dailyAmount, encouragementMessage });
+  }
+
+  async sendPremiumTeaserNotification(userId: string, featureName: string, potentialSavings: string) {
+    const template: NotificationTemplate = {
+      title: "💎 Unlock Premium Savings!",
+      message: `${featureName} could save you $${potentialSavings}/month! Upgrade to explore premium debt optimization 🚀`,
+      type: "premium_teaser",
+      channel: "push",
+      priority: "low"
+    };
+
+    return this.sendNotification(userId, template, { featureName, potentialSavings });
+  }
+
+  async sendSeasonalNotification(userId: string, occasion: string, tip: string) {
+    const template: NotificationTemplate = {
+      title: `🎊 ${occasion} Savings Tip!`,
+      message: tip,
+      type: "seasonal",
+      channel: "push",
+      priority: "medium"
+    };
+
+    return this.sendNotification(userId, template, { occasion, tip });
+  }
+
+  async sendWeeklyChallengeNotification(userId: string, challengeGoal: string, bonusReward: string) {
+    const template: NotificationTemplate = {
+      title: "🏁 Weekly Challenge!",
+      message: `This week's challenge: ${challengeGoal} for ${bonusReward}! Are you up for it? 💪`,
+      type: "weekly_challenge",
+      channel: "push",
+      priority: "medium"
+    };
+
+    return this.sendNotification(userId, template, { challengeGoal, bonusReward });
+  }
+
   // Get user's notification history
   async getUserNotifications(userId: string, limit: number = 20) {
     return storage.getUserNotifications(userId, limit);

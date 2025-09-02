@@ -62,6 +62,39 @@ notificationRoutes.post("/api/notifications/test", async (req: Request, res: Res
       case 'motivation':
         notification = await notificationService.sendMotivationalNotification(userId, '');
         break;
+      case 'debt_timeline':
+        notification = await notificationService.sendDebtTimelineNotification(userId, 3, 'March 2026');
+        break;
+      case 'interest_savings':
+        notification = await notificationService.sendInterestSavingsNotification(userId, '47.50', 'nice dinner out');
+        break;
+      case 'competitive_savings':
+        notification = await notificationService.sendCompetitiveSavingsNotification(userId, 85, '23.45');
+        break;
+      case 'axos_earnings':
+        notification = await notificationService.sendAxosEarningsNotification(userId, '3.47', '28.50', 'movie night');
+        break;
+      case 'dtt_rewards':
+        notification = await notificationService.sendDTTRewardsNotification(userId, '0.0047', '12.50', '0.2456');
+        break;
+      case 'debt_avalanche':
+        notification = await notificationService.sendDebtAvalancheNotification(userId, 'Chase Freedom', '89');
+        break;
+      case 'streak_maintenance':
+        notification = await notificationService.sendStreakMaintenanceNotification(userId, 47, 'Make a purchase today');
+        break;
+      case 'morning_motivation':
+        notification = await notificationService.sendMorningMotivationNotification(userId, '5.00', 'You\'re building momentum');
+        break;
+      case 'evening_celebration':
+        notification = await notificationService.sendEveningCelebrationNotification(userId, '7.23', 'Great job today');
+        break;
+      case 'premium_teaser':
+        notification = await notificationService.sendPremiumTeaserNotification(userId, 'Debt Consolidation', '89');
+        break;
+      case 'weekly_challenge':
+        notification = await notificationService.sendWeeklyChallengeNotification(userId, 'Save $25 in round-ups', 'bonus 50 DTT tokens');
+        break;
       default:
         return res.status(400).json({ message: "Invalid notification type" });
     }

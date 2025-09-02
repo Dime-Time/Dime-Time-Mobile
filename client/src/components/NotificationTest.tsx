@@ -82,44 +82,92 @@ export default function NotificationTest() {
       data: { amount: '2.47', merchant: 'Starbucks' }
     },
     {
-      type: 'payment_due',
-      icon: CreditCard,
-      title: 'Payment Due',
-      description: 'Test payment reminder',
-      color: 'text-blue-500',
-      data: { amount: '165.00' }
-    },
-    {
-      type: 'milestone',
+      type: 'debt_timeline',
       icon: Zap,
-      title: 'Milestone Achieved',
-      description: 'Test milestone celebration',
+      title: 'Debt Timeline Update',
+      description: 'Smart timeline calculation',
       color: 'text-purple-500',
-      data: {}
+      data: { monthsReduced: 3, debtFreeDate: 'March 2026' }
     },
     {
-      type: 'weekly_report',
-      icon: Calendar,
-      title: 'Weekly Report',
-      description: 'Test weekly summary',
-      color: 'text-orange-500',
-      data: { amount: '23.45' }
+      type: 'interest_savings',
+      icon: DollarSign,
+      title: 'Interest Savings Alert',
+      description: 'Monthly interest saved',
+      color: 'text-green-500',
+      data: { amountSaved: '47.50', realWorldComparison: 'nice dinner out' }
     },
     {
-      type: 'crypto',
+      type: 'competitive_savings',
       icon: TrendingUp,
-      title: 'Crypto Update',
-      description: 'Test crypto notification',
-      color: 'text-yellow-500',
-      data: { amount: '158.72' }
+      title: 'Competitive Savings',
+      description: 'Top performer notification',
+      color: 'text-orange-500',
+      data: { percentile: 85, weeklyAmount: '23.45' }
     },
     {
-      type: 'motivation',
+      type: 'axos_earnings',
+      icon: CreditCard,
+      title: 'Axos 4% APY Earnings',
+      description: 'Interest earnings update',
+      color: 'text-blue-500',
+      data: { weeklyEarnings: '3.47', totalEarnings: '28.50', realWorldValue: 'movie night' }
+    },
+    {
+      type: 'dtt_rewards',
       icon: Bell,
-      title: 'Daily Motivation',
-      description: 'Test motivational message',
+      title: 'DTT Rewards Earned',
+      description: 'Native token rewards',
+      color: 'text-yellow-500',
+      data: { tokensEarned: '0.0047', dollarValue: '12.50', totalTokens: '0.2456' }
+    },
+    {
+      type: 'debt_avalanche',
+      icon: Zap,
+      title: 'Smart Debt Strategy',
+      description: 'Optimization recommendation',
+      color: 'text-purple-500',
+      data: { recommendedDebt: 'Chase Freedom', potentialSavings: '89' }
+    },
+    {
+      type: 'streak_maintenance',
+      icon: TrendingUp,
+      title: 'Streak Maintenance',
+      description: 'Don\'t break your streak',
+      color: 'text-red-500',
+      data: { streakDays: 47, nextAction: 'Make a purchase today' }
+    },
+    {
+      type: 'morning_motivation',
+      icon: Bell,
+      title: 'Morning Motivation',
+      description: 'Daily goal setting',
+      color: 'text-yellow-500',
+      data: { dailyGoal: '5.00', progressMessage: 'You\'re building momentum' }
+    },
+    {
+      type: 'evening_celebration',
+      icon: Calendar,
+      title: 'Evening Celebration',
+      description: 'Daily progress recap',
+      color: 'text-green-500',
+      data: { dailyAmount: '7.23', encouragementMessage: 'Great job today' }
+    },
+    {
+      type: 'premium_teaser',
+      icon: DollarSign,
+      title: 'Premium Feature Teaser',
+      description: 'Upgrade opportunity',
+      color: 'text-indigo-500',
+      data: { featureName: 'Debt Consolidation', potentialSavings: '89' }
+    },
+    {
+      type: 'weekly_challenge',
+      icon: TrendingUp,
+      title: 'Weekly Challenge',
+      description: 'Gamification feature',
       color: 'text-pink-500',
-      data: {}
+      data: { challengeGoal: 'Save $25 in round-ups', bonusReward: 'bonus 50 DTT tokens' }
     }
   ];
 
