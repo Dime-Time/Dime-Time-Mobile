@@ -4,19 +4,31 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
 import { ArrowLeft, CheckCircle } from "lucide-react";
+import OnboardingFlow from "@/components/OnboardingFlow";
 
 export default function Signup() {
   const [showAccountFlow, setShowAccountFlow] = useState(false);
   const [accountCreated, setAccountCreated] = useState(false);
+  const [showOnboarding, setShowOnboarding] = useState(false);
   const [userData, setUserData] = useState<any>(null);
 
   const handleAccountCreated = (data: any) => {
     setUserData(data);
     setAccountCreated(true);
     setShowAccountFlow(false);
+    // Start onboarding flow after brief success message
+    setTimeout(() => {
+      setShowOnboarding(true);
+    }, 2000);
   };
 
-  if (accountCreated) {
+  const handleOnboardingComplete = () => {
+    setShowOnboarding(false);
+    // Redirect to dashboard
+    window.location.href = '/';
+  };
+
+  if (accountCreated && !showOnboarding) {
     return (
       <div className="min-h-screen bg-dime-lilac flex items-center justify-center p-4">
         <Card className="w-full max-w-md text-center">
@@ -30,18 +42,14 @@ export default function Signup() {
           </CardHeader>
           <CardContent className="space-y-4">
             <p className="text-gray-600">
-              Welcome to Dime Time, {userData?.firstName}! Your account is ready and you can now start your debt-free journey.
+              Welcome to Dime Time, {userData?.firstName}! Let's get you started on your debt-free journey.
             </p>
-            <div className="space-y-2 text-sm text-gray-500">
-              <p>Account Details:</p>
-              <p>Email: {userData?.email}</p>
-              <p>Username: {userData?.username}</p>
+            <div className="flex items-center justify-center space-x-2 text-sm text-slate-500">
+              <div className="w-2 h-2 bg-dime-purple rounded-full animate-pulse"></div>
+              <div className="w-2 h-2 bg-dime-purple rounded-full animate-pulse" style={{animationDelay: '0.2s'}}></div>
+              <div className="w-2 h-2 bg-dime-purple rounded-full animate-pulse" style={{animationDelay: '0.4s'}}></div>
+              <span className="ml-2">Preparing your personalized setup...</span>
             </div>
-            <Link href="/">
-              <Button className="w-full bg-dime-purple hover:bg-dime-purple/90" data-testid="button-go-to-dashboard">
-                Go to Dashboard
-              </Button>
-            </Link>
           </CardContent>
         </Card>
       </div>
@@ -118,6 +126,13 @@ export default function Signup() {
           <AccountCreationFlow 
             onAccountCreated={handleAccountCreated}
             onCancel={() => setShowAccountFlow(false)}
+          />
+        )}
+        
+        {showOnboarding && userData && (
+          <OnboardingFlow 
+            userName={userData.firstName}
+            onComplete={handleOnboardingComplete}
           />
         )}
       </div>
