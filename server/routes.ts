@@ -11,6 +11,9 @@ import { s3Service } from "./services/s3Service";
 import { dynamoService } from "./services/dynamoService";
 import { axosService } from "./services/axosService";
 import { registerAxosRoutes } from "./routes/axosRoutes";
+import { notificationRoutes } from "./routes/notificationRoutes";
+import { notificationService } from "./services/notificationService";
+import { notificationTriggers } from "./services/notificationTriggers";
 import multer from "multer";
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -62,6 +65,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
       });
       
       const transaction = await storage.createTransaction(validatedData);
+      
+      // Trigger round-up notification
+      if (transaction.roundUpAmount && parseFloat(transaction.roundUpAmount) > 0) {
+        await notificationTriggers.onRoundUpCollected(
+          userId, 
+          transaction.id, 
+          parseFloat(transaction.roundUpAmount), 
+          transaction.merchant
+        );
+      }
+      
       res.status(201).json(transaction);
     } catch (error) {
       if (error instanceof z.ZodError) {
@@ -100,6 +114,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
         await storage.updateDebt(validatedData.debtId, {
           currentBalance: newBalance,
         });
+
+        // Trigger debt payment notification
+        await notificationTriggers.onDebtPaymentProcessed(
+          userId,
+          validatedData.debtId,
+          parseFloat(validatedData.amount)
+        );
       }
       
       res.status(201).json(payment);
@@ -956,6 +977,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // Register Axos Bank integration routes
   registerAxosRoutes(app);
+
+  // Register notification routes
+  app.use(notificationRoutes);
 
   const httpServer = createServer(app);
   return httpServer;

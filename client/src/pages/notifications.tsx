@@ -6,6 +6,7 @@ import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import NotificationTest from "@/components/NotificationTest";
 import { 
   Bell, 
   BellRing, 
@@ -19,7 +20,8 @@ import {
   CheckCircle,
   Info,
   X,
-  Settings as SettingsIcon
+  Settings as SettingsIcon,
+  TestTube
 } from "lucide-react";
 
 interface Notification {
@@ -191,7 +193,7 @@ export default function Notifications() {
       </div>
 
       <Tabs defaultValue="notifications" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-2">
+        <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="notifications" className="flex items-center gap-2">
             <BellRing className="h-4 w-4" />
             Notifications
@@ -199,6 +201,10 @@ export default function Notifications() {
           <TabsTrigger value="settings" className="flex items-center gap-2">
             <SettingsIcon className="h-4 w-4" />
             Settings
+          </TabsTrigger>
+          <TabsTrigger value="test" className="flex items-center gap-2">
+            <TestTube className="h-4 w-4" />
+            Test
           </TabsTrigger>
         </TabsList>
 
@@ -444,6 +450,10 @@ export default function Notifications() {
               </div>
             </CardContent>
           </Card>
+        </TabsContent>
+
+        <TabsContent value="test" className="space-y-6">
+          <NotificationTest />
         </TabsContent>
       </Tabs>
     </div>

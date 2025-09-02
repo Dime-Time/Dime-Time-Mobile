@@ -1064,6 +1064,45 @@ export class MemStorage implements IStorage {
     return limit ? userNotifications.slice(0, limit) : userNotifications;
   }
 
+  async getUserNotifications(userId: string, limit?: number): Promise<Notification[]> {
+    return this.getNotificationsByUserId(userId, limit);
+  }
+
+  async getAllUsers(): Promise<User[]> {
+    return Array.from(this.users.values());
+  }
+
+  async getUserTransactions(userId: string, limit?: number): Promise<Transaction[]> {
+    return this.getTransactionsByUserId(userId, limit);
+  }
+
+  async getUserDebts(userId: string): Promise<Debt[]> {
+    return this.getDebtsByUserId(userId);
+  }
+
+  async getUserCryptoPurchases(userId: string): Promise<CryptoPurchase[]> {
+    return this.getCryptoPurchasesByUserId(userId);
+  }
+
+  async getDashboardSummary(userId: string): Promise<any> {
+    // Calculate summary data
+    const debts = await this.getUserDebts(userId);
+    const transactions = await this.getUserTransactions(userId);
+    const cryptoPurchases = await this.getUserCryptoPurchases(userId);
+
+    const totalDebt = debts.reduce((sum, debt) => sum + parseFloat(debt.currentBalance), 0);
+    const totalRoundUps = transactions.reduce((sum, trans) => sum + (parseFloat(trans.roundUpAmount || '0')), 0);
+    const totalCrypto = cryptoPurchases.reduce((sum, purchase) => sum + parseFloat(purchase.amountUsd), 0);
+
+    return {
+      totalDebt: totalDebt.toFixed(2),
+      totalRoundUps: totalRoundUps.toFixed(2), 
+      totalCrypto: totalCrypto.toFixed(2),
+      debtCount: debts.length,
+      transactionCount: transactions.length
+    };
+  }
+
   async updateNotificationStatus(id: string, status: string, sentAt?: Date, deliveredAt?: Date): Promise<Notification | undefined> {
     const notification = this.notifications.get(id);
     if (!notification) return undefined;
