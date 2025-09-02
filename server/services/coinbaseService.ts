@@ -7,10 +7,11 @@ class CoinbaseService {
   constructor() {
     try {
       if (process.env.COINBASE_API_KEY && process.env.COINBASE_API_SECRET) {
+        // Secure SSL configuration for production fintech app
         this.client = new Client({
           apiKey: process.env.COINBASE_API_KEY,
           apiSecret: process.env.COINBASE_API_SECRET,
-          strictSSL: false, // Disable strict SSL to fix certificate validation issues
+          strictSSL: true, // Secure SSL for production
           version: '2021-06-14', // Use stable API version
         });
         this.isConfigured = true;
@@ -19,6 +20,10 @@ class CoinbaseService {
       }
     } catch (error) {
       console.error('Failed to initialize Coinbase service:', error);
+      // If SSL issues occur, log detailed error for debugging
+      if (error instanceof Error && error.message.includes('certificate')) {
+        console.error('SSL Certificate issue detected. Check network/firewall configuration.');
+      }
       this.isConfigured = false;
     }
   }
