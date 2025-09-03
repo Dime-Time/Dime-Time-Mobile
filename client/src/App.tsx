@@ -4,6 +4,9 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Navigation } from "@/components/navigation";
+import { useEffect } from "react";
+import { initGA } from "../lib/analytics";
+import { useAnalytics } from "../hooks/use-analytics";
 
 import Dashboard from "@/pages/dashboard";
 import Transactions from "@/pages/transactions";
@@ -21,6 +24,9 @@ import BusinessAnalytics from "@/pages/business-analytics";
 import NotFound from "@/pages/not-found";
 
 function Router() {
+  // Track page views and user interactions
+  useAnalytics();
+  
   return (
     <Switch>
       <Route path="/" component={Dashboard} />
@@ -42,6 +48,12 @@ function Router() {
 }
 
 function App() {
+  // Initialize Google Analytics when app loads
+  useEffect(() => {
+    console.log('Initializing Google Analytics for Dime Time...');
+    initGA();
+  }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>

@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import { apiRequest } from '@/lib/queryClient';
 import { Loader2, CreditCard } from 'lucide-react';
+import { trackBankConnection, trackFeatureUsage, trackUserMilestone } from '../../lib/analytics';
 
 interface PlaidLinkProps {
   onSuccess?: (publicToken: string, metadata: any) => void;
@@ -27,6 +28,12 @@ export function PlaidLink({ onSuccess, onExit }: PlaidLinkProps) {
 
         if (response.ok) {
           const data = await response.json();
+          
+          // Track successful bank connection
+          trackBankConnection(true, metadata?.institution?.name);
+          trackUserMilestone('bank_connected', data.accounts?.length || 1);
+          trackFeatureUsage('banking', 'connect_success');
+          
           toast({
             title: "Bank Account Connected",
             description: "Your bank account has been successfully linked to Dime Time!",
@@ -37,6 +44,11 @@ export function PlaidLink({ onSuccess, onExit }: PlaidLinkProps) {
         }
       } catch (error) {
         console.error('Error connecting bank account:', error);
+        
+        // Track failed bank connection
+        trackBankConnection(false, metadata?.institution?.name);
+        trackFeatureUsage('banking', 'connect_failed');
+        
         toast({
           title: "Connection Failed",
           description: "Failed to connect your bank account. Please try again.",
@@ -86,6 +98,9 @@ export function PlaidLink({ onSuccess, onExit }: PlaidLinkProps) {
   };
 
   const handleConnect = () => {
+    // Track bank connection attempt
+    trackFeatureUsage('banking', 'connect_attempt');
+    
     if (linkToken && ready) {
       open();
     } else {

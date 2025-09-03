@@ -20,6 +20,7 @@ import {
 import { formatCurrency } from "@/lib/calculations";
 import { apiRequest } from "@/lib/queryClient";
 import { CoinbaseStatus } from "@/components/CoinbaseStatus";
+import { trackCryptoInvestment, trackFeatureUsage, trackUserMilestone } from "../../lib/analytics";
 
 interface CryptoPurchase {
   id: string;
@@ -97,6 +98,28 @@ export default function CryptoPage() {
 
   const handleSettingsUpdate = (updates: Partial<RoundUpSettings>) => {
     if (!settings) return;
+    
+    // Track crypto settings changes
+    if (updates.cryptoEnabled !== undefined) {
+      trackFeatureUsage('crypto', updates.cryptoEnabled ? 'enabled' : 'disabled');
+      if (updates.cryptoEnabled) {
+        trackUserMilestone('crypto_enabled');
+      }
+    }
+    
+    if (updates.cryptoPercentage !== undefined) {
+      trackFeatureUsage('crypto', 'percentage_changed');
+      const percentage = parseFloat(updates.cryptoPercentage);
+      if (percentage > 0) {
+        trackUserMilestone('crypto_percentage_set', percentage);
+      }
+    }
+    
+    if (updates.preferredCrypto !== undefined) {
+      trackFeatureUsage('crypto', 'currency_changed');
+      trackCryptoInvestment(0, updates.preferredCrypto.toLowerCase());
+    }
+    
     updateSettingsMutation.mutate({
       ...settings,
       ...updates,
