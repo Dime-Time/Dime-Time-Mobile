@@ -124,50 +124,175 @@ export default function Legal() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="space-y-4 text-sm text-gray-700">
-              <section>
-                <h3 className="font-semibold text-gray-900 mb-2">Data Collection</h3>
-                <p>We collect:</p>
-                <ul className="list-disc list-inside space-y-1 ml-4">
-                  <li>Account information and authentication data</li>
-                  <li>Financial transaction and account balance data</li>
-                  <li>App usage and performance analytics</li>
-                  <li>Device and browser information</li>
-                </ul>
-              </section>
+            <ScrollArea className="h-96">
+              <div className="space-y-6 text-sm text-gray-700 pr-4">
+                <section>
+                  <h3 className="font-semibold text-gray-900 mb-3">1. Introduction</h3>
+                  <p>Dime Time LLC ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our mobile application and web services (the "Service").</p>
+                  <p className="mt-2"><strong>Effective Date:</strong> {new Date().toLocaleDateString()}</p>
+                </section>
 
-              <section>
-                <h3 className="font-semibold text-gray-900 mb-2">Data Usage</h3>
-                <p>Your data is used to:</p>
-                <ul className="list-disc list-inside space-y-1 ml-4">
-                  <li>Provide core app functionality and features</li>
-                  <li>Process financial transactions and investments</li>
-                  <li>Generate insights and debt reduction strategies</li>
-                  <li>Improve service quality and user experience</li>
-                </ul>
-              </section>
+                <section>
+                  <h3 className="font-semibold text-gray-900 mb-3">2. Information We Collect</h3>
+                  
+                  <h4 className="font-medium text-gray-800 mb-2">2.1 Personal Information</h4>
+                  <ul className="list-disc list-inside space-y-1 ml-4 mb-3">
+                    <li>Name, email address, phone number</li>
+                    <li>Account credentials and authentication data</li>
+                    <li>Identity verification information as required by financial regulations</li>
+                    <li>Customer service communications</li>
+                  </ul>
 
-              <section>
-                <h3 className="font-semibold text-gray-900 mb-2">Data Sharing</h3>
-                <p>We may share data with:</p>
-                <ul className="list-disc list-inside space-y-1 ml-4">
-                  <li>Banking partners and financial service providers</li>
-                  <li>Cryptocurrency exchanges for transaction processing</li>
-                  <li>Analytics providers for service improvement</li>
-                  <li>Legal authorities when required by law</li>
-                </ul>
-              </section>
+                  <h4 className="font-medium text-gray-800 mb-2">2.2 Financial Information</h4>
+                  <ul className="list-disc list-inside space-y-1 ml-4 mb-3">
+                    <li>Bank account information and routing numbers (via Plaid integration)</li>
+                    <li>Credit card and debt account details</li>
+                    <li>Transaction history and round-up calculations</li>
+                    <li>Cryptocurrency wallet addresses and transaction records (via Coinbase)</li>
+                    <li>Investment preferences and portfolio data</li>
+                    <li>Debt balances, payment history, and financial goals</li>
+                  </ul>
 
-              <section>
-                <h3 className="font-semibold text-gray-900 mb-2">Data Security</h3>
-                <p>We implement industry-standard security measures including encryption, secure servers, and access controls. However, no system is completely secure, and we cannot guarantee absolute data protection.</p>
-              </section>
+                  <h4 className="font-medium text-gray-800 mb-2">2.3 Technical Information</h4>
+                  <ul className="list-disc list-inside space-y-1 ml-4 mb-3">
+                    <li>Device identifiers, IP addresses, and browser information</li>
+                    <li>App usage analytics and interaction data (via Google Analytics)</li>
+                    <li>Location data (if enabled for fraud prevention)</li>
+                    <li>Crash reports and performance metrics</li>
+                  </ul>
+                </section>
 
-              <section>
-                <h3 className="font-semibold text-gray-900 mb-2">Your Rights</h3>
-                <p>You may request to access, correct, or delete your personal data. Note that data deletion may limit or prevent access to our services.</p>
-              </section>
-            </div>
+                <section>
+                  <h3 className="font-semibold text-gray-900 mb-3">3. How We Use Your Information</h3>
+                  <ul className="list-disc list-inside space-y-1 ml-4">
+                    <li><strong>Core Services:</strong> Process round-up transactions, manage debt payments, and facilitate cryptocurrency investments</li>
+                    <li><strong>Account Management:</strong> Create and maintain your account, verify identity, and provide customer support</li>
+                    <li><strong>Financial Operations:</strong> Calculate round-ups, process payments via Axos Bank, and manage sweep account operations</li>
+                    <li><strong>Analytics:</strong> Track app usage, optimize features, and improve user experience</li>
+                    <li><strong>Security:</strong> Detect fraud, prevent unauthorized access, and maintain platform integrity</li>
+                    <li><strong>Compliance:</strong> Meet regulatory requirements and respond to legal requests</li>
+                    <li><strong>Communication:</strong> Send service updates, payment confirmations, and promotional materials (with consent)</li>
+                  </ul>
+                </section>
+
+                <section>
+                  <h3 className="font-semibold text-gray-900 mb-3">4. Information Sharing and Disclosure</h3>
+                  
+                  <h4 className="font-medium text-gray-800 mb-2">4.1 Third-Party Service Providers</h4>
+                  <ul className="list-disc list-inside space-y-1 ml-4 mb-3">
+                    <li><strong>Plaid Technologies:</strong> Bank account connections and transaction data</li>
+                    <li><strong>Coinbase, Inc.:</strong> Cryptocurrency trading and portfolio management</li>
+                    <li><strong>Axos Bank:</strong> Business banking services and sweep account management</li>
+                    <li><strong>Google Analytics:</strong> App usage analytics and user behavior tracking</li>
+                    <li><strong>Payment Processors:</strong> Subscription billing and payment processing</li>
+                  </ul>
+
+                  <h4 className="font-medium text-gray-800 mb-2">4.2 Legal and Regulatory Requirements</h4>
+                  <p className="mb-3">We may disclose information when required by law, court order, or regulatory authorities, including:</p>
+                  <ul className="list-disc list-inside space-y-1 ml-4 mb-3">
+                    <li>Financial crimes investigations</li>
+                    <li>Anti-money laundering (AML) compliance</li>
+                    <li>Tax reporting obligations</li>
+                    <li>Consumer protection enforcement</li>
+                  </ul>
+
+                  <h4 className="font-medium text-gray-800 mb-2">4.3 Business Transfers</h4>
+                  <p>In the event of a merger, acquisition, or sale of assets, your information may be transferred to the new entity.</p>
+                </section>
+
+                <section>
+                  <h3 className="font-semibold text-gray-900 mb-3">5. Data Security</h3>
+                  <p className="mb-2">We implement comprehensive security measures to protect your information:</p>
+                  <ul className="list-disc list-inside space-y-1 ml-4">
+                    <li><strong>Encryption:</strong> All data is encrypted in transit (TLS 1.3) and at rest (AES-256)</li>
+                    <li><strong>Authentication:</strong> Multi-factor authentication and secure session management</li>
+                    <li><strong>Access Controls:</strong> Role-based access with principle of least privilege</li>
+                    <li><strong>Monitoring:</strong> 24/7 security monitoring and incident response</li>
+                    <li><strong>Compliance:</strong> SOC 2 Type II and PCI DSS compliance standards</li>
+                    <li><strong>Regular Audits:</strong> Third-party security assessments and penetration testing</li>
+                  </ul>
+                  <p className="mt-3 text-red-600"><strong>Important:</strong> While we implement industry-leading security measures, no system is completely secure. We cannot guarantee absolute protection against all security threats.</p>
+                </section>
+
+                <section>
+                  <h3 className="font-semibold text-gray-900 mb-3">6. Your Privacy Rights</h3>
+                  
+                  <h4 className="font-medium text-gray-800 mb-2">6.1 General Rights</h4>
+                  <ul className="list-disc list-inside space-y-1 ml-4 mb-3">
+                    <li><strong>Access:</strong> Request copies of your personal information</li>
+                    <li><strong>Correction:</strong> Update or correct inaccurate information</li>
+                    <li><strong>Deletion:</strong> Request deletion of your personal data (subject to regulatory requirements)</li>
+                    <li><strong>Portability:</strong> Export your data in a machine-readable format</li>
+                    <li><strong>Objection:</strong> Object to certain processing activities</li>
+                  </ul>
+
+                  <h4 className="font-medium text-gray-800 mb-2">6.2 California Privacy Rights (CCPA/CPRA)</h4>
+                  <p className="mb-2">California residents have additional rights including:</p>
+                  <ul className="list-disc list-inside space-y-1 ml-4 mb-3">
+                    <li>Right to know what personal information is collected, used, and shared</li>
+                    <li>Right to delete personal information (with exceptions for financial records)</li>
+                    <li>Right to opt-out of the sale of personal information</li>
+                    <li>Right to non-discrimination for exercising privacy rights</li>
+                  </ul>
+
+                  <h4 className="font-medium text-gray-800 mb-2">6.3 European Privacy Rights (GDPR)</h4>
+                  <p>EU residents have rights under GDPR including data portability, right to rectification, and right to be forgotten (subject to financial record retention requirements).</p>
+                </section>
+
+                <section>
+                  <h3 className="font-semibold text-gray-900 mb-3">7. Data Retention</h3>
+                  <ul className="list-disc list-inside space-y-1 ml-4">
+                    <li><strong>Account Data:</strong> Retained while your account is active plus 7 years for regulatory compliance</li>
+                    <li><strong>Transaction Records:</strong> Retained for 7 years as required by financial regulations</li>
+                    <li><strong>Analytics Data:</strong> Aggregated and anonymized data retained indefinitely for service improvement</li>
+                    <li><strong>Communication Records:</strong> Customer service interactions retained for 3 years</li>
+                  </ul>
+                </section>
+
+                <section>
+                  <h3 className="font-semibold text-gray-900 mb-3">8. Cookies and Tracking</h3>
+                  <p className="mb-2">We use cookies and similar technologies for:</p>
+                  <ul className="list-disc list-inside space-y-1 ml-4">
+                    <li>Authentication and session management</li>
+                    <li>Analytics and performance monitoring (Google Analytics)</li>
+                    <li>Fraud prevention and security</li>
+                    <li>Personalization and user preferences</li>
+                  </ul>
+                  <p className="mt-3">You can manage cookie preferences through your browser settings, though some features may not function properly if cookies are disabled.</p>
+                </section>
+
+                <section>
+                  <h3 className="font-semibold text-gray-900 mb-3">9. International Data Transfers</h3>
+                  <p>Your information may be processed and stored in the United States and other countries where our service providers operate. We ensure appropriate safeguards are in place for international transfers, including Standard Contractual Clauses where applicable.</p>
+                </section>
+
+                <section>
+                  <h3 className="font-semibold text-gray-900 mb-3">10. Children's Privacy</h3>
+                  <p>Our services are not intended for individuals under 18 years of age. We do not knowingly collect personal information from children under 18. If we become aware that we have collected such information, we will promptly delete it.</p>
+                </section>
+
+                <section>
+                  <h3 className="font-semibold text-gray-900 mb-3">11. Changes to This Privacy Policy</h3>
+                  <p>We may update this Privacy Policy periodically to reflect changes in our practices or legal requirements. We will notify you of material changes via email or app notification at least 30 days before the changes take effect.</p>
+                </section>
+
+                <section>
+                  <h3 className="font-semibold text-gray-900 mb-3">12. Contact Information</h3>
+                  <p className="mb-2">For privacy-related questions or to exercise your rights, contact us:</p>
+                  <ul className="list-none space-y-1">
+                    <li><strong>Email:</strong> privacy@dimetime.com</li>
+                    <li><strong>Mailing Address:</strong> Dime Time LLC, Privacy Department</li>
+                    <li><strong>Response Time:</strong> We will respond to privacy requests within 30 days</li>
+                  </ul>
+                </section>
+
+                <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                  <p className="text-sm text-blue-800">
+                    <strong>Financial Data Protection:</strong> As a fintech platform handling sensitive financial information, we maintain additional security measures beyond standard privacy practices, including regulatory compliance with GLBA, FFIEC guidelines, and state financial privacy laws.
+                  </p>
+                </div>
+              </div>
+            </ScrollArea>
           </CardContent>
         </Card>
 
