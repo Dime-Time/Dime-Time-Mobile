@@ -36,7 +36,6 @@ interface DashboardSummary {
 export default function Dashboard() {
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [showIntroVideo, setShowIntroVideo] = useState(false);
-  const videoRef = useRef<HTMLVideoElement>(null);
 
   // Show intro video on first visit
   useEffect(() => {
@@ -129,77 +128,17 @@ export default function Dashboard() {
         />
       </div>
       
-      {/* Video Banner Section - Shows for first-time visitors */}
-      {showIntroVideo && (
-        <div className="mb-8 relative rounded-xl overflow-hidden bg-black">
-          <video
-            ref={videoRef}
-            src={introVideo}
-            className="w-full h-64 md:h-80 object-cover"
-            autoPlay
-            muted
-            playsInline
-            onEnded={handleCloseIntroVideo}
-            data-testid="intro-video-banner"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
-          <div className="absolute bottom-6 left-6 right-6">
-            <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">
-              Welcome to Dime Time!
-            </h2>
-            <p className="text-white/90 text-lg mb-4">
-              Get ready to transform your spare change into debt freedom, one dime at a time.
-            </p>
-            <div className="flex gap-3">
-              <Button
-                onClick={handleCloseIntroVideo}
-                className="bg-dime-purple hover:bg-dime-purple/90 text-white"
-                data-testid="start-journey-button"
-              >
-                Start My Journey
-              </Button>
-              <Button
-                variant="outline"
-                onClick={handleCloseIntroVideo}
-                className="border-white text-white hover:bg-white/10"
-                data-testid="skip-video-button"
-              >
-                Skip Video
-              </Button>
-            </div>
-          </div>
-          
-          {/* Video Controls */}
-          <div className="absolute top-4 right-4">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => {
-                if (videoRef.current) {
-                  videoRef.current.muted = !videoRef.current.muted;
-                }
-              }}
-              className="bg-black/50 hover:bg-black/70 text-white rounded-full w-10 h-10 p-0"
-              data-testid="mute-toggle-button"
-            >
-              <Volume2 className="h-4 w-4" />
-            </Button>
-          </div>
-        </div>
-      )}
 
-      {/* Welcome Section - Shows after video or for returning users */}
-      {!showIntroVideo && (
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-slate-900 mb-2">
-            Welcome back, <span className="text-dime-purple">{(user as any)?.firstName || 'User'}</span>!
-          </h1>
-          <p className="text-slate-600">
-            You've saved <span className="font-semibold text-dime-accent">{formatCurrency(summary.thisMonthRoundUps)}</span> in round-ups this month 
-            and paid down <span className="font-semibold text-dime-purple">{formatCurrency(summary.thisMonthPayments)}</span> in debt.
-          </p>
-        </div>
-      )}
+      {/* Welcome Section */}
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold text-slate-900 mb-2">
+          Welcome back, <span className="text-dime-purple">{(user as any)?.firstName || 'User'}</span>!
+        </h1>
+        <p className="text-slate-600">
+          You've saved <span className="font-semibold text-dime-accent">{formatCurrency(summary.thisMonthRoundUps)}</span> in round-ups this month 
+          and paid down <span className="font-semibold text-dime-purple">{formatCurrency(summary.thisMonthPayments)}</span> in debt.
+        </p>
+      </div>
 
       {/* Key Metrics Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
