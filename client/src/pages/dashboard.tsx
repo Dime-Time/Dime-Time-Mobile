@@ -15,8 +15,10 @@ import {
   Coffee,
   Plus,
   ArrowUp,
-  Volume2
+  Volume2,
+  Play
 } from "lucide-react";
+import { IntroVideoModal } from "@/components/IntroVideoModal";
 import type { Transaction, Debt } from "@shared/schema";
 import transparentLogoImage from "@assets/D22C55D0-9527-4CE7-863F-F9327653E73E_1756052612472.png";
 import introVideo from "@assets/Using_918ef4_as_202508312147_1757083629199.mp4";
@@ -409,6 +411,15 @@ export default function Dashboard() {
               <Button variant="outline" className="border-white text-white hover:bg-white/10">
                 Customize Round-ups
               </Button>
+              <Button 
+                variant="outline" 
+                className="border-white text-white hover:bg-white/10 flex items-center space-x-2"
+                onClick={() => setShowIntroVideo(true)}
+                data-testid="watch-intro-video"
+              >
+                <Play className="w-4 h-4" />
+                <span>Watch Intro Video</span>
+              </Button>
             </div>
           </div>
         </div>
@@ -419,6 +430,11 @@ export default function Dashboard() {
         onOpenChange={setShowPaymentModal}
         debts={debts}
         roundUpBalance={parseFloat(summary.totalRoundUps)}
+      />
+
+      <IntroVideoModal
+        isOpen={showIntroVideo}
+        onClose={handleCloseIntroVideo}
       />
 
     </main>
