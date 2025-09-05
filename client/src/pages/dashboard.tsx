@@ -1,9 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { DebtProgressChart } from "@/components/debt-progress-chart";
 import { PaymentModal } from "@/components/payment-modal";
+import { IntroVideoModal } from "@/components/IntroVideoModal";
 import { formatCurrency, formatTime, formatDate, calculateDebtProgress } from "@/lib/calculations";
 import { 
   DollarSign, 
@@ -31,6 +32,23 @@ interface DashboardSummary {
 
 export default function Dashboard() {
   const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [showIntroVideo, setShowIntroVideo] = useState(false);
+
+  // Show intro video on first visit
+  useEffect(() => {
+    const hasSeenIntro = localStorage.getItem('dime-time-intro-seen');
+    if (!hasSeenIntro) {
+      // Small delay to let page load first
+      setTimeout(() => {
+        setShowIntroVideo(true);
+      }, 1000);
+    }
+  }, []);
+
+  const handleCloseIntroVideo = () => {
+    setShowIntroVideo(false);
+    localStorage.setItem('dime-time-intro-seen', 'true');
+  };
 
   const { data: user } = useQuery({
     queryKey: ["/api/user"],
@@ -110,7 +128,7 @@ export default function Dashboard() {
       {/* Welcome Section */}
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-slate-900 mb-2">
-          Welcome back, <span className="text-dime-purple">{user?.firstName || 'User'}</span>!
+          Welcome back, <span className="text-dime-purple">{(user as any)?.firstName || 'User'}</span>!
         </h1>
         <p className="text-slate-600">
           You've saved <span className="font-semibold text-dime-accent">{formatCurrency(summary.thisMonthRoundUps)}</span> in round-ups this month 
@@ -338,6 +356,11 @@ export default function Dashboard() {
         onOpenChange={setShowPaymentModal}
         debts={debts}
         roundUpBalance={parseFloat(summary.totalRoundUps)}
+      />
+
+      <IntroVideoModal
+        isOpen={showIntroVideo}
+        onClose={handleCloseIntroVideo}
       />
     </main>
   );
