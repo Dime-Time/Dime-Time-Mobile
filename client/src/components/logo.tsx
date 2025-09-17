@@ -10,40 +10,51 @@ interface LogoProps {
 }
 
 export function Logo({ className = "", size = 32, clean = false }: LogoProps) {
+  const maskStyle = {
+    width: size,
+    height: size,
+    backgroundColor: '#FFFFFF',
+    WebkitMaskImage: `url(${transparentLogoImage})`,
+    maskImage: `url(${transparentLogoImage})`,
+    WebkitMaskRepeat: 'no-repeat',
+    maskRepeat: 'no-repeat',
+    WebkitMaskSize: 'contain',
+    maskSize: 'contain',
+    WebkitMaskPosition: 'center',
+    maskPosition: 'center',
+  } as const;
+
   return (
-    <div className={`relative ${className}`} style={{ width: size, height: size }}>
-      <img 
-        src={transparentLogoImage} 
-        alt="Dime Time Official Logo" 
-        width={size} 
-        height={size}
-        className="object-contain"
-        style={{ 
-          filter: 'invert(1) brightness(2)',
-          backgroundColor: 'transparent'
-        }}
-      />
-    </div>
+    <div 
+      className={`relative ${className}`} 
+      style={maskStyle} 
+      aria-label="Dime Time Logo" 
+    />
   );
 }
 
 // Version with DIME TIME text for standalone use - using official logo design
 export function LogoWithText({ className = "", size = 120 }: LogoProps) {
+  const maskStyle = {
+    width: size,
+    height: size,
+    backgroundColor: '#FFFFFF',
+    WebkitMaskImage: `url(${transparentLogoImage})`,
+    maskImage: `url(${transparentLogoImage})`,
+    WebkitMaskRepeat: 'no-repeat',
+    maskRepeat: 'no-repeat',
+    WebkitMaskSize: 'contain',
+    maskSize: 'contain',
+    WebkitMaskPosition: 'center',
+    maskPosition: 'center',
+  } as const;
+
   return (
     <div className={`flex flex-col items-center ${className}`} style={{ width: size * 1.2 }}>
-      <div style={{ width: size, height: size }}>
-        <img 
-          src={transparentLogoImage} 
-          alt="Dime Time Official Logo" 
-          width={size} 
-          height={size}
-          className="object-contain"
-          style={{ 
-            filter: 'invert(1) brightness(2)',
-            backgroundColor: 'transparent'
-          }}
-        />
-      </div>
+      <div 
+        style={maskStyle} 
+        aria-label="Dime Time Logo"
+      />
       <div className="mt-2">
         <span 
           className="font-bold text-white tracking-wide"
