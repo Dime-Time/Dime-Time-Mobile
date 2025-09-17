@@ -5,11 +5,69 @@ interface DebtProgressChartProps {
   data: number[];
   labels: string[];
   className?: string;
+  enableVariation?: boolean; // Only for demo/mock data
+  freezeLast?: boolean; // Preserve real last value (default true)
 }
 
-export function DebtProgressChart({ data, labels, className = "" }: DebtProgressChartProps) {
+export function DebtProgressChart({ data, labels, className = "", enableVariation = false, freezeLast = true }: DebtProgressChartProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const chartRef = useRef<Chart | null>(null);
+
+  // Add deterministic realistic variation for demo/mock data only
+  const addRealisticVariation = (originalData: number[], seed: string) => {
+    if (!enableVariation) return originalData;
+    
+    // Simple seeded random function for deterministic results
+    const seededRandom = (seedStr: string, index: number) => {
+      const hash = (seedStr + index).split('').reduce((a, b) => {
+        a = ((a << 5) - a) + b.charCodeAt(0);
+        return a & a;
+      }, 0);
+      return (Math.abs(hash) % 1000) / 1000;
+    };
+    
+    // Process iteratively to maintain monotonic decrease
+    const variedData = [...originalData];
+    
+    // Apply variation to middle points
+    for (let index = 1; index < originalData.length - 1; index++) {
+      const value = originalData[index];
+      
+      // Add small deterministic fluctuations (±2% variation)
+      const random = seededRandom(seed, index);
+      const variationPercent = (random - 0.5) * 0.04; // ±2% max
+      const variation = value * variationPercent;
+      
+      // Ensure we don't go above the previous VARIED value to maintain downward trend
+      const prevVariedValue = variedData[index - 1];
+      const maxValue = prevVariedValue * 0.98; // At least 2% reduction from previous varied point
+      
+      variedData[index] = Math.max(Math.min(value + variation, maxValue), 0);
+    }
+    
+    // If freezeLast is true, preserve the original last value and do a backward pass
+    if (freezeLast) {
+      // Keep the original last value intact
+      variedData[variedData.length - 1] = originalData[originalData.length - 1];
+      
+      // Backward pass to ensure monotonicity without changing the last value
+      for (let index = variedData.length - 2; index >= 0; index--) {
+        if (variedData[index] < variedData[index + 1]) {
+          // If we need to ensure non-increasing trend, adjust this point
+          variedData[index] = Math.max(variedData[index], variedData[index + 1]);
+        }
+      }
+    } else {
+      // Original behavior for when we don't need to freeze the last point
+      const lastIndex = variedData.length - 1;
+      const secondToLastIndex = lastIndex - 1;
+      if (secondToLastIndex >= 0 && variedData[lastIndex] > variedData[secondToLastIndex]) {
+        variedData[lastIndex] = Math.min(variedData[lastIndex], variedData[secondToLastIndex] * 0.98);
+      }
+    }
+    
+    return variedData;
+  };
 
   useEffect(() => {
     if (!canvasRef.current) return;
@@ -22,21 +80,44 @@ export function DebtProgressChart({ data, labels, className = "" }: DebtProgress
     const ctx = canvasRef.current.getContext('2d');
     if (!ctx) return;
 
+    // Use canvas height for proper gradient scaling
+    const canvasHeight = canvasRef.current.height || 400;
+    
+    // Create seed from labels for deterministic variation
+    const seed = labels.join('-');
+    const variedData = addRealisticVariation(data, seed);
+
+    // Create gradient for the line using actual canvas height
+    const gradient = ctx.createLinearGradient(0, 0, 0, canvasHeight);
+    gradient.addColorStop(0, 'hsl(271, 81%, 66%)');
+    gradient.addColorStop(0.5, 'hsl(271, 81%, 56%)');
+    gradient.addColorStop(1, 'hsl(271, 81%, 46%)');
+
+    // Create gradient for the fill area using actual canvas height
+    const fillGradient = ctx.createLinearGradient(0, 0, 0, canvasHeight);
+    fillGradient.addColorStop(0, 'hsl(271, 81%, 66%, 0.2)');
+    fillGradient.addColorStop(0.7, 'hsl(271, 81%, 66%, 0.1)');
+    fillGradient.addColorStop(1, 'hsl(271, 81%, 66%, 0.05)');
+
     const config: ChartConfiguration = {
       type: 'line',
       data: {
         labels,
         datasets: [{
           label: 'Total Debt',
-          data,
-          borderColor: 'hsl(271, 81%, 66%)',
-          backgroundColor: 'hsl(271, 81%, 66%, 0.1)',
-          tension: 0.4,
+          data: variedData,
+          borderColor: gradient,
+          backgroundColor: fillGradient,
+          borderWidth: 3,
+          tension: 0.3,
+          cubicInterpolationMode: 'monotone',
           fill: true,
           pointBackgroundColor: 'hsl(271, 81%, 66%)',
           pointBorderColor: '#fff',
-          pointBorderWidth: 2,
-          pointRadius: 4,
+          pointBorderWidth: 3,
+          pointRadius: 5,
+          pointHoverRadius: 7,
+          pointHoverBorderWidth: 3,
         }]
       },
       options: {
@@ -90,7 +171,7 @@ export function DebtProgressChart({ data, labels, className = "" }: DebtProgress
         chartRef.current.destroy();
       }
     };
-  }, [data, labels]);
+  }, [data, labels, enableVariation, freezeLast]);
 
   return (
     <div className={`relative ${className}`}>

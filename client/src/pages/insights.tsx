@@ -155,6 +155,7 @@ export default function Insights() {
               data={debtChartData}
               labels={debtChartLabels}
               className="h-64"
+              enableVariation={true}
             />
             <div className="mt-4 p-3 bg-dime-accent/10 rounded-lg">
               <p className="text-sm text-slate-700">
