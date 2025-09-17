@@ -24,7 +24,7 @@ export default function Landing() {
           <img 
             src={appIcon} 
             alt="Dime Time Logo" 
-            className="w-32 h-32 mx-auto mb-8"
+            className="w-32 h-32 mx-auto mb-8 logo-image-clean"
           />
         </div>
         

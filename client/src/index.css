@@ -145,7 +145,11 @@
   /* Clean logos without shadow - override all shadow rules */
   .logo-clean, .logo-with-text-clean, .logo-image-clean,
   .logo-clean img, .logo-with-text-clean img, .logo-image-clean img,
-  .logo-clean svg, .logo-with-text-clean svg, .logo-image-clean svg {
+  .logo-clean svg, .logo-with-text-clean svg, .logo-image-clean svg,
+  div.logo-clean img.logo-image-clean,
+  .logo-clean .logo-image-clean,
+  [class*="logo-clean"] img,
+  [class*="logo-clean"] svg {
     filter: none !important;
     text-shadow: none !important;
     box-shadow: none !important;

@@ -5,9 +5,28 @@ import transparentLogoImage from "@assets/D22C55D0-9527-4CE7-863F-F9327653E73E_1
 interface LogoProps {
   className?: string;
   size?: number;
+  clean?: boolean;
 }
 
-export function Logo({ className = "", size = 32 }: LogoProps) {
+export function Logo({ className = "", size = 32, clean = false }: LogoProps) {
+  if (clean) {
+    return (
+      <div className={`relative logo-clean ${className}`} style={{ width: size, height: size }}>
+        <img 
+          src={transparentLogoImage} 
+          alt="Dime Time Official Logo" 
+          width={size} 
+          height={size}
+          className="logo-image-clean object-contain"
+          style={{ 
+            filter: `brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%)`,
+            backgroundColor: 'transparent'
+          }}
+        />
+      </div>
+    );
+  }
+
   return (
     <div className={`relative logo-outline ${className}`} style={{ width: size, height: size }}>
       <div className="relative">
