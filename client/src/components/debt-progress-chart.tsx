@@ -33,14 +33,14 @@ export function DebtProgressChart({ data, labels, className = "", enableVariatio
     for (let index = 1; index < originalData.length - 1; index++) {
       const value = originalData[index];
       
-      // Add small deterministic fluctuations (±2% variation)
+      // Add realistic deterministic fluctuations (±8% variation)
       const random = seededRandom(seed, index);
-      const variationPercent = (random - 0.5) * 0.04; // ±2% max
+      const variationPercent = (random - 0.5) * 0.16; // ±8% max
       const variation = value * variationPercent;
       
       // Ensure we don't go above the previous VARIED value to maintain downward trend
       const prevVariedValue = variedData[index - 1];
-      const maxValue = prevVariedValue * 0.98; // At least 2% reduction from previous varied point
+      const maxValue = prevVariedValue * 0.995; // At least 0.5% reduction from previous varied point
       
       variedData[index] = Math.max(Math.min(value + variation, maxValue), 0);
     }
