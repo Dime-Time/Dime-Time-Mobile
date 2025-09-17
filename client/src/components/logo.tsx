@@ -19,8 +19,9 @@ export function Logo({ className = "", size = 32, clean = false }: LogoProps) {
           height={size}
           className="logo-image-clean object-contain"
           style={{ 
-            filter: `brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%)`,
-            backgroundColor: 'transparent'
+            filter: `brightness(0) invert(1)`,
+            backgroundColor: 'transparent',
+            color: '#FFFFFF'
           }}
         />
       </div>
