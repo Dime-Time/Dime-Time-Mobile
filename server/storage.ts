@@ -49,8 +49,9 @@ import { eq, desc, and } from "drizzle-orm";
 export interface IStorage {
   // User methods
   getUser(id: string): Promise<User | undefined>;
-  getUserByUsername(username: string): Promise<User | undefined>;
+  getUserByEmail(email: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
+  upsertUser(user: { id: string; email?: string | null; firstName?: string | null; lastName?: string | null; profileImageUrl?: string | null }): Promise<User>;
 
   // Debt methods
   getDebtsByUserId(userId: string): Promise<Debt[]>;
@@ -165,12 +166,12 @@ export class MemStorage implements IStorage {
     // Create demo user
     const demoUser: User = {
       id: "demo-user-1",
-      username: "spartacus.demo",
-      password: "hashedpassword",
+      email: "spartacus@dimetime.app",
       firstName: "Spartacus",
       lastName: "Johnson",
-      email: "spartacus@example.com",
+      profileImageUrl: null,
       createdAt: new Date("2024-01-01"),
+      updatedAt: new Date("2024-01-01"),
     };
     this.users.set(demoUser.id, demoUser);
 
@@ -792,8 +793,8 @@ export class MemStorage implements IStorage {
     return this.users.get(id);
   }
 
-  async getUserByUsername(username: string): Promise<User | undefined> {
-    return Array.from(this.users.values()).find(user => user.username === username);
+  async getUserByEmail(email: string): Promise<User | undefined> {
+    return Array.from(this.users.values()).find(user => user.email === email);
   }
 
   async createUser(insertUser: InsertUser): Promise<User> {
@@ -802,9 +803,39 @@ export class MemStorage implements IStorage {
       ...insertUser, 
       id,
       createdAt: new Date(),
+      updatedAt: new Date(),
     };
     this.users.set(id, user);
     return user;
+  }
+
+  async upsertUser(userData: { id: string; email?: string | null; firstName?: string | null; lastName?: string | null; profileImageUrl?: string | null }): Promise<User> {
+    const existingUser = this.users.get(userData.id);
+    
+    if (existingUser) {
+      const updatedUser: User = {
+        ...existingUser,
+        email: userData.email ?? existingUser.email,
+        firstName: userData.firstName ?? existingUser.firstName,
+        lastName: userData.lastName ?? existingUser.lastName,
+        profileImageUrl: userData.profileImageUrl ?? existingUser.profileImageUrl,
+        updatedAt: new Date(),
+      };
+      this.users.set(userData.id, updatedUser);
+      return updatedUser;
+    } else {
+      const newUser: User = {
+        id: userData.id,
+        email: userData.email,
+        firstName: userData.firstName,
+        lastName: userData.lastName,
+        profileImageUrl: userData.profileImageUrl,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
+      this.users.set(userData.id, newUser);
+      return newUser;
+    }
   }
 
   async getDebtsByUserId(userId: string): Promise<Debt[]> {
