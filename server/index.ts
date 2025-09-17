@@ -2,6 +2,7 @@ import express, { type Request, Response, NextFunction } from "express";
 import cors from "cors";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
+import { setupAuth } from "./replitAuth";
 
 const app = express();
 
@@ -51,6 +52,9 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 });
 
 (async () => {
+  // Setup authentication before routes
+  await setupAuth(app);
+  
   const server = await registerRoutes(app);
 
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
