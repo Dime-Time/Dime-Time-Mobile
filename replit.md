@@ -63,7 +63,7 @@ The application leverages automated financial tracking, micro-investment strateg
 
 ## Key Features Implemented
 1. **Round-up Technology**: Automated spare change collection
-2. **JP Morgan Integration**: Secure sweep accounts with competitive rates
+2. **Sila Money ACH Integration**: Real-time roundup collection and debt payments (mock mode for beta)
 3. **Smart Analytics**: Detailed insights and debt-free projections
 4. **One-tap Payments**: Streamlined debt payment interface
 5. **Crypto Integration**: Optional cryptocurrency micro-investments
@@ -73,6 +73,7 @@ The application leverages automated financial tracking, micro-investment strateg
 
 ### Completed ✓
 - **Web App**: Fully deployed and operational
+- **Sila Money ACH Integration**: ✅ **BETA READY** - Full ACH transfer simulation with mock banking (roundup collection, debt payments, wallet management)
 - **Coinbase Integration**: Live crypto purchases with real API integration
 - **Plaid Sandbox Integration**: ✅ **ACTIVE CONNECTION** - Full bank account linking with real transaction testing
 - **Mobile Builds**: iOS/Android platforms configured and synced
@@ -88,9 +89,9 @@ The application leverages automated financial tracking, micro-investment strateg
 - **Transaction Processing**: Full round-up calculations with real banking data
 - **Sandbox Environment**: Complete testing environment ready for App Store submission
 
-### Pending User Actions
-- **Apple Developer Account**: Setup required for App Store submission ($99/year)
-- **Axos Bank Business Account**: Call Tuesday to establish 4% APY business account with API access
+### Pending User Actions  
+- **Apple Developer Account**: Setup required for App Store submission ($99/year) - ready for Friday signup
+- **Sila Money Production Setup**: Replace mock mode with real Ed25519 signatures and KYC/KYB flows for live ACH
 - **App Store Submission**: Ready once developer account is established
 
 ### Live Integrations Status ✅
@@ -117,21 +118,21 @@ The application leverages automated financial tracking, micro-investment strateg
 
 ### Revenue Model & Profit Projections
 
-#### Axos Bank Business Account Integration
-- **4% APY Business Account**: Pool user round-ups to earn interest
-- **Weekly Payment Distribution**: Automated ACH payments to user debt accounts every Friday
-- **Combined Revenue Streams**: Subscription fees ($2.99/month) + interest earnings (4% APY)
+#### Sila Money + Galileo Banking Integration
+- **4.46% APY Galileo Account**: Pool user round-ups to earn premium interest ($6.02M additional revenue/year at 1M users)
+- **Weekly Payment Distribution**: Automated ACH payments to user debt accounts every Friday via Sila Money API
+- **Combined Revenue Streams**: Subscription fees ($2.99/month) + interest earnings (4.46% APY via Galileo partnership)
 
 #### Revenue Per User (Annual)
 - **Subscription Revenue**: $35.88/user/year ($2.99 × 12 months)
-- **Interest Revenue**: ~$52/user/year (based on $25/week average round-ups)
-- **Total Revenue Per User**: $87.88/year
+- **Interest Revenue**: ~$58.02/user/year (based on $25/week average round-ups at 4.46% APY)
+- **Total Revenue Per User**: $93.90/year
 
 #### Profit Margins at Scale (1 Million Users)
-- **Gross Revenue**: $87.88M/year ($87.88 × 1M users)
+- **Gross Revenue**: $93.90M/year ($93.90 × 1M users)
 - **Operating Costs**: $13.7M/year (ACH fees + infrastructure + staff)
-- **Net Profit**: $74.18M/year
-- **Profit Margin**: 84% at 1 million users
+- **Net Profit**: $80.20M/year
+- **Profit Margin**: 85.4% at 1 million users (+$6.02M vs original 4% plan)
 
 ### Market Analysis & Competitive Landscape
 
