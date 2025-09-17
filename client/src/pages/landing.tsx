@@ -17,7 +17,7 @@ export default function Landing() {
     };
   }, []);
   return (
-    <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#918EF4' }}>
+    <div className="min-h-screen flex items-center justify-center bg-dime-purple">
       <div className="text-center px-8">
         {/* Logo */}
         <div className="mb-12">

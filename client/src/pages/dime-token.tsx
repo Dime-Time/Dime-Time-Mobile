@@ -102,7 +102,7 @@ export default function DimeToken() {
           <h1 className="text-3xl font-bold text-white mb-2">Dime Time Token (DTT)</h1>
           <p className="text-white/80">Your native cryptocurrency that rewards financial progress</p>
         </div>
-        <Badge variant="secondary" className="bg-dime-purple/10 text-dime-purple border-dime-purple/20">
+        <Badge variant="secondary" className="bg-dime-purple/5 text-dime-purple border border-dime-purple/10">
           Native Token
         </Badge>
       </div>

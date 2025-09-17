@@ -59,7 +59,7 @@ export default function QRCodePage() {
             <QRCode url={appUrl} size={250} />
           </div>
           
-          <div className="text-sm text-slate-600 bg-slate-50 p-3 rounded-lg">
+          <div className="text-sm text-slate-600 bg-dime-lilac/5 border border-dime-lilac/10 p-3 rounded-lg">
             <strong>URL:</strong> {appUrl}
           </div>
           

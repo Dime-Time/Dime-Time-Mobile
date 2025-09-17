@@ -222,7 +222,7 @@ export default function CryptoPage() {
                   </Select>
                 </div>
 
-                <div className="p-4 bg-dime-purple/5 rounded-lg border border-dime-purple/20">
+                <div className="p-4 bg-dime-purple/5 rounded-lg border border-dime-purple/10">
                   <h4 className="font-medium text-slate-900 mb-2">How it works</h4>
                   <ul className="text-sm text-slate-600 space-y-1">
                     <li>• Round-ups are automatically split between debt payments and crypto</li>
@@ -245,7 +245,7 @@ export default function CryptoPage() {
         <Card>
           <CardContent className="p-6">
             <div className="flex items-center justify-between mb-4">
-              <div className="w-12 h-12 bg-dime-purple/10 rounded-lg flex items-center justify-center">
+              <div className="w-12 h-12 bg-dime-purple/5 rounded-lg border border-dime-purple/10 flex items-center justify-center">
                 <DollarSign className="w-6 h-6 text-dime-purple" />
               </div>
               <Badge variant="secondary" className="text-dime-accent">
@@ -263,7 +263,7 @@ export default function CryptoPage() {
         <Card>
           <CardContent className="p-6">
             <div className="flex items-center justify-between mb-4">
-              <div className="w-12 h-12 bg-dime-accent/10 rounded-lg flex items-center justify-center">
+              <div className="w-12 h-12 bg-dime-accent/5 rounded-lg border border-dime-accent/10 flex items-center justify-center">
                 <Coins className="w-6 h-6 text-dime-accent" />
               </div>
               <span className="text-xs text-slate-600">{cryptoPercentage}% allocation</span>
@@ -279,7 +279,7 @@ export default function CryptoPage() {
         <Card>
           <CardContent className="p-6">
             <div className="flex items-center justify-between mb-4">
-              <div className="w-12 h-12 bg-dime-lilac/10 rounded-lg flex items-center justify-center">
+              <div className="w-12 h-12 bg-dime-lilac/5 rounded-lg border border-dime-lilac/10 flex items-center justify-center">
                 <Bitcoin className="w-6 h-6 text-dime-lilac" />
               </div>
               <ArrowUpRight className="w-4 h-4 text-dime-accent" />
@@ -295,7 +295,7 @@ export default function CryptoPage() {
         <Card>
           <CardContent className="p-6">
             <div className="flex items-center justify-between mb-4">
-              <div className="w-12 h-12 bg-dime-lavender/10 rounded-lg flex items-center justify-center">
+              <div className="w-12 h-12 bg-dime-lavender/5 rounded-lg border border-dime-lavender/10 flex items-center justify-center">
                 <Wallet className="w-6 h-6 text-dime-lavender" />
               </div>
               <span className="text-xs text-slate-600">Coinbase</span>
@@ -329,7 +329,7 @@ export default function CryptoPage() {
                   return (
                     <div key={coin.symbol} className="flex items-center justify-between p-4 bg-slate-50 rounded-lg">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 bg-dime-purple/10 rounded-full flex items-center justify-center">
+                        <div className="w-10 h-10 bg-dime-purple/5 rounded-full border border-dime-purple/10 flex items-center justify-center">
                           <span className="text-lg font-bold text-dime-purple">
                             {cryptoOption?.icon || coin.symbol[0]}
                           </span>
@@ -382,7 +382,7 @@ export default function CryptoPage() {
                 {cryptoPurchases.slice(0, 5).map((purchase) => (
                   <div key={purchase.id} className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 bg-dime-accent/10 rounded-full flex items-center justify-center">
+                      <div className="w-8 h-8 bg-dime-accent/5 rounded-full border border-dime-accent/10 flex items-center justify-center">
                         <span className="text-xs font-bold text-dime-accent">
                           {purchase.cryptoSymbol}
                         </span>
@@ -427,7 +427,7 @@ export default function CryptoPage() {
 
       {/* Educational Content */}
       <div className="mt-8">
-        <Card className="bg-gradient-to-r from-dime-purple/5 to-dime-lilac/5 border-dime-purple/20">
+        <Card className="bg-dime-purple/5 border border-dime-purple/10">
           <CardContent className="p-6">
             <h3 className="text-lg font-semibold text-slate-900 mb-4">💡 About Crypto Round-ups</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

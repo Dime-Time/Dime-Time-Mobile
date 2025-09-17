@@ -79,7 +79,7 @@ export default function Signup() {
           <div className="grid md:grid-cols-3 gap-6 mb-8">
             <Card>
               <CardContent className="p-6 text-center">
-                <div className="w-12 h-12 bg-dime-purple/10 rounded-lg flex items-center justify-center mx-auto mb-4">
+                <div className="w-12 h-12 bg-dime-purple/5 rounded-lg border border-dime-purple/10 flex items-center justify-center mx-auto mb-4">
                   <span className="text-2xl">💰</span>
                 </div>
                 <h3 className="font-semibold mb-2">Smart Round-ups</h3>
@@ -89,7 +89,7 @@ export default function Signup() {
 
             <Card>
               <CardContent className="p-6 text-center">
-                <div className="w-12 h-12 bg-dime-purple/10 rounded-lg flex items-center justify-center mx-auto mb-4">
+                <div className="w-12 h-12 bg-dime-purple/5 rounded-lg border border-dime-purple/10 flex items-center justify-center mx-auto mb-4">
                   <span className="text-2xl">📊</span>
                 </div>
                 <h3 className="font-semibold mb-2">Debt Tracking</h3>
@@ -99,7 +99,7 @@ export default function Signup() {
 
             <Card>
               <CardContent className="p-6 text-center">
-                <div className="w-12 h-12 bg-dime-purple/10 rounded-lg flex items-center justify-center mx-auto mb-4">
+                <div className="w-12 h-12 bg-dime-purple/5 rounded-lg border border-dime-purple/10 flex items-center justify-center mx-auto mb-4">
                   <span className="text-2xl">🔒</span>
                 </div>
                 <h3 className="font-semibold mb-2">Bank-Level Security</h3>

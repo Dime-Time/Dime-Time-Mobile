@@ -268,7 +268,7 @@ export default function SweepAccountPage() {
               {deposits.slice(0, 5).map((deposit: any) => (
                 <div key={deposit.id} className="flex items-center justify-between py-2 border-b border-slate-100 last:border-b-0">
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 bg-dime-purple/10 rounded-full flex items-center justify-center">
+                    <div className="w-8 h-8 bg-dime-purple/5 rounded-full border border-dime-purple/10 flex items-center justify-center">
                       <Coins className="w-4 h-4 text-dime-purple" />
                     </div>
                     <div>
