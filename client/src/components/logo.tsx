@@ -19,9 +19,8 @@ export function Logo({ className = "", size = 32, clean = false }: LogoProps) {
         height={size}
         className="object-contain"
         style={{ 
-          filter: `brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%)`,
-          backgroundColor: 'transparent',
-          color: '#FFFFFF'
+          filter: 'invert(1) brightness(2)',
+          backgroundColor: 'transparent'
         }}
       />
     </div>
@@ -40,9 +39,8 @@ export function LogoWithText({ className = "", size = 120 }: LogoProps) {
           height={size}
           className="object-contain"
           style={{ 
-            filter: `brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%)`,
-            backgroundColor: 'transparent',
-            color: '#FFFFFF'
+            filter: 'invert(1) brightness(2)',
+            backgroundColor: 'transparent'
           }}
         />
       </div>
