@@ -27,10 +27,13 @@ export function getSession() {
   const pgStore = connectPg(session);
   const sessionStore = new pgStore({
     conString: process.env.DATABASE_URL,
-    createTableIfMissing: false,
+    createTableIfMissing: true, // Allow table creation in development
     ttl: sessionTtl,
     tableName: "sessions",
   });
+  
+  const isProduction = process.env.NODE_ENV === 'production';
+  
   return session({
     secret: process.env.SESSION_SECRET!,
     store: sessionStore,
@@ -38,7 +41,8 @@ export function getSession() {
     saveUninitialized: false,
     cookie: {
       httpOnly: true,
-      secure: true,
+      secure: isProduction, // Only secure in production to allow HTTP in development
+      sameSite: 'lax', // CSRF protection
       maxAge: sessionTtl,
     },
   });

@@ -145,9 +145,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Get user's payments
-  app.get("/api/payments", async (req: Request, res: Response) => {
+  app.get("/api/payments", isAuthenticated, async (req: Request, res: Response) => {
     try {
-      const userId = "demo-user-1";
+      const userId = getAuthenticatedUserId(req);
+      
+      if (!userId) {
+        return res.status(401).json({ message: "No user ID in session" });
+      }
+      
       const payments = await storage.getPaymentsByUserId(userId);
       res.json(payments);
     } catch (error) {
@@ -156,9 +161,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Create new payment
-  app.post("/api/payments", async (req: Request, res: Response) => {
+  app.post("/api/payments", isAuthenticated, async (req: Request, res: Response) => {
     try {
-      const userId = "demo-user-1";
+      const userId = getAuthenticatedUserId(req);
+      
+      if (!userId) {
+        return res.status(401).json({ message: "No user ID in session" });
+      }
       const validatedData = insertPaymentSchema.parse({
         ...req.body,
         userId,

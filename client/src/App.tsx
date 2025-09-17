@@ -7,6 +7,8 @@ import { Navigation } from "@/components/navigation";
 import { useEffect } from "react";
 import { initGA } from "../lib/analytics";
 import { useAnalytics } from "../hooks/use-analytics";
+import { AuthProvider, useAuth } from "@/hooks/useAuth";
+import LandingPage from "@/pages/LandingPage";
 
 import Dashboard from "@/pages/dashboard";
 import Transactions from "@/pages/transactions";
@@ -56,17 +58,33 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <div className="min-h-screen bg-dime-lilac">
-          <AppContent />
-          <Toaster />
-        </div>
-      </TooltipProvider>
+      <AuthProvider>
+        <TooltipProvider>
+          <div className="min-h-screen bg-dime-lilac">
+            <AppContent />
+            <Toaster />
+          </div>
+        </TooltipProvider>
+      </AuthProvider>
     </QueryClientProvider>
   );
 }
 
 function AppContent() {
+  const { isAuthenticated, isLoading } = useAuth();
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-[#918EF4] flex items-center justify-center">
+        <div className="text-white text-xl">Loading...</div>
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return <LandingPage />;
+  }
+
   return (
     <>
       <Navigation />
