@@ -2,7 +2,7 @@ import logoImage from "@assets/D22C55D0-9527-4CE7-863F-F9327653E73E_175541105002
 import newLogoImage from "@assets/9C86D612-C9E4-448E-8F8B-CC8F618BAE03_1756051233947.png";
 import transparentLogoImage from "@assets/D22C55D0-9527-4CE7-863F-F9327653E73E_1756052612472.png";
 import appIconImage from "@assets/9C86D612-C9E4-448E-8F8B-CC8F618BAE03_1756051233947.png";
-import transparentClockLogo from "@assets/transparent-clock-logo.png";
+import transparentClockLogo from "@assets/generated_images/White_transparent_clock_logo_bfaa3447.png";
 
 interface LogoProps {
   className?: string;
