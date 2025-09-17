@@ -13,7 +13,7 @@ export function DebtProgressChart({ data, labels, className = "", enableVariatio
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const chartRef = useRef<Chart | null>(null);
 
-  // Add deterministic realistic variation for demo/mock data only
+  // Add realistic financial fluctuations while maintaining overall downward trend
   const addRealisticVariation = (originalData: number[], seed: string) => {
     if (!enableVariation) return originalData;
     
@@ -26,44 +26,56 @@ export function DebtProgressChart({ data, labels, className = "", enableVariatio
       return (Math.abs(hash) % 1000) / 1000;
     };
     
-    // Process iteratively to maintain monotonic decrease
     const variedData = [...originalData];
+    const totalPoints = originalData.length;
+    const startValue = originalData[0];
+    const endValue = originalData[originalData.length - 1];
+    const totalReduction = startValue - endValue;
     
-    // Apply variation to middle points
-    for (let index = 1; index < originalData.length - 1; index++) {
-      const value = originalData[index];
+    // Create more dramatic ups and downs while maintaining overall trend
+    for (let index = 1; index < totalPoints - 1; index++) {
+      // Calculate expected position on the overall trend line
+      const progress = index / (totalPoints - 1);
+      const trendValue = startValue - (totalReduction * progress);
       
-      // Add realistic deterministic fluctuations (±8% variation)
-      const random = seededRandom(seed, index);
-      const variationPercent = (random - 0.5) * 0.16; // ±8% max
-      const variation = value * variationPercent;
+      // Add significant fluctuations (up to ±20% from trend)
+      const random1 = seededRandom(seed, index);
+      const random2 = seededRandom(seed, index + 100); // Different seed for more variation
       
-      // Ensure we don't go above the previous VARIED value to maintain downward trend
-      const prevVariedValue = variedData[index - 1];
-      const maxValue = prevVariedValue * 0.995; // At least 0.5% reduction from previous varied point
+      // Create wave-like patterns with multiple frequency components
+      const wave1 = Math.sin(progress * Math.PI * 3) * 0.15; // 3 cycles
+      const wave2 = Math.sin(progress * Math.PI * 7 + random1 * 2 * Math.PI) * 0.08; // 7 cycles, phase shifted
+      const noise = (random2 - 0.5) * 0.12; // Random noise
       
-      variedData[index] = Math.max(Math.min(value + variation, maxValue), 0);
+      const totalVariation = (wave1 + wave2 + noise);
+      const variationAmount = trendValue * totalVariation;
+      
+      variedData[index] = Math.max(trendValue + variationAmount, 0);
     }
     
-    // If freezeLast is true, preserve the original last value and do a backward pass
-    if (freezeLast) {
-      // Keep the original last value intact
-      variedData[variedData.length - 1] = originalData[originalData.length - 1];
+    // Ensure the overall trend is still downward by applying a smoothing constraint
+    // Allow some points to go up from previous, but not too much
+    for (let index = 1; index < totalPoints - 1; index++) {
+      const prevValue = variedData[index - 1];
+      const currentValue = variedData[index];
       
-      // Backward pass to ensure monotonicity without changing the last value
-      for (let index = variedData.length - 2; index >= 0; index--) {
-        if (variedData[index] < variedData[index + 1]) {
-          // If we need to ensure non-increasing trend, adjust this point
-          variedData[index] = Math.max(variedData[index], variedData[index + 1]);
-        }
+      // Allow increases up to 8% from previous point occasionally
+      const maxIncrease = prevValue * 1.08;
+      if (currentValue > maxIncrease) {
+        variedData[index] = maxIncrease;
       }
-    } else {
-      // Original behavior for when we don't need to freeze the last point
-      const lastIndex = variedData.length - 1;
-      const secondToLastIndex = lastIndex - 1;
-      if (secondToLastIndex >= 0 && variedData[lastIndex] > variedData[secondToLastIndex]) {
-        variedData[lastIndex] = Math.min(variedData[lastIndex], variedData[secondToLastIndex] * 0.98);
+      
+      // But ensure we don't go above the starting trend too much
+      const progress = index / (totalPoints - 1);
+      const maxAllowed = startValue - (totalReduction * progress * 0.6); // More lenient constraint
+      if (variedData[index] > maxAllowed) {
+        variedData[index] = maxAllowed;
       }
+    }
+    
+    // Always preserve the last value if freezeLast is true
+    if (freezeLast) {
+      variedData[variedData.length - 1] = originalData[originalData.length - 1];
     }
     
     return variedData;
