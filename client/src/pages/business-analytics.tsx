@@ -412,7 +412,7 @@ export default function BusinessAnalytics() {
               <div>
                 <h3 className="text-lg font-semibold text-slate-900 mb-4">Revenue Projections</h3>
                 <div className="space-y-4">
-                  <div className="p-4 bg-dime-accent/10 rounded-lg border border-dime-accent/20">
+                  <div className="p-4 bg-dime-accent/5 rounded-lg border border-dime-accent/10">
                     <div className="flex justify-between items-center mb-2">
                       <span className="font-semibold text-slate-900">Year 2: Pilot</span>
                       <span className="text-sm text-dime-accent font-medium">10K Users</span>
@@ -429,7 +429,7 @@ export default function BusinessAnalytics() {
                     </div>
                   </div>
                   
-                  <div className="p-4 bg-dime-lilac/10 rounded-lg border border-dime-lilac/20">
+                  <div className="p-4 bg-dime-lilac/5 rounded-lg border border-dime-lilac/10">
                     <div className="flex justify-between items-center mb-2">
                       <span className="font-semibold text-slate-900">Year 3: Scale</span>
                       <span className="text-sm text-dime-lilac font-medium">50K Users</span>
@@ -446,7 +446,7 @@ export default function BusinessAnalytics() {
                     </div>
                   </div>
                   
-                  <div className="p-4 bg-dime-purple/10 rounded-lg border border-dime-purple/20">
+                  <div className="p-4 bg-dime-purple/5 rounded-lg border border-dime-purple/10">
                     <div className="flex justify-between items-center mb-2">
                       <span className="font-semibold text-slate-900">Year 4: National</span>
                       <span className="text-sm text-dime-purple font-medium">100K Users</span>
