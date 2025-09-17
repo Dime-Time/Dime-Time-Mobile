@@ -145,7 +145,7 @@ export default function Dashboard() {
         <Card>
           <CardContent className="p-6">
             <div className="flex items-center justify-between mb-4">
-              <div className="w-12 h-12 bg-dime-purple/10 rounded-lg flex items-center justify-center">
+              <div className="w-12 h-12 bg-dime-purple/5 rounded-lg border border-dime-purple/10 flex items-center justify-center">
                 <DollarSign className="w-6 h-6 text-dime-purple" />
               </div>
               <span className="text-xs text-dime-accent font-medium">+{formatCurrency(summary.thisMonthRoundUps)}</span>
@@ -158,7 +158,7 @@ export default function Dashboard() {
         <Card>
           <CardContent className="p-6">
             <div className="flex items-center justify-between mb-4">
-              <div className="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
+              <div className="w-12 h-12 bg-red-500/5 rounded-lg border border-red-500/10 flex items-center justify-center">
                 <CreditCard className="w-6 h-6 text-red-600" />
               </div>
               <span className="text-xs text-red-600 font-medium">-{formatCurrency(summary.thisMonthPayments)}</span>
@@ -171,7 +171,7 @@ export default function Dashboard() {
         <Card>
           <CardContent className="p-6">
             <div className="flex items-center justify-between mb-4">
-              <div className="w-12 h-12 bg-dime-accent/10 rounded-lg flex items-center justify-center">
+              <div className="w-12 h-12 bg-dime-accent/5 rounded-lg border border-dime-accent/10 flex items-center justify-center">
                 <TrendingUp className="w-6 h-6 text-dime-accent" />
               </div>
               <span className="text-xs text-dime-accent font-medium">{summary.progressPercentage}%</span>
@@ -184,7 +184,7 @@ export default function Dashboard() {
         <Card>
           <CardContent className="p-6">
             <div className="flex items-center justify-between mb-4">
-              <div className="w-12 h-12 bg-dime-lilac/10 rounded-lg flex items-center justify-center">
+              <div className="w-12 h-12 bg-dime-lilac/5 rounded-lg border border-dime-lilac/10 flex items-center justify-center">
                 <Calendar className="w-6 h-6 text-dime-lilac" />
               </div>
               <span className="text-xs text-slate-600 font-medium">Est.</span>
@@ -209,7 +209,7 @@ export default function Dashboard() {
 
               <div className="space-y-4">
                 {recentTransactions.map((transaction) => (
-                  <div key={transaction.id} className="flex items-center justify-between p-4 bg-slate-50 rounded-lg">
+                  <div key={transaction.id} className="flex items-center justify-between p-4 bg-dime-lilac/5 rounded-lg border border-dime-lilac/10">
                     <div className="flex items-center space-x-4">
                       <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
                         {getCategoryIcon(transaction.category)}
@@ -230,7 +230,7 @@ export default function Dashboard() {
               </div>
 
               {/* Round-up Summary */}
-              <div className="mt-6 p-4 bg-gradient-to-r from-dime-purple/10 to-dime-lilac/10 rounded-lg border border-dime-purple/20">
+              <div className="mt-6 p-4 bg-dime-purple/5 rounded-lg border border-dime-purple/10">
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-sm font-medium text-slate-700">Round-ups this week</p>
@@ -284,7 +284,7 @@ export default function Dashboard() {
                   const monthsLeft = Math.ceil(parseFloat(debt.currentBalance) / parseFloat(debt.minimumPayment));
                   
                   return (
-                    <div key={debt.id} className="border border-slate-200 rounded-lg p-4">
+                    <div key={debt.id} className="bg-dime-accent/5 rounded-lg border border-dime-accent/10 p-4">
                       <div className="flex items-center justify-between mb-3">
                         <div>
                           <h4 className="font-medium text-slate-900">{debt.name}</h4>

@@ -157,7 +157,7 @@ export default function Insights() {
               className="h-64"
               enableVariation={true}
             />
-            <div className="mt-4 p-3 bg-dime-accent/10 rounded-lg">
+            <div className="mt-4 p-3 bg-dime-accent/5 rounded-lg border border-dime-accent/10">
               <p className="text-sm text-slate-700">
                 <span className="font-semibold text-dime-accent">Great progress!</span> You've reduced your debt by{' '}
                 {formatCurrency(totalPaid)} this year, averaging {formatCurrency(avgMonthlyReduction)} per month.
@@ -263,7 +263,7 @@ export default function Insights() {
 
       {/* Insights and Tips */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <Card className="bg-gradient-to-r from-dime-purple/5 to-dime-lilac/5 border-dime-purple/20">
+        <Card className="bg-dime-purple/5 border border-dime-purple/10">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <TrendingUp className="w-5 h-5" />
@@ -283,14 +283,14 @@ export default function Insights() {
               <div className="flex items-center justify-between">
                 <span className="text-sm text-slate-600">Round-ups collected</span>
                 <span className="font-semibold text-dime-lilac">
-                  {formatCurrency(summary?.totalRoundUps || "0")}
+                  {formatCurrency(totalRoundUps)}
                 </span>
               </div>
             </div>
           </CardContent>
         </Card>
 
-        <Card className="bg-gradient-to-r from-dime-accent/5 to-dime-lilac/5 border-dime-accent/20">
+        <Card className="bg-dime-accent/5 border border-dime-accent/10">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Target className="w-5 h-5" />
