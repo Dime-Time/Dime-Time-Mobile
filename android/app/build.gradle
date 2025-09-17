@@ -10,17 +10,78 @@ android {
         versionCode 2
         versionName "1.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
+        multiDexEnabled true
         aaptOptions {
              // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.
              // Default: https://android.googlesource.com/platform/frameworks/base/+/282e181b58cf72b6ca770dc7ca5f91f135444502/tools/aapt/AaptAssets.cpp#61
             ignoreAssetsPattern '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
         }
     }
-    buildTypes {
+    
+    signingConfigs {
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            // IMPORTANT: Release signing requires ALL environment variables to be set:
+            // - KEYSTORE_FILE: Path to your release keystore
+            // - KEYSTORE_PASSWORD: Keystore password  
+            // - KEY_ALIAS: Key alias name
+            // - KEY_PASSWORD: Key password
+            // 
+            // For keystore generation: 
+            // keytool -genkey -v -keystore release.keystore -alias dimetime -keyalg RSA -keysize 2048 -validity 10000
+            
+            if (System.getenv("KEYSTORE_FILE") && System.getenv("KEYSTORE_PASSWORD") && 
+                System.getenv("KEY_ALIAS") && System.getenv("KEY_PASSWORD")) {
+                storeFile file(System.getenv("KEYSTORE_FILE"))
+                storePassword System.getenv("KEYSTORE_PASSWORD")
+                keyAlias System.getenv("KEY_ALIAS") 
+                keyPassword System.getenv("KEY_PASSWORD")
+            } else {
+                // Fail build if environment variables not set (security requirement)
+                throw new GradleException("Release signing requires KEYSTORE_FILE, KEYSTORE_PASSWORD, KEY_ALIAS, and KEY_PASSWORD environment variables to be set")
+            }
         }
+    }
+    buildTypes {
+        debug {
+            applicationIdSuffix ".debug"
+            versionNameSuffix "-debug"
+            debuggable true
+            minifyEnabled false
+            shrinkResources false
+        }
+        
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+            debuggable false
+            zipAlignEnabled true
+            
+            // App Bundle optimization
+            bundle {
+                language {
+                    enableSplit = true
+                }
+                density {
+                    enableSplit = true
+                }
+                abi {
+                    enableSplit = true
+                }
+            }
+        }
+    }
+    
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    
+    packagingOptions {
+        pickFirst '**/libc++_shared.so'
+        pickFirst '**/libjsc.so'
     }
 }
 
