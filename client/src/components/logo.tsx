@@ -10,10 +10,9 @@ interface LogoProps {
 }
 
 export function Logo({ className = "", size = 32, clean = false }: LogoProps) {
-  const maskStyle = {
+  const baseStyle = {
     width: size,
     height: size,
-    backgroundColor: '#FFFFFF',
     WebkitMaskImage: `url(${transparentLogoImage})`,
     maskImage: `url(${transparentLogoImage})`,
     WebkitMaskRepeat: 'no-repeat',
@@ -22,24 +21,65 @@ export function Logo({ className = "", size = 32, clean = false }: LogoProps) {
     maskSize: 'contain',
     WebkitMaskPosition: 'center',
     maskPosition: 'center',
-    filter: `drop-shadow(-1px -1px 0 #5a56a8) drop-shadow(1px -1px 0 #5a56a8) drop-shadow(-1px 1px 0 #5a56a8) drop-shadow(1px 1px 0 #5a56a8) drop-shadow(0 0 3px #5a56a8)`,
   } as const;
 
   return (
-    <div 
-      className={`relative ${className}`} 
-      style={maskStyle} 
-      aria-label="Dime Time Logo" 
-    />
+    <div className={`relative ${className}`} style={{ width: size, height: size }}>
+      {/* Purple outline layers */}
+      <div 
+        className="absolute"
+        style={{
+          ...baseStyle,
+          backgroundColor: '#5a56a8',
+          transform: 'translate(-1px, -1px)',
+        }}
+        aria-hidden="true"
+      />
+      <div 
+        className="absolute"
+        style={{
+          ...baseStyle,
+          backgroundColor: '#5a56a8',
+          transform: 'translate(1px, -1px)',
+        }}
+        aria-hidden="true"
+      />
+      <div 
+        className="absolute"
+        style={{
+          ...baseStyle,
+          backgroundColor: '#5a56a8',
+          transform: 'translate(-1px, 1px)',
+        }}
+        aria-hidden="true"
+      />
+      <div 
+        className="absolute"
+        style={{
+          ...baseStyle,
+          backgroundColor: '#5a56a8',
+          transform: 'translate(1px, 1px)',
+        }}
+        aria-hidden="true"
+      />
+      {/* White logo on top */}
+      <div 
+        className="relative z-10"
+        style={{
+          ...baseStyle,
+          backgroundColor: '#FFFFFF',
+        }}
+        aria-label="Dime Time Logo"
+      />
+    </div>
   );
 }
 
 // Version with DIME TIME text for standalone use - using official logo design
 export function LogoWithText({ className = "", size = 120 }: LogoProps) {
-  const maskStyle = {
+  const baseStyle = {
     width: size,
     height: size,
-    backgroundColor: '#FFFFFF',
     WebkitMaskImage: `url(${transparentLogoImage})`,
     maskImage: `url(${transparentLogoImage})`,
     WebkitMaskRepeat: 'no-repeat',
@@ -48,15 +88,58 @@ export function LogoWithText({ className = "", size = 120 }: LogoProps) {
     maskSize: 'contain',
     WebkitMaskPosition: 'center',
     maskPosition: 'center',
-    filter: `drop-shadow(-1px -1px 0 #5a56a8) drop-shadow(1px -1px 0 #5a56a8) drop-shadow(-1px 1px 0 #5a56a8) drop-shadow(1px 1px 0 #5a56a8) drop-shadow(0 0 3px #5a56a8)`,
   } as const;
 
   return (
     <div className={`flex flex-col items-center ${className}`} style={{ width: size * 1.2 }}>
-      <div 
-        style={maskStyle} 
-        aria-label="Dime Time Logo"
-      />
+      <div className="relative" style={{ width: size, height: size }}>
+        {/* Purple outline layers */}
+        <div 
+          className="absolute"
+          style={{
+            ...baseStyle,
+            backgroundColor: '#5a56a8',
+            transform: 'translate(-1px, -1px)',
+          }}
+          aria-hidden="true"
+        />
+        <div 
+          className="absolute"
+          style={{
+            ...baseStyle,
+            backgroundColor: '#5a56a8',
+            transform: 'translate(1px, -1px)',
+          }}
+          aria-hidden="true"
+        />
+        <div 
+          className="absolute"
+          style={{
+            ...baseStyle,
+            backgroundColor: '#5a56a8',
+            transform: 'translate(-1px, 1px)',
+          }}
+          aria-hidden="true"
+        />
+        <div 
+          className="absolute"
+          style={{
+            ...baseStyle,
+            backgroundColor: '#5a56a8',
+            transform: 'translate(1px, 1px)',
+          }}
+          aria-hidden="true"
+        />
+        {/* White logo on top */}
+        <div 
+          className="relative z-10"
+          style={{
+            ...baseStyle,
+            backgroundColor: '#FFFFFF',
+          }}
+          aria-label="Dime Time Logo"
+        />
+      </div>
       <div className="mt-2">
         <span 
           className="font-bold text-white tracking-wide"
