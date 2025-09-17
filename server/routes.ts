@@ -1,6 +1,7 @@
 import type { Express, Request, Response } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
+import { isAuthenticated } from "./replitAuth";
 import { dimeTokenService } from "./services/dimeTokenService";
 
 import { insertTransactionSchema, insertPaymentSchema, insertDebtSchema, insertCryptoPurchaseSchema, insertRoundUpSettingsSchema } from "@shared/schema";
@@ -19,28 +20,43 @@ import { roundUpSplitService } from "./services/roundUpSplitService";
 import { calculateRoundUp } from "../client/src/lib/calculations";
 import multer from "multer";
 
+// Helper function to get authenticated user ID
+function getAuthenticatedUserId(req: Request): string | null {
+  const authUser = req.user as any;
+  return authUser?.claims?.sub || null;
+}
+
 export async function registerRoutes(app: Express): Promise<Server> {
 
-  // Get current user (demo user)
-  app.get("/api/user", async (req: Request, res: Response) => {
+  // Get current user 
+  app.get("/api/user", isAuthenticated, async (req: Request, res: Response) => {
     try {
-      const userId = "demo-user-1";
+      const userId = getAuthenticatedUserId(req);
+      
+      if (!userId) {
+        return res.status(401).json({ message: "No user ID in session" });
+      }
+      
       const user = await storage.getUser(userId);
       if (!user) {
         return res.status(404).json({ message: "User not found" });
       }
-      // Remove password from response for security
-      const { password, ...safeUser } = user;
-      res.json(safeUser);
+      
+      res.json(user);
     } catch (error) {
       res.status(500).json({ message: "Internal server error" });
     }
   });
 
   // Get user's debts
-  app.get("/api/debts", async (req: Request, res: Response) => {
+  app.get("/api/debts", isAuthenticated, async (req: Request, res: Response) => {
     try {
-      const userId = "demo-user-1";
+      const userId = getAuthenticatedUserId(req);
+      
+      if (!userId) {
+        return res.status(401).json({ message: "No user ID in session" });
+      }
+      
       const debts = await storage.getDebtsByUserId(userId);
       res.json(debts);
     } catch (error) {
@@ -49,9 +65,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Get user's transactions
-  app.get("/api/transactions", async (req: Request, res: Response) => {
+  app.get("/api/transactions", isAuthenticated, async (req: Request, res: Response) => {
     try {
-      const userId = "demo-user-1";
+      const userId = getAuthenticatedUserId(req);
+      
+      if (!userId) {
+        return res.status(401).json({ message: "No user ID in session" });
+      }
+      
       const limit = req.query.limit ? parseInt(req.query.limit as string) : undefined;
       const transactions = await storage.getTransactionsByUserId(userId, limit);
       res.json(transactions);
@@ -61,9 +82,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Create new transaction
-  app.post("/api/transactions", async (req: Request, res: Response) => {
+  app.post("/api/transactions", isAuthenticated, async (req: Request, res: Response) => {
     try {
-      const userId = "demo-user-1";
+      const userId = getAuthenticatedUserId(req);
+      
+      if (!userId) {
+        return res.status(401).json({ message: "No user ID in session" });
+      }
       
       // Get user's round-up settings to calculate proper round-up with multiplier
       const roundUpSettings = await storage.getRoundUpSettings(userId);
