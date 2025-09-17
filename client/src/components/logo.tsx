@@ -22,6 +22,7 @@ export function Logo({ className = "", size = 32, clean = false }: LogoProps) {
     maskSize: 'contain',
     WebkitMaskPosition: 'center',
     maskPosition: 'center',
+    filter: `drop-shadow(-1px -1px 0 #5a56a8) drop-shadow(1px -1px 0 #5a56a8) drop-shadow(-1px 1px 0 #5a56a8) drop-shadow(1px 1px 0 #5a56a8) drop-shadow(0 0 3px #5a56a8)`,
   } as const;
 
   return (
@@ -47,6 +48,7 @@ export function LogoWithText({ className = "", size = 120 }: LogoProps) {
     maskSize: 'contain',
     WebkitMaskPosition: 'center',
     maskPosition: 'center',
+    filter: `drop-shadow(-1px -1px 0 #5a56a8) drop-shadow(1px -1px 0 #5a56a8) drop-shadow(-1px 1px 0 #5a56a8) drop-shadow(1px 1px 0 #5a56a8) drop-shadow(0 0 3px #5a56a8)`,
   } as const;
 
   return (
