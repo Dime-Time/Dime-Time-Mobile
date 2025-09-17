@@ -258,6 +258,7 @@ export default function Dashboard() {
                 data={chartData}
                 labels={chartLabels}
                 className="h-48"
+                enableVariation={true}
               />
               <div className="mt-4 text-center">
                 <p className="text-sm text-slate-600">
