@@ -2,7 +2,6 @@ import logoImage from "@assets/D22C55D0-9527-4CE7-863F-F9327653E73E_175541105002
 import newLogoImage from "@assets/9C86D612-C9E4-448E-8F8B-CC8F618BAE03_1756051233947.png";
 import transparentLogoImage from "@assets/D22C55D0-9527-4CE7-863F-F9327653E73E_1756052612472.png";
 import appIconImage from "@assets/9C86D612-C9E4-448E-8F8B-CC8F618BAE03_1756051233947.png";
-import transparentClockLogo from "@assets/generated_images/White_transparent_clock_logo_bfaa3447.png";
 
 interface LogoProps {
   className?: string;
@@ -15,13 +14,15 @@ export function Logo({ className = "", size = 32, clean = false }: LogoProps) {
     return (
       <div className={`relative logo-clean ${className}`} style={{ width: size, height: size }}>
         <img 
-          src={transparentClockLogo} 
+          src={appIconImage} 
           alt="Dime Time Official Logo" 
           width={size} 
           height={size}
           className="logo-image-clean object-contain"
           style={{ 
-            backgroundColor: 'transparent'
+            filter: `brightness(0) invert(1)`,
+            backgroundColor: 'transparent',
+            color: '#FFFFFF'
           }}
         />
       </div>
