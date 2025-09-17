@@ -43,18 +43,18 @@ export default function BusinessAnalytics() {
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
-                <div className="p-4 bg-dime-accent/10 rounded-lg">
+                <div className="p-4 bg-dime-accent/5 rounded-lg border border-dime-accent/10">
                   <h3 className="font-semibold text-slate-900 mb-1">Subscription Revenue</h3>
                   <p className="text-2xl font-bold text-dime-accent">$35.88</p>
                   <p className="text-sm text-slate-600">per user/year</p>
                 </div>
-                <div className="p-4 bg-dime-purple/10 rounded-lg">
+                <div className="p-4 bg-dime-purple/5 rounded-lg border border-dime-purple/10">
                   <h3 className="font-semibold text-slate-900 mb-1">Interest Revenue</h3>
                   <p className="text-2xl font-bold text-dime-purple">$52.00</p>
                   <p className="text-sm text-slate-600">per user/year (4% APY)</p>
                 </div>
               </div>
-              <div className="p-4 bg-dime-lilac/10 rounded-lg">
+              <div className="p-4 bg-dime-lilac/5 rounded-lg border border-dime-lilac/10">
                 <h3 className="font-semibold text-slate-900 mb-1">Total Revenue Per User</h3>
                 <p className="text-3xl font-bold text-dime-lilac">$87.88</p>
                 <p className="text-sm text-slate-600">annual recurring revenue</p>
@@ -178,7 +178,7 @@ export default function BusinessAnalytics() {
               </div>
             </div>
             
-            <div className="mt-6 p-4 bg-dime-purple/10 rounded-lg">
+            <div className="mt-6 p-4 bg-dime-purple/5 rounded-lg border border-dime-purple/10">
               <div className="flex items-center gap-2 mb-2">
                 <ArrowUp className="w-4 h-4 text-dime-purple" />
                 <span className="font-semibold text-slate-900">Required Growth Rate</span>
@@ -216,7 +216,7 @@ export default function BusinessAnalytics() {
                 </div>
               </div>
               
-              <div className="p-4 bg-dime-accent/10 rounded-lg">
+              <div className="p-4 bg-dime-accent/5 rounded-lg border border-dime-accent/10">
                 <div className="flex items-center justify-between">
                   <span className="font-semibold text-slate-900">Profit Margin</span>
                   <span className="text-3xl font-bold text-dime-accent">84%</span>
@@ -280,7 +280,7 @@ export default function BusinessAnalytics() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <h4 className="font-semibold text-slate-900 mb-3">Campaign Concept</h4>
-                <div className="p-4 bg-dime-lilac/10 rounded-lg mb-4">
+                <div className="p-4 bg-dime-lilac/5 rounded-lg border border-dime-lilac/10 mb-4">
                   <p className="text-slate-900 font-medium">"AI-generated animals holding phones saying 'Get out of debt one dime at a time with Dime Time' + App Store download button"</p>
                 </div>
                 
@@ -314,7 +314,7 @@ export default function BusinessAnalytics() {
                   </div>
                 </div>
                 
-                <div className="mt-4 p-4 bg-dime-purple/10 rounded-lg">
+                <div className="mt-4 p-4 bg-dime-purple/5 rounded-lg border border-dime-purple/10">
                   <h5 className="font-semibold text-slate-900 mb-1">Q1 Projection</h5>
                   <p className="text-2xl font-bold text-dime-purple">50K+</p>
                   <p className="text-sm text-slate-600">users from TikTok campaign</p>
@@ -334,19 +334,19 @@ export default function BusinessAnalytics() {
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-              <div className="p-4 bg-dime-purple/10 rounded-lg">
+              <div className="p-4 bg-dime-purple/5 rounded-lg border border-dime-purple/10">
                 <h4 className="font-semibold text-slate-900 mb-1">User Acquisition Cost</h4>
                 <p className="text-xl font-bold text-dime-purple">&lt; $25</p>
                 <p className="text-sm text-slate-600">per user target</p>
               </div>
               
-              <div className="p-4 bg-dime-accent/10 rounded-lg">
+              <div className="p-4 bg-dime-accent/5 rounded-lg border border-dime-accent/10">
                 <h4 className="font-semibold text-slate-900 mb-1">Retention Rate</h4>
                 <p className="text-xl font-bold text-dime-accent">85%+</p>
                 <p className="text-sm text-slate-600">monthly retention</p>
               </div>
               
-              <div className="p-4 bg-dime-lilac/10 rounded-lg">
+              <div className="p-4 bg-dime-lilac/5 rounded-lg border border-dime-lilac/10">
                 <h4 className="font-semibold text-slate-900 mb-1">Funding Needed</h4>
                 <p className="text-xl font-bold text-dime-lilac">$15-25M</p>
                 <p className="text-sm text-slate-600">3-year growth plan</p>
@@ -376,7 +376,7 @@ export default function BusinessAnalytics() {
               <div>
                 <h3 className="text-lg font-semibold text-slate-900 mb-4">Market Opportunity</h3>
                 <div className="space-y-4">
-                  <div className="p-4 bg-dime-accent/10 rounded-lg">
+                  <div className="p-4 bg-dime-accent/5 rounded-lg border border-dime-accent/10">
                     <h4 className="font-semibold text-slate-900 mb-2">Target Market</h4>
                     <ul className="text-sm text-slate-600 space-y-1">
                       <li>• 24.6M Americans with personal loans</li>
@@ -386,7 +386,7 @@ export default function BusinessAnalytics() {
                     </ul>
                   </div>
                   
-                  <div className="p-4 bg-dime-purple/10 rounded-lg">
+                  <div className="p-4 bg-dime-purple/5 rounded-lg border border-dime-purple/10">
                     <h4 className="font-semibold text-slate-900 mb-2">Competitive Advantage</h4>
                     <ul className="text-sm text-slate-600 space-y-1">
                       <li>• 10% APR vs 15.95-23.43% competitors</li>
@@ -466,7 +466,7 @@ export default function BusinessAnalytics() {
               </div>
             </div>
             
-            <div className="mt-8 p-4 bg-dime-purple/10 rounded-lg border border-dime-purple/20">
+            <div className="mt-8 p-4 bg-dime-purple/5 rounded-lg border border-dime-purple/10">
               <h4 className="font-semibold text-slate-900 mb-2">⚠️ Implementation Requirements</h4>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
                 <div>
@@ -522,7 +522,7 @@ export default function BusinessAnalytics() {
                 </div>
                 
                 <div className="space-y-4">
-                  <div className="p-3 bg-dime-accent/5 rounded-lg border-l-4 border-dime-accent">
+                  <div className="p-3 bg-dime-accent/5 rounded-lg border border-dime-accent/10">
                     <div className="flex items-center justify-between mb-1">
                       <span className="font-medium text-slate-900">Week 1 (This Week)</span>
                       <span className="text-sm text-dime-accent font-medium">$99</span>
@@ -548,7 +548,7 @@ export default function BusinessAnalytics() {
                     </ul>
                   </div>
                   
-                  <div className="p-3 bg-dime-purple/5 rounded-lg border-l-4 border-dime-purple">
+                  <div className="p-3 bg-dime-purple/5 rounded-lg border border-dime-purple/10">
                     <div className="flex items-center justify-between mb-1">
                       <span className="font-medium text-slate-900">Week 4 (Launch)</span>
                       <span className="text-sm text-dime-purple font-medium">Go Live</span>
@@ -560,7 +560,7 @@ export default function BusinessAnalytics() {
                     </ul>
                   </div>
                   
-                  <div className="p-3 bg-dime-lilac/10 rounded-lg">
+                  <div className="p-3 bg-dime-lilac/5 rounded-lg border border-dime-lilac/10">
                     <h4 className="font-semibold text-slate-900 text-sm mb-1">Pros</h4>
                     <ul className="text-sm text-slate-600 space-y-1">
                       <li>✓ Fastest path to market (4 weeks)</li>
@@ -590,10 +590,10 @@ export default function BusinessAnalytics() {
                 </div>
                 
                 <div className="space-y-4">
-                  <div className="p-3 bg-yellow-50 rounded-lg border-l-4 border-yellow-400">
+                  <div className="p-3 bg-dime-accent/5 rounded-lg border border-dime-accent/10">
                     <div className="flex items-center justify-between mb-1">
                       <span className="font-medium text-slate-900">Month 1-2</span>
-                      <span className="text-sm text-yellow-600 font-medium">DUNS Fix</span>
+                      <span className="text-sm text-dime-accent font-medium">DUNS Fix</span>
                     </div>
                     <ul className="text-sm text-slate-600 space-y-1">
                       <li>• Contact Dun & Bradstreet for appeal</li>
@@ -614,7 +614,7 @@ export default function BusinessAnalytics() {
                     </ul>
                   </div>
                   
-                  <div className="p-3 bg-dime-purple/5 rounded-lg border-l-4 border-dime-purple">
+                  <div className="p-3 bg-dime-purple/5 rounded-lg border border-dime-purple/10">
                     <div className="flex items-center justify-between mb-1">
                       <span className="font-medium text-slate-900">Month 6+ (Transfer)</span>
                       <span className="text-sm text-dime-purple font-medium">$299</span>
@@ -626,7 +626,7 @@ export default function BusinessAnalytics() {
                     </ul>
                   </div>
                   
-                  <div className="p-3 bg-dime-accent/10 rounded-lg border border-dime-accent/20">
+                  <div className="p-3 bg-dime-accent/5 rounded-lg border border-dime-accent/10">
                     <h4 className="font-semibold text-slate-900 text-sm mb-1">Pros</h4>
                     <ul className="text-sm text-slate-600 space-y-1">
                       <li>✓ Professional business branding</li>
@@ -651,15 +651,15 @@ export default function BusinessAnalytics() {
                 Start with <strong>Individual Account</strong> to launch quickly, then upgrade to Business Account once DUNS issues are resolved. This hybrid approach gets you to market fast while building toward professional branding.
               </p>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
-                <div className="p-3 bg-dime-accent/10 rounded-lg border border-dime-accent/20">
+                <div className="p-3 bg-dime-accent/5 rounded-lg border border-dime-accent/10">
                   <p className="text-lg font-bold text-dime-accent">4 weeks</p>
                   <p className="text-sm text-slate-600">to App Store launch</p>
                 </div>
-                <div className="p-3 bg-dime-purple/10 rounded-lg border border-dime-purple/20">
+                <div className="p-3 bg-dime-purple/5 rounded-lg border border-dime-purple/10">
                   <p className="text-lg font-bold text-dime-purple">6-12 months</p>
                   <p className="text-sm text-slate-600">to business rebrand</p>
                 </div>
-                <div className="p-3 bg-dime-lilac/10 rounded-lg border border-dime-lilac/20">
+                <div className="p-3 bg-dime-lilac/5 rounded-lg border border-dime-lilac/10">
                   <p className="text-lg font-bold text-slate-900">$0</p>
                   <p className="text-sm text-slate-600">revenue lost waiting</p>
                 </div>
