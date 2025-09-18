@@ -18,7 +18,7 @@
 Name: Dime Time
 Subtitle: Get Out of Debt One Dime at a Time
 Category: Finance
-Age Rating: 17+ (Unrestricted Web Access, Simulated Gambling)
+Age Rating: 17+ (Financial/Medical Content)
 ```
 
 ### 3. Version Information
@@ -59,8 +59,19 @@ npx cap open ios
 ```xml
 <key>NSAppTransportSecurity</key>
 <dict>
-    <key>NSAllowsArbitraryLoads</key>
-    <true/>
+    <key>NSExceptionDomains</key>
+    <dict>
+        <key>api.silamoney.com</key>
+        <dict>
+            <key>NSExceptionRequiresForwardSecrecy</key>
+            <false/>
+        </dict>
+        <key>api.coinbase.com</key>
+        <dict>
+            <key>NSExceptionRequiresForwardSecrecy</key>
+            <false/>
+        </dict>
+    </dict>
 </dict>
 <key>CFBundleDisplayName</key>
 <string>Dime Time</string>
@@ -132,7 +143,7 @@ Notes: This is a beta version with simulated financial features for testing.
 ```
 
 ### 10. Privacy Information
-- ✅ Privacy Policy URL: `https://your-domain.com/privacy-policy.html`
+- ✅ Privacy Policy URL: `https://dimetime.replit.app/privacy-policy.html`
 - ✅ Privacy Practices: Financial data collection disclosed
 
 ## Troubleshooting Common Issues

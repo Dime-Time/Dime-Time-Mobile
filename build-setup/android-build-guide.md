@@ -11,7 +11,7 @@
 - **Package Name**: `com.dimetime.app` (must match iOS bundle ID)
 - **App Name**: "Dime Time"
 - **Category**: Finance
-- **Content Rating**: Everyone (with financial content disclosure)
+- **Content Rating**: Mature 17+ (Financial content, simulated investment)
 
 ### 2. App Module Configuration (android/app/build.gradle)
 ```gradle
@@ -99,7 +99,7 @@ Tags: debt payoff, round up, financial management
 Contact Details:
 Website: https://your-domain.com
 Email: support@dimetime.app
-Privacy Policy: https://your-domain.com/privacy-policy.html
+Privacy Policy: https://dimetime.replit.app/privacy-policy.html
 ```
 
 #### Step 3: Content Rating
@@ -203,10 +203,16 @@ bundletool build-apks --bundle=app/build/outputs/bundle/release/app-release.aab 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
 <network-security-config>
-    <domain-config cleartextTrafficPermitted="true">
+    <domain-config cleartextTrafficPermitted="false">
+        <domain includeSubdomains="true">api.silamoney.com</domain>
+        <domain includeSubdomains="true">api.coinbase.com</domain>
+        <domain includeSubdomains="true">production.plaid.com</domain>
+    </domain-config>
+    <!-- Debug only - remove for production -->
+    <debug-overrides cleartextTrafficPermitted="true">
         <domain includeSubdomains="true">localhost</domain>
         <domain includeSubdomains="true">10.0.2.2</domain>
-    </domain-config>
+    </debug-overrides>
 </network-security-config>
 ```
 
