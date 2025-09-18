@@ -19,9 +19,6 @@ Transform your financial future with Dime Time - the smart way to pay off debt u
 • **Smart Analytics**: Track progress with debt-free projections and insights
 • **Mobile Apps**: Full iOS and Android support for management on the go
 
-### 💰 AFFORDABLE PRICING
-Just $2.99/month - less than a coffee! Cancel anytime.
-
 ### 🔒 BETA TESTING
 Join our exclusive beta program and help shape the future of debt-free living. Some features may be simulated during testing.
 
@@ -57,9 +54,6 @@ Choose to invest a portion of round-ups in cryptocurrency for potential growth.
 • Student loans  
 • Personal loans
 • Anyone wanting to build better financial habits
-
-### Pricing
-$2.99/month subscription - cheaper than most coffee drinks and could save you thousands in debt payments!
 
 ### Beta Testing Notice
 This app is currently in beta testing. Some features may be limited or simulated for safety during testing. Your feedback helps us improve!
