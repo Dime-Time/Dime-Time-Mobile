@@ -6,11 +6,34 @@ declare global {
   }
 }
 
-// Your Google Analytics Measurement ID
-const MEASUREMENT_ID = 'G-DSY7SSH1VG';
+// Get Google Analytics Measurement ID from environment (no fallback for safety)
+const MEASUREMENT_ID = import.meta.env.VITE_GA_MEASUREMENT_ID;
 
-// Initialize Google Analytics
+// Check if analytics should be enabled
+const isAnalyticsEnabled = () => {
+  if (!MEASUREMENT_ID) {
+    console.warn('Google Analytics disabled: VITE_GA_MEASUREMENT_ID environment variable not set');
+    return false;
+  }
+  return true;
+};
+
+// Flag to prevent double initialization
+let gaInitialized = false;
+
+// Initialize Google Analytics with consent mode
 export const initGA = () => {
+  if (gaInitialized || typeof window === 'undefined' || !isAnalyticsEnabled()) return;
+  
+  // Set default consent state (denied until user consents)
+  window.gtag?.('consent', 'default', {
+    analytics_storage: 'denied',
+    ad_storage: 'denied',
+    ad_user_data: 'denied',
+    ad_personalization: 'denied',
+    wait_for_update: 500,
+  });
+  
   // Add Google Analytics script to the head
   const script1 = document.createElement('script');
   script1.async = true;
@@ -23,18 +46,66 @@ export const initGA = () => {
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-    gtag('config', '${MEASUREMENT_ID}');
+    gtag('config', '${MEASUREMENT_ID}', {
+      page_title: document.title,
+      page_location: window.location.href,
+      send_page_view: false // We'll handle page views manually
+    });
   `;
   document.head.appendChild(script2);
+  
+  gaInitialized = true;
 };
 
-// Track page views - useful for single-page applications
-export const trackPageView = (url: string) => {
-  if (typeof window === 'undefined' || !window.gtag) return;
+// Update consent when user makes a choice
+export const updateConsent = (granted: boolean) => {
+  if (typeof window === 'undefined' || !window.gtag || !isAnalyticsEnabled()) return;
+  
+  window.gtag('consent', 'update', {
+    analytics_storage: granted ? 'granted' : 'denied',
+    ad_storage: granted ? 'granted' : 'denied',
+    ad_user_data: granted ? 'granted' : 'denied',
+    ad_personalization: granted ? 'granted' : 'denied',
+  });
+};
+
+// Track page views - improved for single-page applications
+export const trackPageView = (url: string, title?: string) => {
+  if (typeof window === 'undefined' || !window.gtag || !isAnalyticsEnabled()) return;
+  
+  // Send explicit page_view event instead of config to avoid resetting settings
+  window.gtag('event', 'page_view', {
+    page_path: url,
+    page_title: title || document.title,
+    page_location: window.location.href,
+  });
+};
+
+// Set user ID for authenticated users (use internal UUID, not PII)
+export const setUserId = (userId: string) => {
+  if (typeof window === 'undefined' || !window.gtag || !isAnalyticsEnabled()) return;
   
   window.gtag('config', MEASUREMENT_ID, {
-    page_path: url
+    user_id: userId,
   });
+};
+
+// Set user properties for audience segmentation (GA4 syntax)
+export const setUserProperties = (properties: {
+  has_bank_connected?: boolean;
+  crypto_enabled?: boolean;
+  subscription_tier?: string;
+  user_type?: string;
+  signup_month?: string; // Changed from signup_date to be less specific
+}) => {
+  if (typeof window === 'undefined' || !window.gtag || !isAnalyticsEnabled()) return;
+  
+  // Remove any PII and set user properties using correct GA4 syntax
+  const cleanProperties = Object.fromEntries(
+    Object.entries(properties).filter(([_, value]) => value !== undefined)
+  );
+  
+  window.gtag('set', 'user_properties', cleanProperties);
 };
 
 // Track events
@@ -55,77 +126,231 @@ export const trackEvent = (
 
 // ===== FINTECH-SPECIFIC ANALYTICS =====
 
-// Round-up transaction tracking
-export const trackRoundUp = (amount: number, transactionId?: string) => {
-  trackEvent('roundup_transaction', 'finance', transactionId, Math.round(amount * 100));
+// Round-up transaction tracking (GA4 custom event)
+export const trackRoundUp = (amount: number, category?: string) => {
+  window.gtag?.('event', 'roundup_collected', {
+    currency: 'USD',
+    value: amount,
+    category: category || 'general',
+    event_category: 'finance',
+  });
   
   // Track milestone achievements
   if (amount >= 1.0) {
-    trackEvent('roundup_milestone', 'finance', 'dollar_milestone', Math.round(amount * 100));
+    window.gtag?.('event', 'milestone_achieved', {
+      milestone_type: 'roundup_dollar',
+      value: amount,
+      currency: 'USD',
+    });
   }
 };
 
-// Debt payment tracking
-export const trackDebtPayment = (amount: number, debtType: string, success: boolean) => {
-  trackEvent('debt_payment', 'finance', debtType, Math.round(amount * 100));
-  
+// Debt payment tracking (proper GA4 ecommerce or custom event)
+export const trackDebtPayment = (amount: number, debtType: string, success: boolean, transactionId?: string) => {
   if (success) {
-    trackEvent('payment_success', 'finance', debtType, Math.round(amount * 100));
+    window.gtag?.('event', 'purchase', {
+      transaction_id: transactionId || `debt_${Date.now()}`,
+      currency: 'USD',
+      value: amount,
+      items: [{
+        item_id: `debt_payment_${debtType}`,
+        item_name: `${debtType} Debt Payment`,
+        item_category: 'debt_payment',
+        quantity: 1,
+        price: amount
+      }]
+    });
   } else {
-    trackEvent('payment_failed', 'finance', debtType);
+    window.gtag?.('event', 'payment_failed', {
+      currency: 'USD',
+      value: amount,
+      failure_reason: 'payment_processing',
+      debt_type: debtType
+    });
   }
 };
 
-// Crypto investment tracking
-export const trackCryptoInvestment = (amount: number, cryptoType: string = 'bitcoin') => {
-  trackEvent('crypto_investment', 'finance', cryptoType, Math.round(amount * 100));
+// Crypto investment tracking (proper GA4 ecommerce)
+export const trackCryptoInvestment = (amount: number, cryptoType: string = 'bitcoin', transactionId?: string) => {
+  window.gtag?.('event', 'purchase', {
+    transaction_id: transactionId || `crypto_${Date.now()}`,
+    currency: 'USD',
+    value: amount,
+    items: [{
+      item_id: `crypto_${cryptoType}`,
+      item_name: `${cryptoType.toUpperCase()} Investment`,
+      item_category: 'cryptocurrency',
+      quantity: 1,
+      price: amount
+    }]
+  });
 };
 
-// Banking connection tracking
-export const trackBankConnection = (success: boolean, bankName?: string) => {
+// Banking connection tracking (remove bank name for privacy)
+export const trackBankConnection = (success: boolean, connectionMethod?: string) => {
   if (success) {
-    trackEvent('bank_connected', 'finance', bankName);
+    window.gtag?.('event', 'bank_account_linked', {
+      method: connectionMethod || 'plaid',
+      event_category: 'onboarding',
+      success: true
+    });
   } else {
-    trackEvent('bank_connection_failed', 'finance', bankName);
+    window.gtag?.('event', 'bank_connection_failed', {
+      method: connectionMethod || 'plaid',
+      event_category: 'onboarding',
+      success: false
+    });
   }
 };
 
-// User journey milestones
+// Standard GA4 Events for Authentication
+export const trackSignUp = (method: string = 'email') => {
+  window.gtag?.('event', 'sign_up', {
+    method: method,
+  });
+};
+
+export const trackLogin = (method: string = 'replit_auth') => {
+  window.gtag?.('event', 'login', {
+    method: method,
+  });
+};
+
+// User onboarding milestones
 export const trackUserMilestone = (milestone: string, value?: number) => {
-  trackEvent('user_milestone', 'engagement', milestone, value);
+  window.gtag?.('event', 'milestone_achieved', {
+    milestone_type: milestone,
+    value: value,
+    event_category: 'user_journey'
+  });
 };
 
 // Feature usage tracking
 export const trackFeatureUsage = (feature: string, action: string) => {
-  trackEvent('feature_usage', 'engagement', `${feature}_${action}`);
+  window.gtag?.('event', 'feature_interaction', {
+    feature_name: feature,
+    interaction_type: action,
+    event_category: 'engagement'
+  });
 };
 
 // Financial goal tracking
 export const trackGoalProgress = (goalType: string, progress: number, target: number) => {
   const progressPercent = Math.round((progress / target) * 100);
-  trackEvent('goal_progress', 'finance', goalType, progressPercent);
+  window.gtag?.('event', 'goal_progress_update', {
+    goal_type: goalType,
+    progress_percentage: progressPercent,
+    currency: 'USD',
+    progress_amount: progress,
+    target_amount: target
+  });
   
   // Track goal completion
   if (progress >= target) {
-    trackEvent('goal_completed', 'finance', goalType, Math.round(target * 100));
+    window.gtag?.('event', 'goal_achieved', {
+      goal_type: goalType,
+      final_amount: target,
+      currency: 'USD'
+    });
   }
 };
 
-// Performance and error tracking
-export const trackError = (errorType: string, errorMessage: string) => {
-  trackEvent('error', 'technical', errorType);
+// Enhanced error and performance tracking (GA4 custom events)
+export const trackError = (errorType: string, errorContext?: string) => {
+  window.gtag?.('event', 'js_error', {
+    error_type: errorType,
+    error_context: errorContext || 'unknown',
+    fatal: false
+  });
 };
 
 export const trackPerformance = (metric: string, value: number) => {
-  trackEvent('performance', 'technical', metric, Math.round(value));
+  window.gtag?.('event', 'performance_metric', {
+    metric_name: metric,
+    metric_value: Math.round(value),
+    event_category: 'performance'
+  });
 };
 
-// Business intelligence tracking
-export const trackRevenue = (amount: number, source: string) => {
-  trackEvent('revenue', 'business', source, Math.round(amount * 100));
+// Track form interactions
+export const trackFormStart = (formName: string) => {
+  window.gtag?.('event', 'form_start', {
+    form_name: formName,
+  });
 };
 
-// User engagement tracking
-export const trackEngagement = (action: string, duration?: number) => {
-  trackEvent('engagement', 'user_behavior', action, duration);
+export const trackFormComplete = (formName: string, success: boolean) => {
+  window.gtag?.('event', 'form_submit', {
+    form_name: formName,
+    success: success,
+  });
+};
+
+// Track search usage
+export const trackSearch = (searchTerm: string, results?: number) => {
+  window.gtag?.('event', 'search', {
+    search_term: searchTerm,
+    results_count: results
+  });
+};
+
+// Enhanced revenue tracking (proper GA4 ecommerce schema)
+export const trackRevenue = (amount: number, source: string, transactionId?: string) => {
+  if (!isAnalyticsEnabled()) return;
+  
+  window.gtag?.('event', 'purchase', {
+    transaction_id: transactionId || `revenue_${Date.now()}`,
+    currency: 'USD',
+    value: amount,
+    items: [{
+      item_id: 'subscription',
+      item_name: 'Subscription',
+      item_category: 'subscription',
+      item_variant: source,
+      price: amount,
+      quantity: 1
+    }]
+  });
+};
+
+// Enhanced engagement tracking (custom event to avoid conflicts)
+export const trackEngagement = (action: string, duration?: number, element?: string) => {
+  window.gtag?.('event', 'page_engagement', {
+    engagement_time_msec: duration,
+    action_type: action,
+    element_name: element,
+    event_category: 'engagement'
+  });
+};
+
+// Track scroll depth
+export const trackScrollDepth = (percentage: number, page: string) => {
+  window.gtag?.('event', 'scroll', {
+    percent_scrolled: percentage,
+    page_path: page
+  });
+};
+
+// Track file downloads
+export const trackDownload = (fileName: string, fileType: string) => {
+  window.gtag?.('event', 'file_download', {
+    file_name: fileName,
+    file_extension: fileType,
+    link_url: window.location.href
+  });
+};
+
+// Global error handler setup
+export const setupGlobalErrorTracking = () => {
+  if (typeof window === 'undefined') return;
+  
+  // Track JavaScript errors
+  window.addEventListener('error', (event) => {
+    trackError('javascript_error', event.filename || 'unknown');
+  });
+  
+  // Track unhandled promise rejections
+  window.addEventListener('unhandledrejection', (event) => {
+    trackError('unhandled_promise_rejection', 'async_error');
+  });
 };

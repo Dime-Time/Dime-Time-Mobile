@@ -5,7 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Navigation } from "@/components/navigation";
 import { useEffect } from "react";
-import { initGA } from "../lib/analytics";
+import { initGA, setUserId, setUserProperties, trackLogin, setupGlobalErrorTracking } from "../lib/analytics";
 import { useAnalytics } from "../hooks/use-analytics";
 import { AuthProvider, useAuth } from "@/hooks/useAuth";
 import LandingPage from "@/pages/LandingPage";
@@ -54,6 +54,7 @@ function App() {
   useEffect(() => {
     console.log('Initializing Google Analytics for Dime Time...');
     initGA();
+    setupGlobalErrorTracking();
   }, []);
 
   return (
@@ -71,7 +72,28 @@ function App() {
 }
 
 function AppContent() {
-  const { isAuthenticated, isLoading } = useAuth();
+  const { isAuthenticated, isLoading, user } = useAuth();
+
+  // Track user authentication and set user properties
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      // Set user ID (using internal UUID, not PII)
+      const internalUserId = user.id || `user_${Date.now()}`;
+      setUserId(internalUserId);
+      
+      // Track successful login
+      trackLogin('replit_auth');
+      
+      // Set user properties for audience segmentation
+      setUserProperties({
+        user_type: 'authenticated',
+        signup_month: new Date().toISOString().slice(0, 7), // YYYY-MM format for privacy
+        has_bank_connected: false, // You can update this based on actual data
+        crypto_enabled: true, // Update based on user preferences
+        subscription_tier: 'free' // Update based on actual subscription
+      });
+    }
+  }, [isAuthenticated, user]);
 
   if (isLoading) {
     return (
