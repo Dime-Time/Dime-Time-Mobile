@@ -27,7 +27,7 @@ export default function LandingPage() {
           
           {/* Hello World Text */}
           <h1 className="text-4xl md:text-5xl font-bold text-white text-center">
-            Dime Time: "Hello World!"
+            "Hello World!"
           </h1>
         </div>
 
