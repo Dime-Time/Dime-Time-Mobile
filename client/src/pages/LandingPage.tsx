@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { LogoWithText } from "@/components/logo";
 import { DollarSign, TrendingUp, Shield, Smartphone, Clock } from "lucide-react";
+import vaq139Badge from "@assets/generated_images/VAQ-139_Prowler_Reagan_veteran_badge_eb04c29f.png";
 
 export default function LandingPage() {
   const handleLogin = () => {
@@ -108,7 +109,14 @@ export default function LandingPage() {
 
       {/* Footer */}
       <footer className="w-full py-6 px-4 text-center text-white/60">
-        <p>&copy; 2025 Dime Time. Get out of debt one dime at a time.</p>
+        <p className="mb-4">&copy; 2025 Dime Time. All rights reserved.</p>
+        <div className="flex justify-center">
+          <img 
+            src={vaq139Badge} 
+            alt="VAQ-139 Veteran Owned Business" 
+            className="w-16 h-16"
+          />
+        </div>
       </footer>
     </div>
   );
