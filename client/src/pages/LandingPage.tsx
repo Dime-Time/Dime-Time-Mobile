@@ -12,14 +12,7 @@ export default function LandingPage() {
     <div className="min-h-screen bg-[#918EF4] text-white flex flex-col">
       {/* Header */}
       <header className="w-full py-6 px-4">
-        <div className="max-w-6xl mx-auto flex justify-end items-center">
-          <Button 
-            onClick={handleLogin}
-            className="bg-white text-[#918EF4] hover:bg-gray-100 font-semibold"
-            data-testid="button-login"
-          >
-            Sign In with Replit
-          </Button>
+        <div className="max-w-6xl mx-auto">
         </div>
       </header>
 
