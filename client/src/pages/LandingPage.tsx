@@ -33,7 +33,7 @@ export default function LandingPage() {
           
           {/* Coming Soon Text */}
           <h1 className="text-4xl md:text-5xl font-bold text-white text-center">
-            Dime Time Coming Soon
+            Coming Soon
           </h1>
         </div>
 
