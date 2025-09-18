@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { LogoWithText } from "@/components/logo";
-import officialLogo from "@assets/generated_images/Exact_official_Dime_Time_logo_reproduction_e73eb274.png";
 
 export default function LandingPage() {
   const handleLogin = () => {
@@ -26,14 +25,9 @@ export default function LandingPage() {
       {/* Hero Section with Centered Logo */}
       <main className="flex-1 flex flex-col items-center justify-center px-4">
         <div className="flex flex-col items-center justify-center space-y-8">
-          {/* Centered Perfect Logo */}
-          <div className="flex items-center justify-center">
-            <img 
-              src={officialLogo} 
-              alt="Dime Time Logo" 
-              className="w-64 h-64 md:w-80 md:h-80 object-contain"
-              data-testid="img-logo"
-            />
+          {/* Centered Official Logo */}
+          <div className="flex items-center justify-center scale-150 md:scale-200">
+            <LogoWithText />
           </div>
           
           {/* Coming Soon Text */}
