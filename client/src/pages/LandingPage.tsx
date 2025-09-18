@@ -25,9 +25,9 @@ export default function LandingPage() {
             <LogoWithText />
           </div>
           
-          {/* Coming Soon Text */}
+          {/* Hello World Text */}
           <h1 className="text-4xl md:text-5xl font-bold text-white text-center">
-            Coming Soon
+            Dime Time: "Hello World!"
           </h1>
         </div>
 
