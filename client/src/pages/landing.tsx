@@ -1,4 +1,5 @@
 import appIcon from "@assets/app-icon.png";
+import vaq139Badge from "@assets/generated_images/VAQ-139_Prowler_Reagan_veteran_badge_eb04c29f.png";
 import { useEffect } from "react";
 import { trackEvent, trackUserMilestone } from "../../lib/analytics";
 
@@ -28,10 +29,6 @@ export default function Landing() {
           />
         </div>
         
-        {/* Main Message */}
-        <h1 className="text-5xl md:text-6xl font-bold text-white mb-8 leading-tight">
-          Get out of debt, one dime at a time with Dime Time.
-        </h1>
         
         {/* Coming Soon */}
         <h2 className="text-3xl md:text-4xl font-semibold text-white mb-8">
@@ -61,6 +58,20 @@ export default function Landing() {
         {/* Website Analytics Tracking */}
         <div className="mt-12 text-white/70 text-sm">
           <p>Visit count tracked for launch insights</p>
+        </div>
+        
+        {/* Footer with Copyright and Veteran Badge */}
+        <div className="mt-16 text-center">
+          <p className="text-white/60 text-sm mb-4">
+            © 2025 Dime Time. All rights reserved.
+          </p>
+          <div className="flex justify-center">
+            <img 
+              src={vaq139Badge} 
+              alt="VAQ-139 Veteran Owned Business" 
+              className="w-16 h-16"
+            />
+          </div>
         </div>
       </div>
     </div>
