@@ -1,0 +1,7 @@
+{
+  "name": "dime-time",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react-vite"
+}
