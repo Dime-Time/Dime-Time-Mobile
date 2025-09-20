@@ -1,7 +1,7 @@
 {
   "apps": [
     {
-      "appId": "YOUR_APPFLOW_APP_ID_HERE",
+      "appId": "3f2249d3",
       "root": ".",
       "dependencyInstallCommand": "npm ci",
       "webBuildCommand": "npm run build",
