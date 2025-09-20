@@ -1,0 +1,12 @@
+{
+  "apps": [
+    {
+      "appId": "YOUR_APPFLOW_APP_ID_HERE",
+      "root": ".",
+      "dependencyInstallCommand": "npm ci",
+      "webBuildCommand": "npm run build",
+      "iosPath": "ios",
+      "androidPath": "android"
+    }
+  ]
+}
