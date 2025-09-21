@@ -9,8 +9,8 @@ const app = express();
 // CORS configuration for security
 const corsOptions = {
   origin: process.env.NODE_ENV === 'production' 
-    ? ['https://dime-time.com', 'https://www.dime-time.com'] 
-    : ['http://localhost:5000', 'http://127.0.0.1:5000'],
+    ? ['https://dime-time.com', 'https://www.dime-time.com', 'capacitor://localhost', 'ionic://localhost'] 
+    : ['http://localhost:5000', 'http://127.0.0.1:5000', 'capacitor://localhost', 'ionic://localhost'],
   credentials: true,
   optionsSuccessStatus: 200,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
