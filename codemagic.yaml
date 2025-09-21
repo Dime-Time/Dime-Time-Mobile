@@ -1,0 +1,67 @@
+workflows:
+  ios-capacitor-workflow:
+    name: iOS Capacitor Build
+    instance_type: mac_mini_m2
+    max_build_duration: 120
+    
+    environment:
+      ios_signing:
+        distribution_type: app_store
+        bundle_identifier: com.dimetime.app
+      vars:
+        XCODE_WORKSPACE: "ios/App/App.xcworkspace"
+        XCODE_SCHEME: "App"
+      node: latest
+      xcode: latest
+      cocoapods: default
+
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: main
+          include: true
+          source: true
+
+    scripts:
+      - name: Install npm dependencies
+        script: |
+          npm ci
+
+      - name: Build web app
+        script: |
+          npm run build
+
+      - name: Sync Capacitor
+        script: |
+          npx cap sync ios
+
+      - name: Install CocoaPods dependencies
+        script: |
+          cd ios/App && pod install
+
+      - name: Set up code signing
+        script: |
+          xcode-project use-profiles
+
+      - name: Build iOS app
+        script: |
+          xcode-project build-ipa \
+            --workspace "$XCODE_WORKSPACE" \
+            --scheme "$XCODE_SCHEME"
+
+    artifacts:
+      - build/ios/ipa/*.ipa
+      - /tmp/xcodebuild_logs/*.log
+      - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.app
+      - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM
+
+    publishing:
+      app_store_connect:
+        auth: integration
+        
+        # Enable TestFlight distribution
+        submit_to_testflight: false
+        
+        # Enable App Store submission  
+        submit_to_app_store: false
