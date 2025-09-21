@@ -1,12 +1,11 @@
 {
-  "apps": [
-    {
-      "appId": "3f2249d3",
+  "apps": {
+    "3f2249d3": {
       "root": ".",
       "dependencyInstallCommand": "npm ci",
       "webBuildCommand": "npm run build",
       "iosPath": "ios",
       "androidPath": "android"
     }
-  ]
+  }
 }
