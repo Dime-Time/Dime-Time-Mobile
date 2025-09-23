@@ -44,11 +44,16 @@ workflows:
         script: |
           xcode-project use-profiles
 
+      - name: Set iOS version and build number
+        script: |
+           /usr/bin/agvtool new-marketing-version 1.0.1
+           /usr/bin/agvtool new-version -all 26
+
       - name: Build iOS app
         script: |
           xcode-project build-ipa \
             --workspace "$XCODE_WORKSPACE" \
-            --scheme "$XCODE_SCHEME"
+            --scheme "$XCODE_SCHEME"       
 
     artifacts:
       - build/ios/ipa/*.ipa
