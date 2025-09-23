@@ -46,8 +46,8 @@ workflows:
 
       - name: Set iOS version and build number
         script: |
-           /usr/bin/agvtool new-marketing-version 1.0.1
-           /usr/bin/agvtool new-version -all 26
+          new-marketing-version 1.0.1
+          new-version -all 100
 
       - name: Build iOS app
         script: |
