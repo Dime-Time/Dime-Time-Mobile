@@ -1,0 +1,38 @@
+name: iOS TestFlight Upload (IPA already built)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  upload:
+    runs-on: macos-14
+    env:
+      ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+      ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+      ASC_PRIVATE_KEY: ${{ secrets.ASC_PRIVATE_KEY }}
+      IPA_PATH: build/YourApp.ipa  # <-- set to your .ipa path
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+          bundler-cache: true
+
+      - name: Install Fastlane
+        run: |
+          if [ -f Gemfile ]; then
+            bundle install --path vendor/bundle
+          else
+            gem install fastlane --no-document
+          fi
+
+      - name: Upload to TestFlight
+        run: |
+          if [ -f Gemfile ]; then
+            bundle exec fastlane ios upload_testflight
+          else
+            fastlane ios upload_testflight
+          fi
