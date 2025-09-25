@@ -1,0 +1,37 @@
+default_platform(:ios)
+
+platform :ios do
+  desc "Upload an existing .ipa to TestFlight"
+  lane :upload_testflight do
+    api_key = app_store_connect_api_key(
+      key_id: ENV["ASC_KEY_ID"],
+      issuer_id: ENV["ASC_ISSUER_ID"],
+      key_content: ENV["ASC_PRIVATE_KEY"],
+      duration: 1200, # 20 minutes
+      in_house: false
+    )
+
+    pilot(
+      ipa: ENV["IPA_PATH"] || "build/YourApp.ipa",
+      api_key: api_key,
+      skip_waiting_for_build_processing: true
+    )
+  end
+
+  desc "Build .ipa with gym (archive + export for App Store)"
+  lane :build_ipa do
+    gym(
+      scheme: "YourScheme",
+      export_method: "app-store",
+      output_directory: "build",
+      output_name: "YourApp.ipa",
+      clean: true
+    )
+  end
+
+  desc "Build then upload"
+  lane :build_and_upload do
+    build_ipa
+    upload_testflight
+  end
+end
